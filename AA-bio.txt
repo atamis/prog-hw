@@ -1,0 +1,39 @@
+Who are you?
+  Andrew Amis
+What grade are you in?
+  11
+What's your favorite subject or activity?
+  Computers (programming and video games)
+Tell me about your computer experience. For example:
+  What are the main things you use your computer for?
+    Programing and video games (also school)
+  What languages have you used (if any)? What do you think of them?
+    I have used Ruby, Java, and Javascript. Also a little C. Java is fun
+    the verbosity of Java (sort of.) I've written a game (which hasn't
+    to program because the associated tools are so powerful, you can cut
+    been released and is not finished) in Java clocking in at around
+    3500 lines of pure Java. I've done the majority of my work in Ruby.
+    At a very rough count, I've written about 100,000 (the quick script I
+    wrote claims 127002, but it's not a very discerning script) lines of
+    Ruby. You can see a lot of my best work (and some less good work) on
+    Github. I'm in the process of using Javascript for a project to help
+    with school work, and have used it in the development of both
+    server-side and browser applications. Javascript is by far my least
+    used language. On subject of lisps, I have played around with a few.
+    I have a book targeted at Common Lisp concerning the creation of
+    games, and I have played around with Clojure, which I found
+    entertaining. I have also written an RPN math parser in Racket and
+    released it to the PLaneT (though it isn't on Github,) but have not
+    done any other serious work in Racket.
+  Do you use a Mac, Windows, Linux, or something else?
+    I'd like to say "other" here, but I can't. I have an iMac at home,
+    and run Ubuntu Linux on my laptop. I have windows installed on the
+    laptop as well, but it isn't booted up for anything short of "I need
+    wireless internet now or the world is going to end" because wifi
+    doesn't work under Linux.
+What are some things you want to be able to do with your computer?
+  I like writing JSON REST APIs in languages I'm learning, but I'd also
+  like to write a compiler (Lisp, brainfuck, whatever.)
+Is there anything I should know about you in order to help you do well in this class?
+  I like using VIM. Any time I can use VIM instead of DrRacket I would
+  like to.
