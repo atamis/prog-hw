@@ -1,0 +1,21 @@
+What did you do in class? How did you make use of your time?
+  In class I completed homework, and when I was done with that, I
+  rewrote my RPN parser so that it didn't use nasty side effects. It
+  used to use a global array with some functions to simulate a stack.
+  Now, it shares pases the stack along when it recurses.
+What words and concepts were new to you this week, and what do they mean?
+  I had never heard a function being called AN-OPERATION before, but
+  other than that, there were no new words.
+If you created anything new, what was it?
+  I rewrote the RPN parser, but that isn't strictly speaking new.
+What new questions or goals do you have?
+  I can't wait until we get to functions.
+What was good about this week?
+  It was pretty easy. Homework was easy, inclass was easy, etc.
+What would you like to change–what can you do better?
+  I might be able to help other students, but none of them seemed to
+  need it (not that I was looking very hard) and none of them asked.
+What would you like me to change–what can I, the teacher, do better?
+  Nothing yet.
+Do you have any other comments?
+
