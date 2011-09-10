@@ -1,0 +1,21 @@
+What did you do in class this week? How did you make use of your time?
+  I made use of my time in class working on things assigned in class.
+What words and concepts were new to you this week, and what do they mean?
+  The difference between identifiers and variables is subtle.
+If you created anything new, what was it?
+  I made a recursive function that deals with curves, but that's not
+  very interesting
+What new questions or goals do you have?
+  No new questions, but I now want to learn Haskell.
+Did this week's studies give you any ideas of things you could create?
+  MORE RECURSIVE FUNCTIONS
+What was good about this week?
+  The "replicate the image" project was cool.
+What would you like to change–what can you do better?
+  I could read the reading more attentively.
+What would you like me to change–what can I, the teacher, do better?
+  I realize images are good teaching tools, but images lead to source
+  files thousands of lines long for even the smallest programs :(.
+Do you have any other comments?
+  
+
