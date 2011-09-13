@@ -1,0 +1,23 @@
+What differences are there between identifiers and strings?
+  Identifiers point to values. Strings are sequences of letters
+  surrounded by ""s.
+What main characteristic does a literal have?
+  It's just itself, it will never be anything else, unlike identifiers.
+Do Exercise 3.4.4 on p. 39.
+  ellipse : number(width) number(height) string(mode) string(color) -> image
+  circle : number string(mode) string(color) -> image
+  triangle : number string(mode) string(color) -> image
+  star-polygon : number(side-length) number(side-count) number(step-count) -> image
+What must a contract (also known as a signature) contain?
+  <function name> : <argument types, labeleled when confusion is likely> -> <result>
+What is a comment?
+  Some text or expressions in a program that is not interpreted as code.
+What common practical uses of comments does the author describe?
+  Disabling parts of the code and writing down function contracts.
+Bonus: Exercise 3.3.7.
+  (define side-length 10)
+
+  (overlay/align "middle" "top"
+    (rotate-180 (triangle side-length "solid" "orange")) 
+    (rectangle side-length (* side-length (/ (sqrt 3) 2)) "solid" "blue"))
+
