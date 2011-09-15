@@ -1,0 +1,33 @@
+What did you do in class this week? How did you make use of your time?
+  Finished homework or worked with other people.
+What words and concepts were new to you this week, and what do they mean?
+  The difference between arguments and parameters, that was subtle.
+If you created anything new, what was it?
+  I've made some small functions (my invalidate function was the first
+  finished, unless somebody was quietly faster.)
+What new questions or goals do you have?
+  I'm now determined to learn Haskell, but that's for the far future.
+Did this week's studies give you any ideas of things you could create?
+  It got me looking at the complex documentation for big-bang, which
+  could, of course, be used to make a game, which is probably what
+  we'll be doing at some point. A visual version of Casting SPELs might
+  be useful, though a graph rather than a tree using the shared syntax
+  in racket would be cool
+What was good about this week?
+  Got to work with other people. Got to learn about animate. It reminds
+  me of Processing, but, of course, with a different syntax.
+What would you like to change–what can you do better?
+  When I was programming with Brian, I probably helped a little too
+  much, it was more like I was instructing him where and what to type
+  because he wasn't sure where where to put various expressions.
+What would you like me to change–what can I, the teacher, do better?
+Do you have any other comments?
+  I find pair programming mildly annoying. There I was, laying down
+  expressions and functions, and then we had to switch, and I suddenly
+  got the feeling that a strange improv game, and as soon as I let go of
+  the keyboard, the program would get horribly mangled by the
+  introduction of another into the creative process. I guess the way to
+  solve this is to involve my partner more fully during my time at the
+  keyboard; to make sure he understands where I want the program to go
+  and to make sure we are in agreement.
+
