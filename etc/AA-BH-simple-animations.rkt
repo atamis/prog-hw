@@ -8,8 +8,9 @@
 
 (require picturing-programs)
 
-(define X 100)
+(define X 300)
 (define Y 100)
+(define sun-x-loc (* X 2/3))
 
 (define MT (empty-scene X Y))
 
@@ -18,7 +19,7 @@
 (define (sunset fn)
   (place-image
    (circle 10 "solid" "red")
-   (/ X 2) fn
+   sun-x-loc fn
    MT))
 
 ;; sunrise : number -> image
@@ -26,7 +27,7 @@
 (define (sunrise fn)
   (place-image
    (circle 10 "solid" "yellow")
-   (/ X 2) (- 101 fn)
+   sun-x-loc (- (+ Y 1) fn)
    MT))
 
 ;; repeating-sunset : number -> image
@@ -34,7 +35,7 @@
 (define (repeating-sunset fn)
   (place-image
    (circle 10 "solid" "red")
-   (/ X 2) (remainder fn 100)
+   sun-x-loc (remainder fn Y)
    MT))
 
 ;; smooth-repeating-sunset : number -> image
@@ -42,7 +43,18 @@
 (define (smooth-repeating-sunset fn)
   (place-image
    (circle 10 "solid" "red")
-   (/ X 2) (remainder fn 110)
+   sun-x-loc (remainder fn (+ 10 Y))
    MT))
 
-(animate smooth-repeating-sunset)
+;; overlapping-sunset : number -> image
+;; An overlapping multi-sun sunset.
+(define (overlapping-sunset fn)
+  (place-image
+   (circle 10 "solid" "red")
+   sun-x-loc (remainder fn (* Y 2))
+   (place-image
+    (circle 10 "solid" "red")
+    sun-x-loc (- (remainder fn (* Y 2)) 100)
+    MT)))
+
+(animate overlapping-sunset)
