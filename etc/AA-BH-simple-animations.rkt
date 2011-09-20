@@ -51,10 +51,58 @@
 (define (overlapping-sunset fn)
   (place-image
    (circle 10 "solid" "red")
-   sun-x-loc (remainder fn (* Y 2))
+   sun-x-loc (- (remainder fn (+ 10 (* Y 2))) 10)
    (place-image
     (circle 10 "solid" "red")
-    sun-x-loc (- (remainder fn (* Y 2)) 100)
+    sun-x-loc (- (remainder (- fn Y) (+ 10 (* Y 2))) 10)
     MT)))
+
+;; Done only by Andrew
+
+;; wave : number -> image
+;; Moves a green cricle in a sine wave.
+(define (wave fn)
+  (place-image
+   (circle 10 "solid" "green")
+   (remainder fn X) (+ (/ Y 2) (sin fn))
+   MT))
+
+
+;; pendulum-sine-wave : number -> number
+;; Makes the pendulum sine wave, with a few modifications.
+(define (pendulum-sine-wave fn)
+  (* (sin (/ fn 10)) 100))
+  
+;; pendulum-x : number -> image
+;; Provides the x value for the pendulum function for a given frame number
+(define (pendulum-x fn)
+  (+ (/ X 2) (pendulum-sine-wave fn)) )
+
+
+;; pendulum-y : number -> image
+;; Provides the y value for the pendulum function for a given frame number
+(define (pendulum-y fn)
+  (+ (/ Y 2) (real-part (* -0.01 (expt (pendulum-sine-wave fn) 2)))))
+
+;; pendulum : number -> image
+;; Moves a circle in a pendulum movement
+(define (pendulum fn)
+  (place-image
+   (circle 10 "solid" "blue")
+   (pendulum-x fn)
+   (pendulum-y fn)
+   (scene+line
+    MT
+    (/ X 2) 0
+    (pendulum-x fn) (pendulum-y fn)
+    "black")))
+               
+
+;; Note: to represent more accurate pendulum motion would require more math than I know.
+;; To represent perfect or near perfect pendulum motion, one would need vectors
+;; of some kind.
+
+;; bounce : number -> image
+;; Bounce a ball up and down
 
 (animate overlapping-sunset)
