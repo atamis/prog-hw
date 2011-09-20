@@ -102,7 +102,5 @@
 ;; To represent perfect or near perfect pendulum motion, one would need vectors
 ;; of some kind.
 
-;; bounce : number -> image
-;; Bounce a ball up and down
 
 (animate overlapping-sunset)
