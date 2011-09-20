@@ -82,7 +82,8 @@
 ;; pendulum-y : number -> image
 ;; Provides the y value for the pendulum function for a given frame number
 (define (pendulum-y fn)
-  (+ (/ Y 2) (real-part (* -0.01 (expt (pendulum-sine-wave fn) 2)))))
+  (+ (/ Y 2) (real-part
+              (* -0.01 (expt (pendulum-sine-wave fn) 2))))) ;; This is what governs the pendulum movement.
 
 ;; pendulum : number -> image
 ;; Moves a circle in a pendulum movement

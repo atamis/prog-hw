@@ -18,7 +18,7 @@ What is an argument?
 What is a parameter?  How is it different from an argument?
      It is the "placeholder" or local binding that is set when the function is called.
 |#
-
+                                                                                            
 (require picturing-programs)
 
 ;; Excersize 4.2.1
@@ -26,32 +26,31 @@ What is a parameter?  How is it different from an argument?
 ;; vert-mirror-image : image -> image
 ;; Mirrors an image vertically
  (define (vert-mirror-image image)
-   (above
-    image
-    (flip-vertical image)))
- 
- (vert-mirror-image (circle 10 "solid" "blue"))
- (vert-mirror-image (triangle 10 "solid" "blue"))
- 
- ;; Excersize 4.2.2
- 
- ;; four-square : image -> image
- (define (four-square image)
-   (beside
-    (above image image)
-    (above image image)))
- 
- (four-square (circle 10 "solid" "blue"))
- (four-square (triangle 10 "solid" "blue"))
- 
- ;; Excersize 4.2.4
- 
- ;; surround : image(first) image(second) -> image
- (define (surround image1 image2)
-   (beside image2 image1 image2))
- 
- 
- (surround (triangle 10 "solid" "blue") (triangle 10 "solid" "blue"))
- (surround (triangle 10 "solid" "blue") (circle 10 "solid" "blue"))
- (surround (circle 10 "solid" "blue") (triangle 10 "solid" "blue"))
- 
+      (above
+       image
+       (flip-vertical image)))
+
+(vert-mirror-image (circle 10 "solid" "blue"))
+(vert-mirror-image (triangle 10 "solid" "blue"))
+
+;; Excersize 4.2.2
+
+;; four-square : image -> image
+(define (four-square image)
+  (beside
+   (above image image)
+   (above image image)))
+
+(four-square (circle 10 "solid" "blue"))
+(four-square (triangle 10 "solid" "blue"))
+
+;; Excersize 4.2.4
+
+;; surround : image(first) image(second) -> image
+(define (surround image1 image2)
+  (beside image2 image1 image2))
+
+
+(surround (triangle 10 "solid" "blue") (triangle 10 "solid" "blue"))
+(surround (triangle 10 "solid" "blue") (circle 10 "solid" "blue"))
+(surround (circle 10 "solid" "blue") (triangle 10 "solid" "blue"))
