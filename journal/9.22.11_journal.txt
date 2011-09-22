@@ -1,0 +1,43 @@
+What did you do in class this week? How did you make use of your time?
+  This week, I finished my vector-based ufo-movement system, and added a
+  sine modifier to make it move back and forth. I also wrote a highly
+  configurable clock, but didn't add face numbers, because I judged that
+  to be too boring and inordinately hard for something so trivial, so my
+  clock is one of the cool kind that has no numbers, and people have
+  trouble tell precisely what minute and second it is.
+What words and concepts were new to you this week, and what do they mean?
+  Big-bang uses a really rather strange (but totally rackety) way of
+  storing state, which produced some really annoying and repetitive
+  code. Using struct-copy or set! would have been so much easier, but
+  set! is frowned upon, and struct-copy isn't available in BSL. In all
+  the other animations I've written (Processing, Java, and the weird
+  hybrid that powers the Java game I wrote...) it stored state in
+  mutable (classes mostly) and moving things around was really easy.
+If you created anything new, what was it?
+  UFO movement and a clock. See question 1 for more.
+What new questions or goals do you have?
+  How do I convert a fraction into a decimal without using round? This
+  is probably the wrong question to ask. It's really just remainder that
+  is annoying and doesn't like using fractions. It's also for the
+  readouts in ufo movement and the returned values clock which are
+  invariably in completely incomprehensible fractions.
+Did this week's studies give you any ideas of things you could create?
+  For dances, Raphie likes to use a website that simulates a strobe
+  light. Provided I can make the animate window full screen, this would
+  be a fairly simple function to write.
+What was good about this week?
+  Made 2 new things that were really cool!
+What would you like to change–what can you do better?
+  I can be less arrogant, and I can help other students more. They don't
+  really ask me for help (though Sophie has asked for assistance) so I
+  don't help them. I figure it would be mean to stand up and say "Hey,
+  I'm so much better than all of you, let me help you," because that
+  would make me Andreus Superbus (Or Vergilius Superbus, if you want to
+  use my actual Latin name.)
+What would you like me to change–what can I, the teacher, do better?
+  I require additional projects! The clock was fun. So was the UFO. It'd
+  be nice to do more of those, though, to be honest, neither of those
+  approached the mind-bending difficulty of overlapping-sunset.
+Do you have any other comments?
+  I should instruct you as to the proper method of soaking the clock
+  face in water.
