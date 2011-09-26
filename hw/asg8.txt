@@ -1,0 +1,19 @@
+Programming 1, Assignment 8.
+
+Write a brief (~1-2 paragraph) summary of the main thesis of the article.  What is the author's message?
+How do you suppose the article may relate to programming?
+
+
+This article discusses the use of lists as a memory aid and infection
+fighting tool in intensive care unit. The article argues (persuasively,
+in my opinion) that giving doctors and nurses lists of things to do when
+taking care of a patient in an ICU helps the rate of survival and of
+line infections noticeably. By implementing these list, we could save
+more lives than the vast majority of current medical research.
+
+The article, seemingly distant from the topic of programming, puts an
+emphasis on precision and exactness. Computers, (especially imperative
+languages) are precise to a fault and never deviate from the checklist
+of things we have told the computer to do. Also, when something goes
+wrong in a program, you have to check everything that could go wrong to
+see where it did go wrong.
