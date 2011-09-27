@@ -1,0 +1,81 @@
+Andrew Amis
+Assignment 9
+
+
+5.3.2
+  ;; copies-beside : image number -> image
+  ;; Places that many copies of the image beside each other.
+5.3.3
+  ;; pinwheel : image -> image
+  ;; Places 4 copies of the image in a square, starting at the top left,
+  ;; and with each step clockwise, adding 90 degrees to the rotation of the
+  ;; image.
+5.3.4
+  ;; checkerboard2 : color color -> image.
+  ;; Produces a 2x2 checkerboard of the colors specified. Each square is 20 px.
+5.3.7.
+  ;; lollipop : number(radius) number(height) color -> image
+  ;; Draws a lollipop with the head radius, stick height, and color specified
+
+(define square (square 10 "solid" "blue"))
+(define circle (circle 10 "solid" "green"))
+
+5.4.2
+  (check-expect (copies-beside square 3) (beside square square square))
+  (check-expect (copies-beside circle 5) (beside circle circle circle circle circle))
+5.4.3
+  (check-expect (pinwheel circle)
+                (above
+                  (beside circle (rotate-cw circle))
+                  (beside (rotate-ccw circle) (rotate-180 circle))))
+  (check-expect (pinwheel square)
+                (above
+                  (beside square (rotate-cw square))
+                  (beside (rotate-ccw square) (rotate-180 square))))
+5.4.4
+  (check-expect
+    (checkerboard "blue" "green")
+    (above
+     (beside
+      (square 20 "solid" "green")
+      (square 20 "solid" "blue"))
+     (beside
+      (square 20 "solid" "blue")
+      (square 20 "solid" "green"))))
+
+  (check-expect
+    (checkerboard "red" "black")
+    (above
+     (beside
+      (square 20 "solid" "black")
+      (square 20 "solid" "red"))
+     (beside
+      (square 20 "solid" "red")
+      (square 20 "solid" "black"))))
+
+5.4.7.
+  (check-expect
+    (lollipop 50 100 "blue")
+    (above
+     (circle 50 "solid" "blue")
+     (rectangle 10 100 "solid" "blue")))
+  (check-expect
+    (lollipop 30 40 "red")
+    (above
+     (circle 30 "solid" "red")
+     (rectangle 10 40 "solid" "red")))
+
+
+http://fellowhuman.com/gbk/2011/09/27/prog-1-work-9-27-11/
+
+
+5.8.1
+  (define (copies-beside image copies) ...)
+5.8.2
+  (define (pinwheel image) ...)
+5.8.3
+  (define (checkerboard2 color1 color2) ...)
+5.8.5
+  (define (dot-grid height width) ...)
+5.8.6
+  (define (lollipop radius height color) ...)
