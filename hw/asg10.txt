@@ -1,0 +1,28 @@
+http://fellowhuman.com/gbk/2011/09/28/prog-1-asg-10-inventories/
+
+5.9.2
+  (define (copies-beside image copies)
+    ; image: an image to copy
+    ; copies: an integer representing
+    ;   the number of copies to make
+    )
+5.9.3
+  (define (pinwheel image)
+    ; image: the image to PINWHEEL AROUND!!!!!!!
+    )
+5.9.4
+  (define (checkerboard2 color1 color2)
+    ; color1: the first color
+    ; color2: can you guess?
+    )
+5.0.6
+  (define (dot-grid height width)
+    ; height, width: numbers representing the
+    ; height and with of the dot-grid
+    )
+5.9.7
+  (define (lollipop radius height color)
+    ; radius: radius of the lollipop head.
+    ; height: the height of the lollipop stick.
+    ; color: the color of both the stick and head.
+    )
