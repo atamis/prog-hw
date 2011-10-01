@@ -1,0 +1,71 @@
+5.11.2
+  (define (pinwheel image)
+    (above
+     (beside
+      image
+      (rotate-cw image))
+     (beside
+      (rotate-ccw image)
+      (rotate-180 image))))
+5.11.3
+  (define (checkerboard2 color1 color2)
+   (above
+     (beside
+      (square 20 "solid" color1)
+      (square 20 "solid" color2))
+     (beside
+      (square 20 "solid" color2)
+      (square 20 "solid" color1))))
+5.11.5
+  (define (lollipop radius height color)
+    (above
+     (circle radius "solid" color)
+     (rectangle 10 height "solid" color)))
+5.12.1
+
+
+(define thesquare (square 10 "solid" "blue"))
+(define thecircle (circle 10 "solid" "green"))
+
+
+(check-expect (pinwheel thecircle)
+              (above
+               (beside thecircle (rotate-cw thecircle))
+               (beside (rotate-ccw thecircle) (rotate-180 thecircle))))
+(check-expect (pinwheel thesquare)
+              (above
+               (beside thesquare (rotate-cw thesquare))
+               (beside (rotate-ccw thesquare) (rotate-180 thesquare))))
+
+(check-expect
+ (checkerboard2 "blue" "green")
+ (above
+  (beside
+   (square 20 "solid" "green")
+   (square 20 "solid" "blue"))
+  (beside
+   (square 20 "solid" "blue")
+   (square 20 "solid" "green"))))
+
+(check-expect
+ (checkerboard2 "red" "black")
+ (above
+  (beside
+   (square 20 "solid" "black")
+   (square 20 "solid" "red"))
+  (beside
+   (square 20 "solid" "red")
+   (square 20 "solid" "black"))))
+
+  (check-expect
+    (lollipop 50 100 "blue")
+    (above
+     (circle 50 "solid" "blue")
+     (rectangle 10 100 "solid" "blue")))
+  (check-expect
+    (lollipop 30 40 "red")
+    (above
+     (circle 30 "solid" "red")
+     (rectangle 10 40 "solid" "red")))
+
+;; These all pass :)
