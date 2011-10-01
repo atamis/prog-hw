@@ -1,0 +1,23 @@
+What did you do in class this week? How did you make use of your time?
+  I generally just listened, did homework, and did the programming
+  equivalent of doodling when bored.
+What words and concepts were new to you this week, and what do they mean?
+  I had no idea what an inventory was.
+If you created anything new, what was it?
+  The concept of an inventory inside the function body is a strange one.
+  Java (and ruby, and proabbly some other languages) stick that sort of
+  stuff in the function header.
+What new questions or goals do you have?
+  I want to work on Project Euler in Racket, and eventually in Haskell.
+Did this week's studies give you any ideas of things you could create?
+  I built a centralized strobe light simulator in Node.js. A computer
+  can access a form and control, the speed and color pattern of webpages
+  on other computers, typically for a harsh strobing effect during
+  dances. Unfortunetly, when you have multiple computers running the
+  strobe, they aren't in sync. I've been looking into Now.js to solve
+  this problem, but it might require a larger rewrite than I'd like. so
+  I guess we'll have out of sync strobe lights for now
+What was good about this week?
+What would you like to change–what can you do better?
+What would you like me to change–what can I, the teacher, do better?
+Do you have any other comments?
