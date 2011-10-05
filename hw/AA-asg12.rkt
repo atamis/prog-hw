@@ -278,3 +278,76 @@
                             (rectangle BAR-WIDTH 200 'solid 'blue)
                             (rectangle BAR-WIDTH 300 'solid 'green)
                             (rectangle BAR-WIDTH 400 'solid 'yellow)))
+
+
+
+
+;                                          
+;                                          
+;   ;;;;;;                                 
+;   ;                 ;                    
+;   ;                 ;                    
+;   ;       ;   ;     ;      ; ;;;    ;;;; 
+;   ;        ; ;    ;;;;;;   ;;  ;   ;   ; 
+;   ;;;;;;   ; ;      ;      ;   ;  ;    ; 
+;   ;         ;       ;      ;      ;    ; 
+;   ;         ;       ;      ;      ;    ; 
+;   ;        ; ;      ;      ;      ;    ; 
+;   ;       ;   ;     ;      ;      ;   ;; 
+;   ;;;;;;  ;   ;      ;;;   ;       ;;; ; 
+;                                          
+;                                          
+;                                          
+;                                          
+
+;; percent-of number number -> number
+; Returns a number between 0 and 1 representing the percentage of the larger 
+; parameter to the smaller one.
+(define (percent-of number1 number2)
+  ; number1 | number | 50
+  ; number2 | number | 100
+  ; returns | number | 0.5
+  (/ (min number1 number2) (max number1 number2)))
+
+(check-expect (percent-of 50 100) 0.5)
+(check-expect (percent-of 50 1000) 0.05)
+(check-expect (percent-of 333 1000) 0.333)
+(check-expect (percent-of 100 100) 1)
+
+
+;; Scale of the proportional bar graph
+(define BAR-GRAPH-SCALE 100)
+
+;; proportional-bar-graph : number number number number -> image
+; Draws a proportaional bar graph. Depends on standard bar-graph.
+(define (proportional-bar-graph red blue green yellow)
+  ; red    | number | 10
+  ; blue   | number | 10
+  ; green  | number | 10
+  ; yellow | number | 10
+  ; returns| image  | ?
+  (bar-graph
+   (* BAR-GRAPH-SCALE (percent-of red (max red blue green yellow)))
+   (* BAR-GRAPH-SCALE (percent-of blue (max red blue green yellow)))
+   (* BAR-GRAPH-SCALE (percent-of green (max red blue green yellow)))
+   (* BAR-GRAPH-SCALE (percent-of yellow (max red blue green yellow)))))
+
+(check-expect (proportional-bar-graph 1000 500 25 100)
+              (beside/align "bottom"
+                            (rectangle 20 100 'solid 'red)
+                            (rectangle 20 50 'solid 'blue)
+                            (rectangle 20 2.5 'solid 'green)
+                            (rectangle 20 10 'solid 'yellow)))
+(check-expect (proportional-bar-graph 10 10 10 10)
+              (beside/align "bottom"
+                            (rectangle 20 100 'solid 'red)
+                            (rectangle 20 100 'solid 'blue)
+                            (rectangle 20 100 'solid 'green)
+                            (rectangle 20 100 'solid 'yellow)))
+(check-expect (proportional-bar-graph 100 0 0 0)
+              (beside/align "bottom"
+                            (rectangle 20 100 'solid 'red)
+                            (rectangle 20 0 'solid 'blue)
+                            (rectangle 20 0 'solid 'green)
+                            (rectangle 20 0 'solid 'yellow)))
+
