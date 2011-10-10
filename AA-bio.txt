@@ -9,8 +9,8 @@ Tell me about your computer experience. For example:
     Programing and video games (also school)
   What languages have you used (if any)? What do you think of them?
     I have used Ruby, Java, and Javascript. Also a little C. Java is fun
-    the verbosity of Java (sort of.) I've written a game (which hasn't
     to program because the associated tools are so powerful, you can cut
+    the verbosity of Java (sort of.) I've written a game (which hasn't
     been released and is not finished) in Java clocking in at around
     3500 lines of pure Java. I've done the majority of my work in Ruby.
     At a very rough count, I've written about 100,000 (the quick script I
