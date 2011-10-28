@@ -1,0 +1,28 @@
+What did you do in class this week? How did you make use of your time?
+Homework.
+
+What words and concepts were new to you this week, and what do they mean?
+Refs and atoms were interesting, and destructuring.
+
+If you created anything new, what was it?
+Nothing new, but I did do the Koans.
+
+What new questions or goals do you have?
+Clojure is cool
+
+Did this week’s studies give you any ideas of things you could create?
+Maybe something relating to choose your own adventures or IF.
+
+What was good about this week?
+It was pretty cool, but fantastically boring in terms of homework.
+
+What would you like to change-what can you do better?
+Be less bored. "Use more functions."
+
+What would you like me to change-what can I, the teacher, do better?
+
+
+Do you have any other comments?
+CLOJURE CLOJURE CLOJURE. DrRacket is a pretty good editor...
+
+
