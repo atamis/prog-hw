@@ -13,7 +13,7 @@
 ;; purchasers : number(price) -> number
 ; Returns the number of passengers for a given ticket price. Returns a value
 ; between 0 and 180.
-(define (passengers price)
+(define (passengers price) 
   (max (min (+ staff-number (+ (* price -4/10) 200)) 180) 0))
 (check-expect (passengers 200) 124)
 (check-expect (passengers 210) 120)
@@ -55,7 +55,7 @@
  #:y-min 0
  #:y-max 30000)
 
-;; $265 is the best price. At that point, the airline makes 23378.714
+;; $265 is the best price. At that point, the airline makes $23378.714
 
 (map (lambda (x) 
        (cons x (airline-profit x)))
