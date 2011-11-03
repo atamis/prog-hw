@@ -1,0 +1,33 @@
+What did you do in class this week? How did you make use of your time?
+Learned about cond and did homework. Also played around with
+build-image.
+
+What words and concepts were new to you this week, and what do they mean?
+
+
+If you created anything new, what was it?
+I added a few color-related features to draw, and created some
+interesting shapes with build-image.
+
+What new questions or goals do you have?
+
+
+Did this week’s studies give you any ideas of things you could create?
+
+
+What was good about this week?
+Playing with color was cool, but it was easy when dealing with color to
+make it look harsh.
+
+What would you like to change-what can you do better?
+I can do homework even faster.
+
+What would you like me to change-what can I, the teacher, do better?
+
+
+Do you have any other comments?
+Racket itself doesn't convert well between floats and integers. Even
+round, which claims to convert, doesn't and taht produced problems when
+dealing with colors. Sine waves didn't work very well.
+
+
