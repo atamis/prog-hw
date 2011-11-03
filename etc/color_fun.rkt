@@ -34,9 +34,9 @@
                  near-pixel)))
 
 (build3-image 250 250
-                    (lambda (x y) (normalize (* x x) 62500))
-                    (lambda (x y) y)
-                    (lambda (x y) 0))
+              (lambda (x y) (normalize (* x x) 62500))
+              (lambda (x y) y)
+              (lambda (x y) 0))
 (fuzz (build-image 250 250
                    (lambda (x y)
                      (make-color
@@ -47,5 +47,17 @@
                         [else 0])
                       (if (> 25 (random 255)) (normalize (* 2 x) 500)  0)
                       x))))
+
+(define tartan
+  (build3-image 250 250
+                (lambda (x y) (inexact->exact
+                               (round
+                                (normalize (+ (sin (* 1/3 x)) 1) 2))))
+                (lambda (x y) (inexact->exact
+                               (round
+                                (normalize (+ (sin (* 1/3 y)) 1) 2))))
+                (lambda (x y) (inexact->exact
+                               (round
+                                (normalize (+ (sin (* 1/3 (* x y))) 1) 2))))))
 
 (test)
