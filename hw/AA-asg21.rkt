@@ -36,8 +36,8 @@
 (check-expect (draw-cat 2) (place-image cat1 6 100 MT))
 
 #;(big-bang 0
-          (on-tick add1)
-          (to-draw draw-cat))
+            (on-tick add1)
+            (to-draw draw-cat))
 
 ;;;;;;;;;;;;;;;;;;;;;;; Exercise 37 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -55,8 +55,8 @@
 (check-expect (draw-cat2 3) (place-image cat2 9 100 MT))
 
 #;(big-bang 0
-          (on-tick add1)
-          (to-draw draw-cat2))
+            (on-tick add1)
+            (to-draw draw-cat2))
 
 ;;;;;;;;;;;;;;;;;;;;;;; Exercise 38 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -105,10 +105,10 @@
 ;; happiness-draw : world -> image
 ; Produces a progress bar from the world.
 (define (happiness-draw w)
-  (progress-bar 100 10 (/ w 100)))
-(check-expect (happiness-draw 100) (progress-bar 100 10 1))
-(check-expect (happiness-draw 50) (progress-bar 100 10 0.5))
-(check-expect (happiness-draw 0) (progress-bar 100 10 0))
+  (progress-bar W 10 (/ w 100)))
+(check-expect (happiness-draw 100) (progress-bar W 10 1))
+(check-expect (happiness-draw 50) (progress-bar W 10 0.5))
+(check-expect (happiness-draw 0) (progress-bar W 10 0))
 
 (big-bang 100.0
           (on-tick happiness-tick)

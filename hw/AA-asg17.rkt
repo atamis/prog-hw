@@ -188,11 +188,15 @@
    (right-triangle (/ width 2) roof-height 'outline color)))
 
 (check-expect (build-roof 10 'blue) (beside
-                                     (rotate-ccw (right-triangle roof-height 5 'outline 'blue))
-                                     (right-triangle 5 roof-height 'outline 'blue)))
+                                     (rotate-ccw (right-triangle roof-height 5
+                                                                 'outline 'blue))
+                                     (right-triangle 5 roof-height
+                                                     'outline 'blue)))
 (check-expect (build-roof 30 'blue) (beside
-                                     (rotate-ccw (right-triangle roof-height 15 'outline 'blue))
-                                     (right-triangle 15 roof-height 'outline 'blue)))
+                                     (rotate-ccw (right-triangle roof-height 15
+                                                                 'outline 'blue))
+                                     (right-triangle 15 roof-height 'outline
+                                                     'blue)))
 
 
 ;; build-house : number(height) number(width) color -> image
