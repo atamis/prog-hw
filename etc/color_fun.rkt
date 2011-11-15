@@ -33,6 +33,14 @@
                  (image-height pic)
                  near-pixel)))
 
+
+;; multi-fuzz : image number -> image
+; Applies fuzz te given number of times to the image.
+(define (multi-fuzz image n)
+  (if (= n 0)
+      image
+      (multi-fuzz (fuzz image) (sub1 n))))
+
 (build3-image 250 250
               (lambda (x y) (normalize (* x x) 62500))
               (lambda (x y) y)
