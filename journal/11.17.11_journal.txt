@@ -1,0 +1,34 @@
+What did you do in class this week? How did you make use of your time?
+Did homework, played around a little.
+
+What words and concepts were new to you this week, and what do they mean?
+Nothing new.
+
+If you created anything new, what was it?
+Nothing new, but I made the friction in my UFO thing more realistic. Instead of
+subtracting a set amount of speed each tick, it would multiply the vector speed
+by a constant (0.9, or so) repeatedly. This made the UFO slow down, and also set
+a top speed above which the UFO doesn't go (this is because the increase in
+speed is outstripped by the friction).
+
+What new questions or goals do you have?
+Nothing really.
+
+Did this week’s studies give you any ideas of things you could create?
+I had an idea for a clock that instead of a clock face just has some bars going
+across from left to right. I don't know about using FrTime, but I now I would
+use an actual measure of seconds after epoch, not counting from when the program
+was started.
+
+What was good about this week?
+No homework.
+
+What would you like to change-what can you do better?
+I could go even faster.
+
+What would you like me to change-what can I, the teacher, do better?
+More ideas?
+
+Do you have any other comments?
+Nope.
+
