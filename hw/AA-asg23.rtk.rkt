@@ -9,7 +9,7 @@
 
 (require picturing-programs)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Exercize 43 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Exercise 43 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; A LR (short for: launching rocket) is one of:
 ; - "resting"
@@ -21,7 +21,7 @@
 ; 1...inf
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Exercize 44 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Exercise 44 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; (string=? "resting" x) fails when given a number.
 ; (and (string? x) (string=? "resting" x))
@@ -30,7 +30,7 @@
 ; accurate clause would be:
 ; (> x 0)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Exercize 45 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Exercise 45 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; physical constants
 (define HEIGHT 300)
@@ -47,7 +47,7 @@
 (define (place-rocket x)
   (place-image ROCKET 10 (- x ROCKET-CENTER) BACKG))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Exercize 46 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Exercise 46 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; LRCD -> LRCD
 ; raise the rocket by YDELTA if it is moving already
@@ -101,7 +101,10 @@
 
 
 (define (main1 s)
-  (big-bang s (to-draw show) (on-key launch)))
+  (big-bang s 
+            (to-draw show)
+            (on-key launch)
+            (on-tick fly 0.1)))
 
 
 ;; at-top : lrcd -> boolean
@@ -111,8 +114,11 @@
     [(string? x) false]
     [(< x HEIGHT) false]
     [(>= x HEIGHT) true]))
+
 (check-expect (at-top "resting") false)
+(check-expect (at-top -3) false)
 (check-expect (at-top -2) false)
+(check-expect (at-top -1) false)
 (check-expect (at-top 10) false)
 (check-expect (at-top (add1 HEIGHT)) true)
 
