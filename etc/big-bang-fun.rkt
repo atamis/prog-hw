@@ -13,7 +13,7 @@
 (define-struct ufo-state (locx locy vecx vecy ticks))
 
 (define DELTA 10)
-(define FRICTION 0.5)
+(define FRICTION 0.91)
 (define WIDTH 600)
 (define HEIGHT 600)
 
@@ -21,19 +21,13 @@
 (define (apply-vector state)
   (make-ufo-state
    (modulo (round (+
-            (ufo-state-locx state)
-            (ufo-state-vecx state))) WIDTH)
+                   (ufo-state-locx state)
+                   (ufo-state-vecx state))) WIDTH)
    (modulo (round (+ 
-            (ufo-state-locy state)
-            (ufo-state-vecy state))) HEIGHT)
-   (cond 
-     [(positive? (ufo-state-vecx state)) (- (ufo-state-vecx state) FRICTION)]
-     [(negative? (ufo-state-vecx state)) (+ (ufo-state-vecx state) FRICTION)]
-     [(= 0 (ufo-state-vecx state)) 0])
-   (cond 
-     [(positive? (ufo-state-vecy state)) (- (ufo-state-vecy state) FRICTION)]
-     [(negative? (ufo-state-vecy state)) (+ (ufo-state-vecy state) FRICTION)]
-     [(= 0 (ufo-state-vecy state)) 0])
+                   (ufo-state-locy state)
+                   (ufo-state-vecy state))) HEIGHT)
+   (* (ufo-state-vecx state) FRICTION)
+   (* (ufo-state-vecy state) FRICTION)
    (ufo-state-ticks state)))
 
 
