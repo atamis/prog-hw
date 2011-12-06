@@ -149,5 +149,4 @@
 (big-bang "red"
           (check-with string?)
           (on-draw show-light)
-          (on-tick change-light 5)
-          )
+          (on-tick change-light 5))
