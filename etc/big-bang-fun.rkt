@@ -8,7 +8,7 @@
 
 ;; thunk : x -> x
 ;; Returns its one argument 
-(define (thunk x) x)
+(define (ident x) x)
 
 (define-struct ufo-state (locx locy vecx vecy ticks))
 
