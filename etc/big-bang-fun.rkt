@@ -77,24 +77,24 @@
                       (ufo-state-locx state)
                       (ufo-state-locy state)
                       (- (ufo-state-vecx state) DELTA)
-                      (thunk (ufo-state-vecy state))
+                      (ident (ufo-state-vecy state))
                       (ufo-state-ticks state))]
     [(key=? key "l") (make-ufo-state
                       (ufo-state-locx state)
                       (ufo-state-locy state)
                       (+ (ufo-state-vecx state) DELTA)
-                      (thunk (ufo-state-vecy state))
+                      (ident (ufo-state-vecy state))
                       (ufo-state-ticks state))]
     [(key=? key "j") (make-ufo-state
                       (ufo-state-locx state)
                       (ufo-state-locy state)
-                      (thunk (ufo-state-vecx state))
+                      (ident (ufo-state-vecx state))
                       (+ (ufo-state-vecy state) DELTA)
                       (ufo-state-ticks state))]
     [(key=? key "k") (make-ufo-state
                       (ufo-state-locx state)
                       (ufo-state-locy state)
-                      (thunk (ufo-state-vecx state))
+                      (ident (ufo-state-vecx state))
                       (- (ufo-state-vecy state) DELTA)
                       (ufo-state-ticks state))]
     [(key=? key "escape") (make-ufo-state 0 0 0 0 (ufo-state-ticks state))]
