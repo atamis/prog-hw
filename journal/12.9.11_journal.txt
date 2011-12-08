@@ -1,0 +1,35 @@
+What did you do in class this week? How did you make use of your time?
+Worked on assignments.
+
+What words and concepts were new to you this week, and what do they mean?
+Nothing
+
+If you created anything new, what was it?
+Nothing really
+
+What new questions or goals do you have?
+No goals
+
+Did this week’s studies give you any ideas of things you could create?
+They didn't give me the idea, but I am intrigued by the web site
+downloader. I think the solution for now is to simply run an http server
+when I want to view the site. Messing about with relative and absolute
+paths is hard, and getting it right would be tricky. I might want to add
+it later, but for now, nope.
+
+What was good about this week?
+We finally got to structs.
+
+What would you like to change-what can you do better?
+No, I am perfect.
+
+What would you like me to change-what can I, the teacher, do better?
+Nothing.
+
+Do you have any other comments?
+I really should have used #s to represent notes in the notes assignment.
+However, there's no point it rewriting half my code to use numbers
+instead of letters. I get the feeling that implementing sharps and flats
+might be easier with numbers rather than letters.
+
+
