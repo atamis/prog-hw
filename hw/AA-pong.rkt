@@ -10,6 +10,8 @@
 
 
 
+
+
 ;                                            
 ;                                            
 ;                                            
@@ -113,36 +115,38 @@
 
 
 
-;; state : ball paddle paddle number number
-(define-struct state (ball p1p p2p p1s p2s))
-; state-ball : ball representing the ball in this game
-; state-p1p : paddle, representing the paddle location and velocity of the 1st
+;; pstate : ball paddle paddle number number
+(define-struct pstate (ball p1p p2p p1s p2s))
+; pstate-ball : ball representing the ball in this game
+; pstate-p1p : paddle, representing the paddle location and velocity of the 1st
 ;             players paddle.
-; state-p2p : paddle, representing the paddle location and velocity of the 2nd
+; pstate-p2p : paddle, representing the paddle location and velocity of the 2nd
 ;             players paddle.
-; state-p1s : non-negative number representing the 1st players score
-; state-p2s : non-negative number representing the 2nd players score
+; pstate-p1s : non-negative number representing the 1st players score
+; pstate-p2s : non-negative number representing the 2nd players score
 
-#;(make-state (make-ball (make-posn 10 10)
+#;(make-pstate (make-ball (make-posn 10 10)
                          (make-velocity 1 1))
               (make-paddle 10 (make-velocity 0 3))
               (make-paddle 10 (make-velocity 0 3))
               0 0)
 
 ; Templates
-;; fun-for-state : state -> ???
-#;(define (fun-for-state state)
-    ... (state-ball state) ...
-    ... (state-p1p state) ...
-    ... (state-p2p state) ...
-    ... (state-p1s state) ...
-    ... (state-p2s state))
+;; fun-for-pstate : pstate -> ???
+#;(define (fun-for-pstate pstate)
+    ... (pstate-ball pstate) ...
+    ... (pstate-p1p pstate) ...
+    ... (pstate-p2p pstate) ...
+    ... (pstate-p1s pstate) ...
+    ... (pstate-p2s pstate))
 
-;; fun-for-state : state -> state
-#;(define (fun-for-state state)
-    (make-state 
-     (state-ball state)
-     (state-p1p state)
-     (state-p2p state)
-     (state-p1s state)
-     (state-p2s state)))
+;; fun-for-pstate : pstate -> pstate
+#;(define (fun-for-pstate pstate)
+    (make-pstate 
+     (pstate-ball pstate)
+     (pstate-p1p pstate)
+     (pstate-p2p pstate)
+     (pstate-p1s pstate)
+     (pstate-p2s pstate)))
+
+
