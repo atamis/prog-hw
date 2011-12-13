@@ -40,10 +40,10 @@
 (define FRICTION 0.99)
 
 ;; player1's paddle's x location
-(define (P1_PADDLE_LOC (* 1/10 BOARD-WIDTH)))
+(define P1_PADDLE_LOC (* 1/10 BOARD-WIDTH))
 
 ;; player2's paddle's x location
-(define (P2_PADDLE_LOC (* 9/10 BOARD-WIDTH)))
+(define P2_PADDLE_LOC (* 9/10 BOARD-WIDTH))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Dynamic Data ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
