@@ -96,6 +96,29 @@
     (make-paddle (paddle-y paddle)
                  (paddly-vec paddle)))
 
+;; paddle-posn : paddle number number -> posn
+; Returns the posn location of the paddle. The 1st number, either 1 or 2,
+; represents which player this paddle belongs to. The 2nd number is the width
+; of the play field.
+(define (paddle-posn paddle player width)
+  (make-posn
+   (paddle-y paddle)
+   (* width (cond
+              [(= player 1) 1/10]
+              [(= player 2) 9/10]
+              [else (error "player isn't 1 or 2")]))))
+
+(check-expect (paddle-posn (make-paddle 10 (make-velocity 0 3)) 1 1000)
+              (make-posn 10 100))
+(check-expect (paddle-posn (make-paddle 10 (make-velocity 0 3)) 2 1000)
+              (make-posn 10 900))
+(check-expect (paddle-posn (make-paddle 50 (make-velocity 0 3)) 2 1000)
+              (make-posn 50 900))
+(check-error (paddle-posn (make-paddle 50 (make-velocity 0 3)) 0 1000)
+             "player isn't 1 or 2")
+
+
+
 ;; ball : posn velocity
 (define-struct ball (loc vec))
 ; ball-loc : posn representing the location of the posn
