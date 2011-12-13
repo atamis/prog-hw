@@ -134,9 +134,9 @@
     ... (ball-vec ball) ...)
 
 ;; fun-for-ball : ball -> ball
-(define (fun-for-ball ball)
-  (make-ball (ball-loc ball)
-             (ball-vec ball)))
+#;(define (fun-for-ball ball)
+    (make-ball (ball-loc ball)
+               (ball-vec ball)))
 
 
 
