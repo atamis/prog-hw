@@ -36,7 +36,10 @@
 (define BOARD-WIDTH 1000)
 
 ;; Represents the flat background upon which the game will be drawn.
-(define BACKGROUND (empty-scene BOARD-WIDTH BOARD-HEIGHT))
+(define BACKGROUND (rectangle BOARD-WIDTH BOARD-HEIGHT 'solid 'black))
+
+;; The ball we play the game with
+(define BALL (circle 10 'solid 'white))
 
 ;; Coefficient of friction used to slow down paddles
 (define FRICTION 0.99)
