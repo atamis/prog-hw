@@ -126,10 +126,10 @@
 ; pstate-p2s : non-negative number representing the 2nd players score
 
 #;(make-pstate (make-ball (make-posn 10 10)
-                         (make-velocity 1 1))
-              (make-paddle 10 (make-velocity 0 3))
-              (make-paddle 10 (make-velocity 0 3))
-              0 0)
+                          (make-velocity 1 1))
+               (make-paddle 10 (make-velocity 0 3))
+               (make-paddle 10 (make-velocity 0 3))
+               0 0)
 
 ; Templates
 ;; fun-for-pstate : pstate -> ???
@@ -150,3 +150,62 @@
      (pstate-p2s pstate)))
 
 
+
+
+;                                     
+;                                     
+;                                     
+;  ;     ;   ;                        
+;  ;     ;   ;                        
+;   ;   ;                             
+;   ;   ;    ;     ;;;   ; ; ;   ;;;  
+;   ;   ;    ;    ;   ;  ; ; ;  ;   ; 
+;    ; ;     ;    ;;;;;  ; ; ;   ;;;  
+;    ; ;     ;    ;      ; ; ;      ; 
+;     ;      ;    ;   ;  ; ; ;  ;   ; 
+;     ;      ;     ;;;    ; ;    ;;;  
+;                                     
+;                                     
+;                                     
+
+
+
+
+
+;; pview : pstate -> image
+; Convert a pong state to an image to display on screen
+(define (pview state)
+  BACKGROUND)
+
+
+
+
+
+
+
+;                              
+;                              
+;                              
+;   ;   ;           ;          
+;   ;; ;;           ;          
+;   ; ; ;                      
+;   ;   ;   ;;;;    ;    ;;;;  
+;   ;   ;  ;   ;    ;    ;   ; 
+;   ;   ;  ;   ;    ;    ;   ; 
+;   ;   ;  ;   ;    ;    ;   ; 
+;   ;   ;  ;  ;;    ;    ;   ; 
+;   ;   ;   ;; ;    ;    ;   ; 
+;                              
+;                              
+;                              
+
+
+
+(define (main x)
+  (big-bang (make-pstate (make-ball (make-posn 10 10)
+                                    (make-velocity 1 1))
+                         (make-paddle 10 (make-velocity 0 3))
+                         (make-paddle 10 (make-velocity 0 3))
+                         0 0)
+            (to-draw pview)
+            (state true))) ;; TODO: enable big bang clause when you have a view
