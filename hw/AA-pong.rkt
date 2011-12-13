@@ -194,16 +194,81 @@
 ;                                     
 ;                                     
 
+;; draw-scores : number number image -> image
+; Draws the player's scores on the image. The 1st number being the 1st players
+; score, the 2nd being the 2nd.
+(define (draw-scores p1 p2 img)
+  (place-image
+   (text (number->string p1) 30 'white)
+   (* 4/10 (image-width img)) (/ (image-height img) 10)
+   (place-image
+    (text (number->string p2) 30 'white)
+    (* 6/10 (image-width img)) (/ (image-height img) 10)
+    img)))
 
+(check-expect (draw-scores 1 1 BACKGROUND)
+              (place-image
+               (text "1" 30 'white)
+               400 50
+               (place-image
+                (text "1" 30 'white)
+                600 50
+                BACKGROUND)))
+(check-expect (draw-scores 1 5 BACKGROUND)
+              (place-image
+               (text "1" 30 'white)
+               400 50
+               (place-image
+                (text "5" 30 'white)
+                600 50
+                BACKGROUND)))
+(check-expect (draw-scores 1 5 (rectangle 100 100 'solid 'black))
+              (place-image
+               (text "1" 30 'white)
+               40 10
+               (place-image
+                (text "5" 30 'white)
+                60 10
+                (rectangle 100 100 'solid 'black))))
 
+;; draw-ball : ball image -> image
+; Draws the ball onto the image
+(define (draw-ball ball img)
+  (place-image BALL
+               (posn-x (ball-loc ball))
+               (posn-y (ball-loc ball))
+               img))
+
+(check-expect (draw-ball (make-ball (make-posn 10 10)
+                                    (make-velocity 1 1))
+                         BACKGROUND)
+              (place-image BALL 10 10 BACKGROUND))
+(check-expect (draw-ball (make-ball (make-posn 10 10)
+                                    (make-velocity 4 90))
+                         BACKGROUND)
+              (place-image BALL 10 10 BACKGROUND))
+(check-expect (draw-ball (make-ball (make-posn 10 12)
+                                    (make-velocity 4 90))
+                         BACKGROUND)
+              (place-image BALL 10 12 BACKGROUND))
 
 
 ;; pview : pstate -> image
 ; Convert a pong state to an image to display on screen
-(define (pview state)
-  BACKGROUND)
+(define (pview pstate)
+  (draw-scores (pstate-p1s pstate) (pstate-p2s pstate)
+               (draw-ball (pstate-ball pstate) BACKGROUND)))
 
 
+(check-expect (pview (make-pstate (make-ball (make-posn 100 100)
+                                             (make-velocity 1 1))
+                                  (make-paddle 10 (make-velocity 0 3))
+                                  (make-paddle 10 (make-velocity 0 3))
+                                  0 0))
+              (draw-scores 0 0
+                           (draw-ball (make-ball
+                                       (make-posn 100 100)
+                                       (make-velocity 1 1)) BACKGROUND)))
 
 
 
@@ -228,10 +293,11 @@
 
 
 (define (main x)
-  (big-bang (make-pstate (make-ball (make-posn 10 10)
+  (big-bang (make-pstate (make-ball (make-posn 100 100)
                                     (make-velocity 1 1))
                          (make-paddle 10 (make-velocity 0 3))
                          (make-paddle 10 (make-velocity 0 3))
                          0 0)
             (to-draw pview)
-            (state true))) ;; TODO: enable big bang clause when you have a view
+            (state true))
+  )
