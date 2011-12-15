@@ -9,16 +9,6 @@
 
 (require picturing-programs)
 
-;; circle : posn number
-(define-struct circ (loc radius))
-; circle-loc : posn representing the circle's location in a plane
-; circle-radius: radius of the circle
-
-#;(define (fun-for-circ circ)
-    ... (circ-loc circ)
-    ... (circ-radius circ) ...)
-
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Exercize 21.7.4 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -80,24 +70,143 @@
 ;; drawmouse : draworld number number mouse-event -> draworld
 ; Handles mouse for draworld.
 (define (drawmouse world x y event)
+  (if (mouse=? event "button-down")
+      (if (and (< 0 x 20)
+           (< 0 y 80))
+          (make-draworld
+           (cond
+             [(< 0 y 20) 'red]
+             [(< 20 y 40) 'green]
+             [(< 40 y 60) 'blue]
+             [(< 60 y 80) 'white])
+           (draworld-img world))
+      (make-draworld
+       (draworld-color world)
+       (place-image (dot (draworld-color world))
+                    x y
+                    (draworld-img world))))
+      world))
   
 
 (check-expect (drawmouse (make-draworld 'red (empty-scene 100 100))
                          5 5 "move")
               (make-draworld 'red (empty-scene 100 100)))
 (check-expect (drawmouse (make-draworld 'red (empty-scene 100 100))
-                         5 5 "mouse-down")
+                         5 5 "button-down")
               (make-draworld 'red (empty-scene 100 100)))
 (check-expect (drawmouse (make-draworld 'red (empty-scene 100 100))
-                         5 25 "mouse-down")
+                         5 25 "button-down")
               (make-draworld 'green (empty-scene 100 100)))
 (check-expect (drawmouse (make-draworld 'red (empty-scene 100 100))
-                         5 45 "mouse-down")
+                         5 45 "button-down")
               (make-draworld 'blue (empty-scene 100 100)))
 (check-expect (drawmouse (make-draworld 'red (empty-scene 100 100))
-                         55 55 "mouse-down")
+                         5 65 "button-down")
+              (make-draworld 'white (empty-scene 100 100)))
+(check-expect (drawmouse (make-draworld 'red (empty-scene 100 100))
+                         55 55 "button-down")
               (make-draworld 'red (place-image (dot 'red)
                                                55 55
                                                (empty-scene 100 100))))
 
 
+#;(define (drawmouse2 world x y event)
+  (if (mouse=? event "move")
+      (if (and (< 0 x 20)
+           (< 0 y 80))
+          (make-draworld
+           (cond
+             [(< 0 y 20) 'red]
+             [(< 20 y 40) 'green]
+             [(< 40 y 60) 'blue]
+             [(< 60 y 80) 'white])
+           (draworld-img world))
+      (make-draworld
+       (draworld-color world)
+       (place-image (dot (draworld-color world))
+                    x y
+                    (draworld-img world))))
+      world))
+
+(define (draworld-main color)
+  (big-bang (make-draworld color (empty-scene 500 500))
+            (on-mouse drawmouse)
+            (to-draw drawview)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Exercize 21.8.3 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#| Develop a data definition to represent circles in the plane. |#
+ 
+;; A circ is a (make-circ posn positive-number):
+(define-struct circ (loc radius))
+;; where loc is the circle's location in the plane
+;;   and radius is its radius (in pixels).
+ 
+;; Example:
+(define circ1 (make-circ (make-posn 50 75) 10))
+ 
+;; Template: circ -&gt; ???
+#;(define (fun-for-circ a-circ)
+    ... (circ-loc a-circ)
+    ... (circ-radius a-circ) ...)
+ 
+ 
+#| Develop a data definition to represent rectangles in the plane. |#
+ 
+;; A rect is a (make-rect posn positive-number positive-number):
+(define-struct rect (top-left w h))
+;; where top-left is the top-left corner of the rectangle, and
+;;       w and h are the rectangle's width and height.
+;; (Assume the rectangle's sides are parallel to the coordinate axes.
+ 
+;; Example:
+#;(define rect1 (make-rect (make-posn 100 50) 25 30))
+ 
+;; Template: rect -&gt; ???
+#;(define (fun-for-rect a-rect)
+    ... (rect-top-left a-rect)
+    ... (rect-w a-rect)
+    ... (rect-h a-rect) ...)
+ 
+;;;;;;;;;;;;
+ 
+;; Develop the function rect-area that computes a rectangle's area.
+
+;; shape is either a circ or a rect
+
+;; rect-area : rect -&gt; positive-number
+;; computes the area of a rectangle represented by a rect
+#;(define (rect-area a-rect)
+  ... (rect-top-left a-rect)
+  ... (rect-w a-rect)
+  ... (rect-h a-rect) ...)
+ 
+#;(check-expect (rect-area rect1) (* 25 30))
+
+;; contained? : shape posn -> boolean
+; Returns whether the posn is inside the shape
+(define (contained? shape posn)
+  (cond
+    [(circ? shape) (<= (distance (circ-loc shape) posn) (circ-radius shape))]
+    [(rect? shape) (and (< (- ;; Use greater than and less than
+    [else (error "not a shape")]))
+
+(check-expect (contained? (make-circ (make-posn 50 75) 10) (make-posn 55 75))
+              true)
+(check-expect (contained? (make-circ (make-posn 0 0) 10) (make-posn 5 5))
+              true)
+(check-expect (contained? (make-circ (make-posn 0 0) 10) (make-posn 0 10))
+              true)
+(check-expect (contained? (make-circ (make-posn 0 0) 10) (make-posn 0 11))
+              false)
+(check-expect (contained? (make-rect (make-posn 0 10) 10 10) (make-posn 5 5))
+              true)
+(check-expect (contained? (make-rect (make-posn 0 10) 10 10) (make-posn 10 0))
+              true)
+(check-expect (contained? (make-rect (make-posn 0 10) 10 10) (make-posn 10 10))
+              true)
+(check-expect (contained? (make-rect (make-posn 0 10) 10 10) (make-posn 5 5))
+              true)
+(check-expect (contained? (make-rect (make-posn 0 10) 10 10) (make-posn 20 20))
+              false)
+(check-error (contained? false (make-posn 20 20)) "not a shape")
