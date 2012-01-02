@@ -50,6 +50,9 @@
 ;; player2's paddle's x location
 (define P2_PADDLE_LOC (* 9/10 BOARD-WIDTH))
 
+;; paddle width and height
+(define PADDLE_WIDTH 10)
+(define PADDLE_HEIGHT 100)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Dynamic Data ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -253,11 +256,28 @@
               (place-image BALL 10 12 BACKGROUND))
 
 
+;; draw-paddle : paddle number image -> image
+; Draws a single paddle on the screen
+(define (draw-paddle paddle player-number img)
+  (place-image (rectangle PADDLE_WIDTH PADDLE_HEIGHT
+                          'solid 'white)
+               (posn-x (paddle-posn paddle player-number (image-width img)))
+               (posn-y (paddle-posn paddle player-number (image-width img)))
+               img))
+
+;; draw-paddles : paddle paddle image -> image
+; Draws the paddles on the image
+(define (draw-paddles p1 p2 img)
+  (draw-paddle p1 1
+               (draw-paddle p2 2 img)))
+
 ;; pview : pstate -> image
 ; Convert a pong state to an image to display on screen
 (define (pview pstate)
-  (draw-scores (pstate-p1s pstate) (pstate-p2s pstate)
-               (draw-ball (pstate-ball pstate) BACKGROUND)))
+  (draw-paddles (pstate-p1p pstate)
+                (pstate-p2p pstate)
+                (draw-scores (pstate-p1s pstate) (pstate-p2s pstate)
+                             (draw-ball (pstate-ball pstate) BACKGROUND))))
 
 
 (check-expect (pview (make-pstate (make-ball (make-posn 100 100)
