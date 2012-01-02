@@ -72,7 +72,7 @@
 (define (drawmouse world x y event)
   (if (mouse=? event "button-down")
       (if (and (< 0 x 20)
-           (< 0 y 80))
+               (< 0 y 80))
           (make-draworld
            (cond
              [(< 0 y 20) 'red]
@@ -80,13 +80,13 @@
              [(< 40 y 60) 'blue]
              [(< 60 y 80) 'white])
            (draworld-img world))
-      (make-draworld
-       (draworld-color world)
-       (place-image (dot (draworld-color world))
-                    x y
-                    (draworld-img world))))
+          (make-draworld
+           (draworld-color world)
+           (place-image (dot (draworld-color world))
+                        x y
+                        (draworld-img world))))
       world))
-  
+
 
 (check-expect (drawmouse (make-draworld 'red (empty-scene 100 100))
                          5 5 "move")
@@ -111,22 +111,22 @@
 
 
 #;(define (drawmouse2 world x y event)
-  (if (mouse=? event "move")
-      (if (and (< 0 x 20)
-           (< 0 y 80))
-          (make-draworld
-           (cond
-             [(< 0 y 20) 'red]
-             [(< 20 y 40) 'green]
-             [(< 40 y 60) 'blue]
-             [(< 60 y 80) 'white])
-           (draworld-img world))
-      (make-draworld
-       (draworld-color world)
-       (place-image (dot (draworld-color world))
-                    x y
-                    (draworld-img world))))
-      world))
+    (if (mouse=? event "move")
+        (if (and (< 0 x 20)
+                 (< 0 y 80))
+            (make-draworld
+             (cond
+               [(< 0 y 20) 'red]
+               [(< 20 y 40) 'green]
+               [(< 40 y 60) 'blue]
+               [(< 60 y 80) 'white])
+             (draworld-img world))
+            (make-draworld
+             (draworld-color world)
+             (place-image (dot (draworld-color world))
+                          x y
+                          (draworld-img world))))
+        world))
 
 (define (draworld-main color)
   (big-bang (make-draworld color (empty-scene 500 500))
@@ -136,40 +136,40 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Exercize 21.8.3 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 #| Develop a data definition to represent circles in the plane. |#
- 
+
 ;; A circ is a (make-circ posn positive-number):
 (define-struct circ (loc radius))
 ;; where loc is the circle's location in the plane
 ;;   and radius is its radius (in pixels).
- 
+
 ;; Example:
 (define circ1 (make-circ (make-posn 50 75) 10))
- 
+
 ;; Template: circ -&gt; ???
 #;(define (fun-for-circ a-circ)
     ... (circ-loc a-circ)
     ... (circ-radius a-circ) ...)
- 
- 
+
+
 #| Develop a data definition to represent rectangles in the plane. |#
- 
+
 ;; A rect is a (make-rect posn positive-number positive-number):
 (define-struct rect (top-left w h))
 ;; where top-left is the top-left corner of the rectangle, and
 ;;       w and h are the rectangle's width and height.
 ;; (Assume the rectangle's sides are parallel to the coordinate axes.
- 
+
 ;; Example:
 #;(define rect1 (make-rect (make-posn 100 50) 25 30))
- 
+
 ;; Template: rect -&gt; ???
 #;(define (fun-for-rect a-rect)
     ... (rect-top-left a-rect)
     ... (rect-w a-rect)
     ... (rect-h a-rect) ...)
- 
+
 ;;;;;;;;;;;;
- 
+
 ;; Develop the function rect-area that computes a rectangle's area.
 
 ;; shape is either a circ or a rect
@@ -177,19 +177,28 @@
 ;; rect-area : rect -&gt; positive-number
 ;; computes the area of a rectangle represented by a rect
 #;(define (rect-area a-rect)
-  ... (rect-top-left a-rect)
-  ... (rect-w a-rect)
-  ... (rect-h a-rect) ...)
- 
+    ... (rect-top-left a-rect)
+    ... (rect-w a-rect)
+    ... (rect-h a-rect) ...)
+
 #;(check-expect (rect-area rect1) (* 25 30))
 
 ;; contained? : shape posn -> boolean
 ; Returns whether the posn is inside the shape
-(define (contained? shape posn)
+(define (contained? shape p)
   (cond
-    [(circ? shape) (<= (distance (circ-loc shape) posn) (circ-radius shape))]
-    [(rect? shape) (and (< (- ;; Use greater than and less than
+    [(circ? shape) (<= (distance (circ-loc shape) p) (circ-radius shape))]
+    [(rect? shape) (and (<= (- (posn-x (rect-top-left shape))
+                               (rect-h shape))
+                            (posn-x p)
+                            (posn-x (rect-top-left shape)))
+                        (<= (- (posn-y (rect-top-left shape))
+                               (rect-w shape))
+                            (posn-y p)
+                            (posn-y (rect-top-left shape))))]
     [else (error "not a shape")]))
+
+(contained? (make-rect (make-posn 0 10) 10 10) (make-posn 5 5))
 
 (check-expect (contained? (make-circ (make-posn 50 75) 10) (make-posn 55 75))
               true)
@@ -199,14 +208,106 @@
               true)
 (check-expect (contained? (make-circ (make-posn 0 0) 10) (make-posn 0 11))
               false)
-(check-expect (contained? (make-rect (make-posn 0 10) 10 10) (make-posn 5 5))
+(check-expect (contained? (make-rect (make-posn 10 10) 10 10) (make-posn 5 5))
               true)
-(check-expect (contained? (make-rect (make-posn 0 10) 10 10) (make-posn 10 0))
+(check-expect (contained? (make-rect (make-posn 10 10) 10 10) (make-posn 10 0))
               true)
-(check-expect (contained? (make-rect (make-posn 0 10) 10 10) (make-posn 10 10))
+(check-expect (contained? (make-rect (make-posn 10 10) 10 10) (make-posn 10 10))
               true)
-(check-expect (contained? (make-rect (make-posn 0 10) 10 10) (make-posn 5 5))
+(check-expect (contained? (make-rect (make-posn 10 10) 10 10) (make-posn 5 5))
               true)
 (check-expect (contained? (make-rect (make-posn 0 10) 10 10) (make-posn 20 20))
               false)
 (check-error (contained? false (make-posn 20 20)) "not a shape")
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 21.8.9 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; Exercise 21.8.9 Define a data type vehicle which is either a car, a bicycle,
+; or a train. All three types of vehicle have a weight and a top speed; a
+; bicycle has a number of gears; a train has a length; and a car has a
+; horsepower (e.g. 300) and a fuel-economy rating (e.g. 28 miles/gallon).
+
+
+
+;;;; A vehicle is either a car, a bicycle, or a train
+
+;; auto : number+ number+ number+
+(define-struct auto (weight speed horsepower))
+; weight -> number representing weight in pounds of the car
+; speed -> number representing the top speed of the car in mph.
+; horsepower -> number representing the horsepower of the car.
+
+;; bicycle : number+ number+ number+
+(define-struct bicycle (weight speed gears))
+; weight -> number representing weight in pounds of the bicycle
+; speed -> number representing the top speed of the car in mph.
+; gears -> number representing the number of gears the bike has.
+
+;; train : number+ number+ number+
+(define-struct train (weight speed length))
+; weight -> number representing weight in pounds of the bicycle
+; speed -> number representing the top speed of the car in mph.
+; length -> number representing the length of the train in cars.
+
+
+(define vehicle1 (make-auto 10000 80 300))
+(define vehicle2 (make-bicycle 20 15 7))
+(define vehicle3 (make-train 100000 80 20))
+
+
+;; Templates
+
+;; fun-for-vehicle : vehicle -> ???
+#;(define (fun-for-vehicle vehicle)
+    (cond
+      [(auto? vehicle) (auto-weight vehicle) ...
+                       (auto-speed vehicle) ...
+                       (auto-horsepower vehicle)]
+      [(bicycle? vehicle) (bicycle-weight vehicle) ...
+                          (bicycle-speed vehicle) ...
+                          (bicycle-gears vehicle)]
+      [(train? vehicle) (train-weight vehicle) ...
+                        (train-speed vehicle) ...
+                        (train-length vehicle)]))
+
+;; fun-for-vehicle : vehicle -> vehicle
+#;(define (fun-for-vehicle vehicle)
+    (cond
+      [(car? vehicle)
+       (make-car (auto-weight vehicle)
+                 (auto-speed vehicle)
+                 (auto-horsepower vehicle))]
+      [(bicycle? vehicle)
+       (make-bicycle (bicycle-weight vehicle)
+                     (bicycle-speed vehicle)
+                     (bicycle-gears vehicle))]
+      [(train? vehicle)
+       (make-train (train-weight vehicle)
+                   (train-speed vehicle)
+                   (train-length vehicle))]))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 21.8.10 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; vehicle-speed : vehicle -> number
+; Extracts the speed of the given vehicle regardless of type.
+(define (vehicle-speed vehicle)
+  (cond
+    [(auto? vehicle) (auto-speed vehicle)]
+    [(bicycle? vehicle) (bicycle-speed vehicle)]
+    [(train? vehicle) (train-speed vehicle)]))
+
+(check-expect (vehicle-speed (make-auto 0 80 300)) 80)
+(check-expect (vehicle-speed (make-bicycle 0 30 300)) 30)
+(check-expect (vehicle-speed (make-train 0 90 300)) 90)
+
+;; range : vehicle number -> number
+; Calculates the furthest distance a given vehicle can travel in a given number
+; of hours.
+(define (range vehicle hours)
+  (* (vehicle-speed vehicle) hours))
+(check-expect (range (make-auto 0 80 300) 10) 800)
+(check-expect (range (make-bicycle 0 80 300) 10) 800)
+(check-expect (range (make-train 0 80 300) 10) 800)
+(check-expect (range (make-train 0 90 300) 10) 900)
+(check-expect (range (make-train 0 99 300) 10) 990)
