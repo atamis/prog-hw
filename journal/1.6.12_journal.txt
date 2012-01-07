@@ -1,0 +1,38 @@
+What did you do in class this week? How did you make use of your time?
+Worked on pong.
+
+What words and concepts were new to you this week, and what do they mean?
+Renaming cons to aq was devious, but didn't save any characters.
+
+If you created anything new, what was it?
+I've almost created pong, but that doesn't really count as new.
+
+What new questions or goals do you have?
+None.
+
+Did this week’s studies give you any ideas of things you could create?
+Not really.
+
+What was good about this week?
+Lots of time to work on pong, a project with few teacher imposed
+parameters, where almost every aspect of the internal design was
+dictated by me.
+
+What would you like to change-what can you do better?
+Nothing.
+
+What would you like me to change-what can I, the teacher, do better?
+Nothing. Pong was fun. Perhaps more projects like pong?
+
+Do you have any other comments?
+Maybe it's something in my code, but Pong seems a little slow. The
+paddles start jerking around when you hold the keys down, and there have
+been times when I've had to kill the evaluation thread from DrRacket. I
+hesitate to think what would think when both paddles and a ball are
+moving. Maybe I'm doing something stupid, making more drawing calls than
+I need to, storing data inefficiently, making inefficient calculations,
+or something. Either way, performance is lacking to a worrying degree,
+to the point that the game might be unplayable.
+
+
+
