@@ -99,6 +99,9 @@
 ;; The ball we play the game with
 (define BALL (circle 5 'solid 'white))
 
+;; The default ball that the game starts with.
+
+
 ;; Coefficient of friction used to slow down paddles
 (define FRICTION 0.98)
 
@@ -350,6 +353,13 @@
     (make-ball (ball-loc ball)
                (ball-vec ball)))
 
+;; Default ball. The ball we start play with
+(define DEFAULT-BALL (make-ball (make-posn
+                                 (/ BOARD-WIDTH 2)
+                                 (/ BOARD-HEIGHT 2))
+                                (make-posn 1 1)))
+
+
 (define (ball-x ball) (posn-x (ball-loc ball)))
 (define (ball-y ball) (posn-y (ball-loc ball)))
 
@@ -362,18 +372,18 @@
 (check-expect (apply-ball-vector
                (make-ball (make-posn 10 10)
                           (make-posn 1 1)))
-              (make-ball (make-posn 11 11)
+              (make-ball (make-posn 13 13)
                          (make-posn 1 1)))
 (check-expect (apply-ball-vector
                (make-ball (make-posn 10 10)
                           (make-posn -1 1)))
-              (make-ball (make-posn 9 11)
+              (make-ball (make-posn 7 13)
                          (make-posn -1 1)))
 (check-expect (apply-ball-vector
                (make-ball (make-posn 10 10)
-                          (make-posn -1 5)))
-              (make-ball (make-posn 9 15)
-                         (make-posn -1 5)))
+                          (make-posn -1 -1)))
+              (make-ball (make-posn 7 7)
+                         (make-posn -1 -1)))
 
 
 ;; ball-deflection : ball paddle paddle -> ball
@@ -571,6 +581,60 @@
 ;                                                                               
 ;                                                                               
 
+;; handle-scoring : pstate -> pstate
+; Checks whether the ball is in a scoring zone and increments the score as required
+(define (handle-scoring pstate)
+  (cond
+    [(< (ball-x (pstate-ball pstate)) 0)
+     ; Second player's goal
+     (make-pstate 
+      DEFAULT-BALL
+      (pstate-p1p pstate)
+      (pstate-p2p pstate)
+      (add1 (pstate-p1s pstate))
+      (pstate-p2s pstate))]
+    [(< BOARD-WIDTH (ball-x (pstate-ball pstate)))
+     ; First player's goal
+     (make-pstate 
+      DEFAULT-BALL
+      (pstate-p1p pstate)
+      (pstate-p2p pstate)
+      (pstate-p1s pstate)
+      (add1 (pstate-p2s pstate)))]
+    [else
+     pstate]))
+
+;; Not in scoring zones.
+(check-expect (handle-scoring
+               (make-pstate (make-ball (make-posn 100 100) (make-posn -1 1))
+                            (make-paddle 100 3.0)
+                            (make-paddle 100 3.0)
+                            0 0))
+              (make-pstate (make-ball (make-posn 100 100) (make-posn -1 1))
+                           (make-paddle 100 3.0)
+                           (make-paddle 100 3.0)
+                           0 0))
+
+; In the second player's goal
+(check-expect (handle-scoring
+               (make-pstate (make-ball (make-posn -1 100) (make-posn -1 1))
+                            (make-paddle 100 3.0)
+                            (make-paddle 100 3.0)
+                            0 0))
+              (make-pstate DEFAULT-BALL
+                           (make-paddle 100 3.0)
+                           (make-paddle 100 3.0)
+                           1 0))
+; In the first player's goal
+(check-expect (handle-scoring
+               (make-pstate (make-ball (make-posn 1002 100) (make-posn -1 1))
+                            (make-paddle 100 3.0)
+                            (make-paddle 100 3.0)
+                            0 0))
+              (make-pstate DEFAULT-BALL
+                           (make-paddle 100 3.0)
+                           (make-paddle 100 3.0)
+                           0 1))
 
 
 ;; handle-paddle : paddle -> paddle
@@ -666,33 +730,33 @@
 ;; handle-tick : pstate
 ; Handles a single tick.
 (define (handle-tick pstate)
-  (make-pstate 
-   (ball-deflection (apply-ball-vector (pstate-ball pstate))
-                                       (pstate-p1p pstate)
-                                       (pstate-p2p pstate))
-   (handle-paddle (apply-paddle-vector (pstate-p1p pstate)))
-   (handle-paddle (apply-paddle-vector (pstate-p2p pstate)))
-   (pstate-p1s pstate)
-   (pstate-p2s pstate)))
+  (handle-scoring (make-pstate 
+                   (ball-deflection (apply-ball-vector (pstate-ball pstate))
+                                    (pstate-p1p pstate)
+                                    (pstate-p2p pstate))
+                   (handle-paddle (apply-paddle-vector (pstate-p1p pstate)))
+                   (handle-paddle (apply-paddle-vector (pstate-p2p pstate)))
+                   (pstate-p1s pstate)
+                   (pstate-p2s pstate))))
 
 (check-expect (handle-tick (make-pstate (make-ball (make-posn 100 100)
                                                    (make-posn 1 1))
                                         (make-paddle 100 3)
                                         (make-paddle 100 3)
                                         0 0))
-              (make-pstate (make-ball (make-posn 101 101)
+              (make-pstate (make-ball (make-posn 103 103)
                                       (make-posn 1 1))
                            (apply-paddle-vector (make-paddle 100 3))
                            (apply-paddle-vector (make-paddle 100 3))
                            0 0))
 
 (check-expect (handle-tick (make-pstate (make-ball (make-posn 100 100)
-                                                   (make-posn 1 2))
+                                                   (make-posn 1 -1))
                                         (make-paddle 100 10)
                                         (make-paddle 100 4)
                                         0 0))
-              (make-pstate (make-ball (make-posn 101 102)
-                                      (make-posn 1 2))
+              (make-pstate (make-ball (make-posn 103 97)
+                                      (make-posn 1 -1))
                            (apply-paddle-vector (make-paddle 100 10))
                            (apply-paddle-vector (make-paddle 100 4))
                            0 0))
@@ -718,10 +782,10 @@
 ; score, the 2nd being the 2nd.
 (define (draw-scores p1 p2 img)
   (place-image
-   (text (number->string p1) 30 'white)
+   (text (number->string p2) 30 'white)
    (* 4/10 (image-width img)) (/ (image-height img) 10)
    (place-image
-    (text (number->string p2) 30 'white)
+    (text (number->string p1) 30 'white)
     (* 6/10 (image-width img)) (/ (image-height img) 10)
     img)))
 
@@ -735,18 +799,18 @@
                 BACKGROUND)))
 (check-expect (draw-scores 1 5 BACKGROUND)
               (place-image
-               (text "1" 30 'white)
+               (text "5" 30 'white)
                400 50
                (place-image
-                (text "5" 30 'white)
+                (text "1" 30 'white)
                 600 50
                 BACKGROUND)))
 (check-expect (draw-scores 1 5 (rectangle 100 100 'solid 'black))
               (place-image
-               (text "1" 30 'white)
+               (text "5" 30 'white)
                40 10
                (place-image
-                (text "5" 30 'white)
+                (text "1" 30 'white)
                 60 10
                 (rectangle 100 100 'solid 'black))))
 
