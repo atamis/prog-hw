@@ -53,44 +53,44 @@ I prefer the "or" method to the cond because it is shorter and cleaner.
              (contains? (cdr list) name))]))
 
 (check-expect (contains? (list "a" "b" "a" "c") "a") true)
-                          (check-expect (contains? (list "a" "b" "a" "c") "d") false)
-                          (check-expect (contains? (list "a" "b" "d" "c") "d") true)
-                          
-                          
-                          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Exercise 115 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                          
-                          ;; pos? -> list-of-numbers -> boolean
-                          ; Returns whether all the numbers in a list of numbers are positive.
-                          (define (pos? lst)
-                            (cond [(empty? lst) true]
-                                  [(cons? lst)
-                                   (if (positive? (car lst))
-                                       (pos? (cdr lst))
-                                       false)]))
-                          
-                          (check-expect (pos? (list 1 2 3 4 5 5 3 2 1 3 41 1 4 123 12 3 4 1)) true)
-                          (check-expect (pos? (list 1 2 3 4 5 5 3 2 1 3 41 -1 4 123 12 3 4 1)) false)
-                          (check-expect (pos? empty) true)
-                          
-                          ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Stocks ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-                          
-                          ;; stock : string string number number
-                          (define-struct stock (name ticker bid ask))
-                          ; name : string of the name of the stock
-                          ; ticker : string containing ticker symbol
-                          ; bid : number, bid price of the stock.
-                          ; ask : number, asking price of the stock
-                          
-                          (define intel (make-stock "Intel Corporation" "INTC" 25.43 25.89))
-                          
-                          ; Templates
-                          #;(define (fun-for-stock stk)
-                              (stock-name stk) ... (stock-ticker stk) ...
-                              (stock-bid stk) .. (stock-ask stk))
-                          
-                          #;(define (fun-for-stock stk)
-                              (make-stock
-                               (stock-name stk)
-                               (stock-ticker stk)
-                               (stock-bid stk)
-                               (stock-ask stk)))
+(check-expect (contains? (list "a" "b" "a" "c") "d") false)
+(check-expect (contains? (list "a" "b" "d" "c") "d") true)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Exercise 115 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; pos? -> list-of-numbers -> boolean
+; Returns whether all the numbers in a list of numbers are positive.
+(define (pos? lst)
+  (cond [(empty? lst) true]
+        [(cons? lst)
+         (if (positive? (car lst))
+             (pos? (cdr lst))
+             false)]))
+
+(check-expect (pos? (list 1 2 3 4 5 5 3 2 1 3 41 1 4 123 12 3 4 1)) true)
+(check-expect (pos? (list 1 2 3 4 5 5 3 2 1 3 41 -1 4 123 12 3 4 1)) false)
+(check-expect (pos? empty) true)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Stocks ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; stock : string string number number
+(define-struct stock (name ticker bid ask))
+; name : string of the name of the stock
+; ticker : string containing ticker symbol
+; bid : number, bid price of the stock.
+; ask : number, asking price of the stock
+
+(define intel (make-stock "Intel Corporation" "INTC" 25.43 25.89))
+
+; Templates
+#;(define (fun-for-stock stk)
+    (stock-name stk) ... (stock-ticker stk) ...
+    (stock-bid stk) .. (stock-ask stk))
+
+#;(define (fun-for-stock stk)
+    (make-stock
+     (stock-name stk)
+     (stock-ticker stk)
+     (stock-bid stk)
+     (stock-ask stk)))
