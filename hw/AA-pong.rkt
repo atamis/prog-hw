@@ -106,7 +106,7 @@
 (define FRICTION 0.98)
 
 ;; Amount each keypress increases the paddle velocity
-(define PADDLE_DELTA 1)
+(define PADDLE-DELTA 2)
 
 ;; player1's paddle's x location relative to the width of the playing field
 (define P1_PADDLE_LOC 15/16)
@@ -201,28 +201,28 @@
 ; internal velocity of the paddle.
 (define (move-paddle-up paddle)
   (make-paddle (paddle-y paddle)
-               (+ (paddle-vec paddle) PADDLE_DELTA)))
+               (+ (paddle-vec paddle) PADDLE-DELTA)))
 
 
 (check-expect (move-paddle-up (make-paddle 50 0))
-              (make-paddle 50 (+ 0 PADDLE_DELTA)))
+              (make-paddle 50 (+ 0 PADDLE-DELTA)))
 (check-expect (move-paddle-up (make-paddle 50 1))
-              (make-paddle 50 (+ 1 PADDLE_DELTA)))
+              (make-paddle 50 (+ 1 PADDLE-DELTA)))
 (check-expect (move-paddle-up (make-paddle 50 -1))
-              (make-paddle 50 (+ -1 PADDLE_DELTA)))
+              (make-paddle 50 (+ -1 PADDLE-DELTA)))
 
 ;; move-paddle-down : paddle -> paddle
 ; Moves the paddle down.
 (define (move-paddle-down paddle)
   (make-paddle (paddle-y paddle)
-               (- (paddle-vec paddle) PADDLE_DELTA)))
+               (- (paddle-vec paddle) PADDLE-DELTA)))
 
 (check-expect (move-paddle-down (make-paddle 50 0))
-              (make-paddle 50 (- 0 PADDLE_DELTA)))
+              (make-paddle 50 (- 0 PADDLE-DELTA)))
 (check-expect (move-paddle-down (make-paddle 50 1))
-              (make-paddle 50 (- 1 PADDLE_DELTA)))
+              (make-paddle 50 (- 1 PADDLE-DELTA)))
 (check-expect (move-paddle-down (make-paddle 50 -4))
-              (make-paddle 50 (- -4 PADDLE_DELTA)))
+              (make-paddle 50 (- -4 PADDLE-DELTA)))
 
 
 
@@ -408,7 +408,7 @@
                   [(equal? (ball-vec ball) (make-posn 1 1)) (make-posn -1 1)]
                   [else (ball-vec ball)])]
                [(inside-paddle? p2paddle 2 (ball-loc ball))
-                (cond ; Second player's paddle 
+                (cond ; Second player's paddle
                   [(equal? (ball-vec ball) (make-posn -1 -1)) (make-posn -1 1)]
                   [(equal? (ball-vec ball) (make-posn -1 1)) (make-posn 1 1)]
                   [else (ball-vec ball)])]
@@ -582,7 +582,8 @@
 ;                                                                               
 
 ;; handle-scoring : pstate -> pstate
-; Checks whether the ball is in a scoring zone and increments the score as required
+; Checks whether the ball is in a scoring zone and increments the score as
+; required
 (define (handle-scoring pstate)
   (cond
     [(< (ball-x (pstate-ball pstate)) 0)
@@ -672,7 +673,7 @@
                             0 0) "up")
               (make-pstate (make-ball (make-posn 100 100)
                                       (make-posn 1 1))
-                           (make-paddle 100 2)
+                           (make-paddle 100 (- 3 PADDLE-DELTA))
                            (make-paddle 100 3)
                            0 0))
 (check-expect (handle-keyboard
@@ -683,7 +684,7 @@
                             0 0) "down")
               (make-pstate (make-ball (make-posn 100 100)
                                       (make-posn 1 1))
-                           (make-paddle 100 4)
+                           (make-paddle 100 (+ 3 PADDLE-DELTA))
                            (make-paddle 100 3)
                            0 0))
 (check-expect (handle-keyboard
@@ -695,7 +696,7 @@
               (make-pstate (make-ball (make-posn 100 100)
                                       (make-posn 1 1))
                            (make-paddle 100 3)
-                           (make-paddle 100 2)
+                           (make-paddle 100 (- 3 PADDLE-DELTA))
                            0 0))
 (check-expect (handle-keyboard
                (make-pstate (make-ball (make-posn 100 100)
@@ -706,7 +707,7 @@
               (make-pstate (make-ball (make-posn 100 100)
                                       (make-posn 1 1))
                            (make-paddle 100 3)
-                           (make-paddle 100 4)
+                           (make-paddle 100 (+ 3 PADDLE-DELTA))
                            0 0))
 (check-expect (handle-keyboard
                (make-pstate (make-ball (make-posn 100 100)
@@ -910,6 +911,51 @@
 
 
 
+;                              
+;                              
+;                              
+;   ;   ;                      
+;   ;; ;;                      
+;   ; ; ;                      
+;   ;   ;   ;;;   ;;;;   ;   ; 
+;   ;   ;  ;   ;  ;   ;  ;   ; 
+;   ;   ;  ;;;;;  ;   ;  ;   ; 
+;   ;   ;  ;      ;   ;  ;   ; 
+;   ;   ;  ;   ;  ;   ;  ;  ;; 
+;   ;   ;   ;;;   ;   ;   ;; ; 
+;                              
+;                              
+;                              
+
+; world is a boolean representing whether the person wants to play pong.
+
+;; draw-menu : world -> image
+; Draws the menu
+(define (draw-menu world)
+  (place-image (text "Press any key to play. Press escape to exit"
+                     18 'white)
+               (/ BOARD-WIDTH 2)
+               (/ BOARD-HEIGHT 2)
+               BACKGROUND))
+
+;; menu-keyboard-handler : world key -> world
+; On escape, set to false. On any other key, return true.
+(define (menu-keyboard-handler world key)
+  (not (key=? key "escape")))
+
+(check-expect (menu-keyboard-handler empty "a") true)
+(check-expect (menu-keyboard-handler empty "escape") false)
+
+
+;; play-pong? : anything -> boolean
+; Displays a screen asking whether the person would like to play pong
+(define (play-pong? x)
+  (big-bang empty
+            (stop-when boolean?)
+            (to-draw draw-menu)
+            (on-key menu-keyboard-handler)))
+
+
 
 
 ;                              
@@ -931,15 +977,15 @@
 
 
 (define (main x)
-  (big-bang (make-pstate (make-ball (make-posn 100 100)
-                                    (make-posn -1 1)
-                                    )
-                         (make-paddle 100 3.0)
-                         (make-paddle 100 3.0)
-                         0 0)
-            (to-draw pview)
-            (on-key handle-keyboard)
-            (on-tick handle-tick)
-            (state true)
-            )
-  )
+  (if (play-pong? empty)
+      (big-bang (make-pstate
+                 (make-ball (make-posn 100 100)
+                            (make-posn -1 1))
+                 (make-paddle 100 3.0)
+                 (make-paddle 100 3.0)
+                 0 0)
+                (to-draw pview)
+                (on-key handle-keyboard)
+                (on-tick handle-tick)
+                #;(state true))
+      false))
