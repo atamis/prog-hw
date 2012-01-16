@@ -96,11 +96,11 @@
 ;; Represents the flat background upon which the game will be drawn.
 (define BACKGROUND (rectangle BOARD-WIDTH BOARD-HEIGHT 'solid 'black))
 
+;; Foreground color (usually white)
+(define FOREGROUND-COLOR 'green)
+
 ;; The ball we play the game with
-(define BALL (circle 5 'solid 'white))
-
-;; The default ball that the game starts with.
-
+(define BALL (circle 1 'solid FOREGROUND-COLOR))
 
 ;; Coefficient of friction used to slow down paddles
 (define FRICTION 0.98)
@@ -120,6 +120,8 @@
 
 ;; Use actual deflection for the paddles, or not
 (define PADDLE_DEFLECTION? true)
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Dynamic Data ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -409,7 +411,7 @@
                   [else (ball-vec ball)])]
                [(inside-paddle? p2paddle 2 (ball-loc ball))
                 (cond ; Second player's paddle
-                  [(equal? (ball-vec ball) (make-posn -1 -1)) (make-posn -1 1)]
+                  [(equal? (ball-vec ball) (make-posn -1 -1)) (make-posn 1 -1)]
                   [(equal? (ball-vec ball) (make-posn -1 1)) (make-posn 1 1)]
                   [else (ball-vec ball)])]
                [else (ball-vec ball)])))
@@ -783,35 +785,35 @@
 ; score, the 2nd being the 2nd.
 (define (draw-scores p1 p2 img)
   (place-image
-   (text (number->string p2) 30 'white)
+   (text (number->string p2) 30 FOREGROUND-COLOR)
    (* 4/10 (image-width img)) (/ (image-height img) 10)
    (place-image
-    (text (number->string p1) 30 'white)
+    (text (number->string p1) 30 FOREGROUND-COLOR)
     (* 6/10 (image-width img)) (/ (image-height img) 10)
     img)))
 
 (check-expect (draw-scores 1 1 BACKGROUND)
               (place-image
-               (text "1" 30 'white)
+               (text "1" 30 FOREGROUND-COLOR)
                400 50
                (place-image
-                (text "1" 30 'white)
+                (text "1" 30 FOREGROUND-COLOR)
                 600 50
                 BACKGROUND)))
 (check-expect (draw-scores 1 5 BACKGROUND)
               (place-image
-               (text "5" 30 'white)
+               (text "5" 30 FOREGROUND-COLOR)
                400 50
                (place-image
-                (text "1" 30 'white)
+                (text "1" 30 FOREGROUND-COLOR)
                 600 50
                 BACKGROUND)))
 (check-expect (draw-scores 1 5 (rectangle 100 100 'solid 'black))
               (place-image
-               (text "5" 30 'white)
+               (text "5" 30 FOREGROUND-COLOR)
                40 10
                (place-image
-                (text "1" 30 'white)
+                (text "1" 30 FOREGROUND-COLOR)
                 60 10
                 (rectangle 100 100 'solid 'black))))
 
@@ -845,26 +847,26 @@
 ; Draws a single paddle on the screen
 (define (draw-paddle paddle player-number img)
   (place-image (rectangle PADDLE_WIDTH PADDLE_HEIGHT
-                          'solid 'white)
+                          'solid FOREGROUND-COLOR)
                (posn-x (paddle-posn paddle player-number (image-width img)))
                (posn-y (paddle-posn paddle player-number (image-width img)))
                img))
 
 (check-expect (draw-paddle (make-paddle 10 3) 2 BACKGROUND)
               (place-image (rectangle PADDLE_WIDTH PADDLE_HEIGHT
-                                      'solid 'white)
+                                      'solid FOREGROUND-COLOR)
                            62.5 10 BACKGROUND))
 (check-expect (draw-paddle (make-paddle 100 3) 2 BACKGROUND)
               (place-image (rectangle PADDLE_WIDTH PADDLE_HEIGHT
-                                      'solid 'white)
+                                      'solid FOREGROUND-COLOR)
                            62.5 100 BACKGROUND))
 (check-expect (draw-paddle (make-paddle 10 3) 1 BACKGROUND)
               (place-image (rectangle PADDLE_WIDTH PADDLE_HEIGHT
-                                      'solid 'white)
+                                      'solid FOREGROUND-COLOR)
                            937.5 10 BACKGROUND))
 (check-expect (draw-paddle (make-paddle 100 3) 1 BACKGROUND)
               (place-image (rectangle PADDLE_WIDTH PADDLE_HEIGHT
-                                      'solid 'white)
+                                      'solid FOREGROUND-COLOR)
                            937.5 100 BACKGROUND))
 
 ;; draw-paddles : paddle paddle image -> image
@@ -932,11 +934,23 @@
 ;; draw-menu : world -> image
 ; Draws the menu
 (define (draw-menu world)
-  (place-image (text "Press any key to play. Press escape to exit"
-                     18 'white)
-               (/ BOARD-WIDTH 2)
-               (/ BOARD-HEIGHT 2)
-               BACKGROUND))
+  (place-image
+   (text "Arrow keys to move right paddle" 14 FOREGROUND-COLOR)
+   (/ BOARD-WIDTH 2)
+   (+ (* 3/4 BOARD-HEIGHT) 14)
+   (place-image
+    (text "A and Z to move left paddle" 14 FOREGROUND-COLOR)
+    (/ BOARD-WIDTH 2)
+    (* 3/4 BOARD-HEIGHT)
+    (place-image
+     (text "PONG" 60 FOREGROUND-COLOR)
+     (/ BOARD-WIDTH 2)
+     (/ BOARD-HEIGHT 4)
+     (place-image (text "Press any key to play. Press escape to exit"
+                        18 FOREGROUND-COLOR)
+                  (/ BOARD-WIDTH 2)
+                  (/ BOARD-HEIGHT 2)
+                  BACKGROUND)))))
 
 ;; menu-keyboard-handler : world key -> world
 ; On escape, set to false. On any other key, return true.
@@ -976,11 +990,11 @@
 
 
 
+
 (define (main x)
   (if (play-pong? empty)
       (big-bang (make-pstate
-                 (make-ball (make-posn 100 100)
-                            (make-posn -1 1))
+                 DEFAULT-BALL
                  (make-paddle 100 3.0)
                  (make-paddle 100 3.0)
                  0 0)
