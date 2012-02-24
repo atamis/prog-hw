@@ -1,0 +1,34 @@
+What did you do in class this week? How did you make use of your time?
+I worked on tetris in class with Raphie.
+
+What words and concepts were new to you this week, and what do they mean?
+Nothing.
+
+If you created anything new, what was it?
+Still working on tetris. I am working on a different game, but right now
+it's just a weird pixel buffer system. I have built a font system on top
+of the pixel buffer system, and drew my own font, but it looks sort of
+strange, which is to be expected, I suppose.
+
+What new questions or goals do you have?
+Build some kind of game on this super simple engine.
+
+Did this week’s studies give you any ideas of things you could create?
+I've been think of some kind of space game. Ideally, it would include
+complex economic modeling and AI with cool emergent economic activities,
+but that sounds like a LOT of work in a field I really just don't know
+anything about.
+
+What was good about this week?
+Short week.
+
+What would you like to change-what can you do better?
+Write more code outside of class. Have a good idea for a game.
+
+What would you like me to change-what can I, the teacher, do better?
+
+
+Do you have any other comments?
+Netbeans doesn't install on my machine, so I have to use eclipse >.>
+
+
