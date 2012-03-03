@@ -1,0 +1,38 @@
+What did you do in class this week? How did you make use of your time?
+Failed to get Tetrix working.
+
+What words and concepts were new to you this week, and what do they mean?
+None.
+
+If you created anything new, what was it?
+Almost made Tetrix. Also started writing a game engine from scratch. I'm
+working with raw pixel buffers, implementing my own game engine and
+logic. So far, I've got a little selector moving around, I've got it
+randomly generating galaxies with lots of star systems, naming each star
+system, etc.. It currently finds the closest system, and displays its
+name, coordinates, and orbiting objects. I also implemented a font
+drawing system and drew my own font. It's pretty cool.
+
+What new questions or goals do you have?
+I can't wait to get to lambdas.
+
+Did this week’s studies give you any ideas of things you could create?
+Only that building anything other than Tetris would have been easier. I
+have never had so much trouble with a bug like that. It might be the
+tools I'm working with (I'm unused to the debugging system, and the
+inabiity to use print debugging, my most used method, is almost
+crippling.)
+
+What was good about this week?
+We no longer have to work on tetrix.
+
+What would you like to change-what can you do better?
+Nothing.
+
+What would you like me to change-what can I, the teacher, do better?
+Nothing.
+
+Do you have any other comments?
+Tetris. :(
+
+
