@@ -4,7 +4,7 @@
 ;; Prog 2: Rearranging Words
 ; Andrew Amis
 ; Started: 3.5.12
-; Ended: ?
+; Ended: 3/7/12
 ; http://fellowhuman.com/gbk/2012/03/05/
 ;        prog-1-extended-exercise-rearranging-words/
 ; Exercises 167 and 168
