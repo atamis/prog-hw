@@ -1,7 +1,7 @@
 ;; The first three lines of this file were inserted by DrRacket. They record metadata
 ;; about the language level of this file in a form that our tools can easily process.
 #reader(lib "htdp-beginner-abbr-reader.ss" "lang")((modname AA-arrangements) (read-case-sensitive #t) (teachpacks ((lib "arrangements-teachpack.rkt" "installed-teachpacks"))) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ((lib "arrangements-teachpack.rkt" "installed-teachpacks")))))
-;; Prog 1: Rearranging Words
+;; Prog 2: Rearranging Words
 ; Andrew Amis
 ; Started: 3.5.12
 ; Ended: ?
@@ -17,36 +17,60 @@
 
 ;; insert-after-letter : 1string word -> list-of-words
 ; Inserts letters on the inside and at the end of the word
-(define 
+(define (insert-after-letter str word)
+  (cond
+    [(empty? word) empty]
+    [(cons? word)
+     (cons (car word) (insert-after-letter str (cdr word)))]))
+
+;; add-to-beginning :  1string list-of-words -> list-of-words
+; Adds the 1string to the start of the list of words
+(define (add-to-beginning str words)
+  (cond
+    [(empty? words) empty]
+    [(cons? words)
+     (cons (cons str (car words)) (add-to-beginning str (cdr words)))]))
+
+
+(check-expect (add-to-beginning "a" '(("b" "c")
+                                      ("d" "e")))
+              '(("a" "b" "c")
+                ("a" "d" "e")))
+(check-expect (add-to-beginning "x" '(("b" "c" "f")
+                                      ("d" "e" "f")))
+              '(("x" "b" "c" "f")
+                ("x" "d" "e" "f")))
 
 ;; insert-in-word : 1string word -> list-of-words
 ; Inserts the 1string at the front of, behind, and in the middle of the given
 ; word
+
 (define (insert-in-word str word)
   (cond
-    [(empty? word) (list (append word (list str)))]
-    #;[(empty? (car word)) (list (append word (list str)))]
+    [(empty? word) (list (list str))]
     [(cons? word)
-     (append (insert-in-word str (cdr word))
-            
-    #;[(= 1 (length word)) `(,(append (list str) word)
-                             ,(append word (list str)))]
-    #;[(= 2 (length word)) `(,(append (list str) word)
-                             ,(append (list (car word)) (list str) (cdr word))
-                             ,(append word (list str)))]))
+     (cons
+      (cons str word)
+      (add-to-beginning (first word) (insert-in-word str (cdr word))))]))
+
+#;[(= 1 (length word)) `(,(append (list str) word)
+                         ,(append word (list str)))]
+#;[(= 2 (length word)) `(,(append (list str) word)
+                         ,(append (list (car word)) (list str) (cdr word))
+                         ,(append word (list str)))]
 
 
-(check-expect (insert-in-word "d" empty) empty)
-(check-expect (insert-in-word "d" '("a")) '(("d" "a") ("a" "d")))
+(check-expect (insert-in-word "d" empty) (list (list "d")))
+(check-expect (insert-in-word "d" '("a")) '(("d" "a")
+                                            ("a" "d")))
 (check-expect (insert-in-word "d" '("e" "r")) '(("d" "e" "r")
-                                                ("e" "d" "r") ("e" "r" "d")))
-#;(check-expect (same-word-set?
-               (insert-in-word "d" '("e" "r" "t"))
-               '(("d" "e" "r" "t")
-                 ("e" "d" "r" "t")
-                 ("e" "r" "d" "t")
-                 ("e" "r" "t" "d")))
-              true)
+                                                ("e" "d" "r")
+                                                ("e" "r" "d")))
+(check-expect (insert-in-word "d" '("e" "r" "t"))
+              '(("d" "e" "r" "t")
+                ("e" "d" "r" "t")
+                ("e" "r" "d" "t")
+                ("e" "r" "t" "d")))
 
 
 
