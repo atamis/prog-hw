@@ -1,0 +1,36 @@
+What did you do in class this week? How did you make use of your time?
+I worked on the arrangements assignment and the abstract functions
+question.
+
+What words and concepts were new to you this week, and what do they mean?
+Nothing.
+
+If you created anything new, what was it?
+I've been working a game-thing tentatively called spacegamecraft
+(another excellent name) in Java.
+
+What new questions or goals do you have?
+Get to anonymous functions faster.
+
+Did this week's studies give you any ideas of things you could create?
+Not really.
+
+What was good about this week?
+Finally finished the arrangement assignment.
+
+What would you like to change-what can you do better?
+Nothing. I am flawless.
+
+What would you like me to change-what can I, the teacher, do better?
+More anonymous functions.
+
+Do you have any other comments?
+I'm wondering how to structure the actual game part of the Java game. I
+could use the racket big-bang theory, but I get the feeling that, while
+it'll work in Java, it won't be as efficient and may result in some code
+bloat. My previous games have used a stack-based system where you push
+or pop a state to move forward or back between menu systems and the
+game. This works okay, but it's not quite what I'm looking for, and I
+was wondering if you had any advice.
+
+
