@@ -4,7 +4,7 @@
 ;; Prog 2 Asg #7: Abstracting Functions
 ; Andrew Amis
 ; Started: 3/7/12
-; Ended: ?
+; Ended: 3/8/12
 ; http://fellowhuman.com/gbk/2012/03/05/prog-2-asg-7-abstracting-functions/
 ; Exercises 188, 189, and 190, with modifications.
 
