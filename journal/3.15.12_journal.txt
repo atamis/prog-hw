@@ -1,0 +1,28 @@
+What did you do in class this week? How did you make use of your time?
+Played around with lambda!
+
+What words and concepts were new to you this week, and what do they mean?
+Nothing really.
+
+If you created anything new, what was it?
+Nothing really.
+
+What new questions or goals do you have?
+How did I ever live without lambdas?
+
+Did this week's studies give you any ideas of things you could create?
+Nothing specific.
+
+What was good about this week?
+Learned about lambdas and local bindings. Racket approaches usefulness
+
+What would you like to change-what can you do better?
+
+
+What would you like me to change-what can I, the teacher, do better?
+
+
+Do you have any other comments?
+LAMBDAS!
+
+
