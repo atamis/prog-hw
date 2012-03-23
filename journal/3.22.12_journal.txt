@@ -1,0 +1,42 @@
+What did you do in class this week? How did you make use of your time?
+I worked on assignments.
+
+What words and concepts were new to you this week, and what do they mean?
+I hadn't thought of currying as a separate function, only as an integral
+part of Haskell. That was new.
+
+If you created anything new, what was it?
+Just assignment stuff.
+
+What new questions or goals do you have?
+I'm interested in Haskell again. I keep wondering if I should build
+something big in it, but then I realize that I'd probably overreach and
+become discouraged. That being said, I think that the class should cover
+either C or Haskell next, though there's a good chance we won't get that
+far.
+
+Did this week’s studies give you any ideas of things you could create?
+I keep thinking about how crappy email is as a communication medium, and
+how much better it could be. Then I realize that nothing anybody will
+ever create (within at least 5-10 years) will ever replace email.
+
+What was good about this week?
+When I'm not working with Raphie on the small assignments, I'm quite
+fast.
+
+What would you like to change-what can you do better?
+Do more programming outside class. It's just a little depressing.
+
+What would you like me to change-what can I, the teacher, do better?
+I was waiting for you to tell us to write map and fold[l|r] for
+Ancestor. I was a little disappointed you didn't tell us to. But not
+disappointed enough to write it on my own and incorporate it into my
+submission.
+
+Do you have any other comments?
+As languages go, this style of Racket isn't particularly space
+efficient. What with comments and tests, it's not uncommon to reach
+hundreds of lines of code for each assignment. This is particularly
+noticeable in the largest assignments like games and such.
+
+
