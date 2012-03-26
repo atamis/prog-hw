@@ -57,8 +57,25 @@
                      (anc-foldf fxn base (person-mother ancestor))
                      (person-father ancestor)))]))
 
-(check-expect (anc-foldm (lambda (ancestor number) (add1 number)) 0 victor)
-              (anc-foldf (lambda (ancestor number) (add1 number)) 0 victor))
+(define (anc-add1 anc num) (add1 num))
+
+(check-expect (anc-foldm anc-add1 0 victor)
+              (anc-foldf anc-add1 0 victor))
+
+(check-expect (anc-foldm anc-add1 0 'unknown) 0)
+
+;; anc-foldr : {ancestor Y Y -> Y} Y ancestor -> Y
+; Foldr, but for ancestor. Function takes the current ancestor, then the result
+; of applying the function to the mother's tree, then the father's tree.
+(define (anc-foldr fxn base anc)
+  (cond
+    [(unknown? anc) base]
+    [else
+     (fxn anc
+          (anc-foldr fxn base (person-mother anc))
+          (anc-foldr fxn base (person-father anc)))]))
+
+(check-expect (anc-foldr (lambda (ancestor mom pop) (+ 1 mom pop)) 0 victor) 7)
 
 ;; count-known-family : ancestor -> number
 ; Counts family members
