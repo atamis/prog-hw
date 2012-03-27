@@ -4,7 +4,7 @@
 ;; Prog 2 Asg #12: More Trees
 ; Andrew Amis
 ; Started: 3.27.12
-; Ended: ?
+; Ended: 3.27.12
 ; http://fellowhuman.com/gbk/2012/03/26/prog-2-asg-more-trees/
 
 
