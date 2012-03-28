@@ -21,14 +21,14 @@
       [else
        (bt-node-value node)
        (fun-for-bt-node (bt-node-L node))
-       (fun-for-bt-node (bt-node-r node))]))
+       (fun-for-bt-node (bt-node-R node))]))
 #;(define (fun-for-bt-node node)
     (cond
       [(empty? node) ...]
       [else
        (make-bt-node (bt-node-value node)
                      (fun-for-bt-node (bt-node-L node))
-                     (fun-for-bt-node (bt-node-r node)))]))
+                     (fun-for-bt-node (bt-node-R node)))]))
 
 
 
