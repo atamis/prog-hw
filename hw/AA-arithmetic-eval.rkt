@@ -4,7 +4,7 @@
 ;; Prog 2 Asg #13: Evaluating Arithmetic
 ; Andrew Amis
 ; Started: 3.28.11
-; Ended: ?
+; Ended: 3.29.11
 ; http://fellowhuman.com/gbk/2012/03/27/prog-2-asg-evaluating-arithmetic/
 
 
@@ -231,7 +231,7 @@
          [(symbol=? op '+) (make-add left right)]
          [(symbol=? op '-) (make-sub left right)]
          [(symbol=? op '*) (make-mul left right)]
-         [(symbol=? op '/) (make-div left right)]))]))    
+         [(symbol=? op '/) (make-div left right)]))]))
 
 (check-expect (sexp->expr 3) 3)
 (check-expect (sexp->expr 'x) 'x)
