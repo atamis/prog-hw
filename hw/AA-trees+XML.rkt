@@ -564,3 +564,150 @@ true
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Xexpr 2 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; An xexpr is either a (cons TagName listof[xexpr]) or a string.
+; A TagName is a symbol, such as one of the following:
+;   'html 'head 'title 'body 'p 'blockquote 'em 'strong 'code
+;   'h1 'h2 'h3 'h4 'h5 'h6
+; A listof[xexpr] is either empty or (cons xexpr listof[xexpr]).
+
+#;(define (fun-for-xexpr xexpr)
+    (cond
+      [(string? xexpr) ...]
+      [(cons? xexpr)
+       (car xexpr)
+       (fun-for-list-of-xexpr (cdr xexpr))]))
+
+#;(define (fun-for-list-of-xexpr list)
+    (cond
+      [(empty? list) ...]
+      [(cons? list)
+       (fun-for-xexpr (car list))
+       (fun-for-list-of-xexpr (cdr list))]))
+
+#;(define (fun-for-xexpr xexpr)
+    (letrec
+        ([for-xexpr (λ (xexpr)
+                      (cond
+                        [(string? xexpr) ...]
+                        [(cons? xexpr)
+                         (car xexpr)
+                         (for-list (cdr xexpr))]))]
+         [for-list (λ (list)
+                     (cond
+                       [(empty? list) ...]
+                       [(cons? list)
+                        (for-xexpr (car list))
+                        (for-list (cdr list))]))])
+      (for-xexpr xexpr)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Xexpr 3 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+#|
+An <code>xexpr</code> is either a <code>(cons symbol listof[xexpr])</code>
+or a string.
+A <code>TagName</code> is a symbol, such as one of the following:
+  ...
+A <code>listof[xexpr]</code> is either empty or
+<code>(cons xexpr listof[xexpr])</code>.
+|#
+
+(define xexpr1 '(p "An " (code "xexpr") " is either a "
+                       (code "(cons symbol listof[xexpr])") " or a string. A "
+                       (code "TagName")
+                       " is a symbol, such as one of the following: ... A"
+                       (code "listof[xexpr]") " is either empty or"
+                       (code "(cons xexpr listof[xexpr])") "."))
+
+(define xexpr2 '(html (head (title "My Awesome Page"))
+                      (body
+                       (h1 "My Awesome Page")
+                       (p "I just love the internet")
+                       (p "Isn't this gif of a dancing baby awesome?!"))))
+
+(define xexpr3 '(p "Let's use " (strong "bold") ", eh?"))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Xexpr 4 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; count-elements : xexpr -> number
+; Counts the symbols in a given xexpr.
+(define (count-elements xexpr)
+  (letrec
+      ([for-xexpr (λ (xexpr)
+                    (cond
+                      [(string? xexpr) 0]
+                      [(cons? xexpr)
+                       (+ (if (symbol? (car xexpr))
+                              1 0)
+                          (for-list (cdr xexpr)))]))]
+       [for-list (λ (list)
+                   (foldl (λ (x folded)
+                            (+ (for-xexpr x) folded)) 0 list))])
+    (for-xexpr xexpr)))
+
+(check-expect (count-elements xexpr1) 6)
+(check-expect (count-elements xexpr2) 7)
+(check-expect (count-elements xexpr3) 2)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Xexpr 5 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; xexpr->text : xexpr -> listof[string]
+; Puts all the text in the xexpr into a list
+(define (xexpr->text xexpr)
+  (letrec
+      ;; xexpr->listof[string]
+      ([for-xexpr (λ (xexpr)
+                    (cond
+                      [(string? xexpr) xexpr]
+                      [(cons? xexpr)
+                       (for-list (cdr xexpr))]))]
+       ;; xexpr->listof[string]
+       [for-list (λ (list)
+                   (cond
+                     [(empty? list) empty]
+                     [(cons? list)
+                      (append (let ([x (for-xexpr (car list))])
+                                (if (not (cons? x))
+                                    (cons x empty)
+                                    x))
+                            (for-list (cdr list)))]))])
+    (for-xexpr xexpr)))
+
+
+(check-expect (xexpr->text xexpr1)
+              '("An " "xexpr" " is either a "
+                      "(cons symbol listof[xexpr])" " or a string. A "
+                      "TagName"
+                      " is a symbol, such as one of the following: ... A"
+                      "listof[xexpr]" " is either empty or"
+                      "(cons xexpr listof[xexpr])" "."))
+(check-expect (xexpr->text xexpr2)
+              '("My Awesome Page"
+                "My Awesome Page"
+                "I just love the internet"
+                "Isn't this gif of a dancing baby awesome?!"))
+(check-expect (xexpr->text xexpr3)
+              '("Let's use " "bold" ", eh?"))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Xexpr 5 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; find-tags : xexpr -> listof[symbol]
+; Returns a list of all the symbols in the xexpr.
+(define (find-tags xexpr)
+    (letrec
+        ([for-xexpr (λ (xexpr)
+                      (cond
+                        [(string? xexpr) empty]
+                        [(cons? xexpr)
+                         (cons (car xexpr)
+                                 (for-list (cdr xexpr)))]))]
+         [for-list (λ (list)
+                     (cond
+                       [(empty? list) empty]
+                       [(cons? list)
+                        (append (for-xexpr (car list))
+                        (for-list (cdr list)))]))])
+      (for-xexpr xexpr)))
+(check-expect (find-tags xexpr1) '(p code code code code code))
+(check-expect (find-tags xexpr2) '(html head title body h1 p p))
+(check-expect (find-tags xexpr3) '(p strong))
