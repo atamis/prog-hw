@@ -4,7 +4,7 @@
 ;; Prog 2 Asg #15: Trees/XML
 ; Andrew Amis
 ; Started: 4.13.12
-; Ended: ?
+; Ended: 4.18.12
 ; http://fellowhuman.com/gbk/2012/04/13/prog-2-asg-web-pages-revisited/
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 15.1.1 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -711,3 +711,39 @@ A <code>listof[xexpr]</code> is either empty or
 (check-expect (find-tags xexpr1) '(p code code code code code))
 (check-expect (find-tags xexpr2) '(html head title body h1 p p))
 (check-expect (find-tags xexpr3) '(p strong))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Xexpr Bonus ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; unparse-xexpr : xexpr -> string
+; Converts a xexpr to raw html.
+(define (unparse-xexpr xexpr)
+  (letrec
+      ([for-xexpr (λ (xexpr)
+                    (cond
+                      [(string? xexpr) xexpr]
+                      [(cons? xexpr)
+                       (let ([tag (symbol->string (car xexpr))])
+                         (string-append "<" tag ">"
+                                        (for-list (cdr xexpr))
+                                        "</" tag ">"))]))]
+       [for-list (λ (list)
+                   (cond
+                     [(empty? list) ""]
+                     [(cons? list)
+                      (string-append (for-xexpr (car list))
+                                     (for-list (cdr list)))]))])
+    (for-xexpr xexpr)))
+(check-expect (unparse-xexpr xexpr1)
+              (string-append "<p>An <code>xexpr</code> is either a <code>"
+                             "(cons symbol listof[xexpr])</code> or a string."
+                             " A <code>TagName</code> is a symbol, such as one"
+                             " of the following: ... A<code>listof[xexpr]"
+                             "</code> is either empty or<code>"
+                             "(cons xexpr listof[xexpr])</code>.</p>"))
+(check-expect (unparse-xexpr xexpr2)
+              (string-append "<html><head><title>My Awesome Page</title>"
+                             "</head><body><h1>My Awesome Page</h1><p>I "
+                             "just love the internet</p><p>Isn't this gif "
+                             "of a dancing baby awesome?!</p></body></html>"))
+(check-expect (unparse-xexpr xexpr3)
+              (string-append "<p>Let's use <strong>bold</strong>, eh?</p>"))
