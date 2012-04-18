@@ -37,8 +37,8 @@
 ;                                                                 
 
 ;; General constants
-(define WIDTH 100)
-(define HEIGHT 100)
+(define WIDTH 200)
+(define HEIGHT 200)
 (define WORLD-SCALE 3)
 
 
@@ -153,11 +153,9 @@
 ; Converts a dir to a posn-vector of magnitude 1.
 (define (dir->posn dir)
   (cond
-    [(symbol=? dir 'up) (make-posn 0 -1)]
-    [(symbol=? dir 'down) (make-posn 0 1)]
+    [(symbol=? dir 'up) (make-posn 0 -1)][(symbol=? dir 'down) (make-posn 0 1)]
     [(symbol=? dir 'left) (make-posn -1 0)]
     [(symbol=? dir 'right) (make-posn 1 0)]))
-
 (check-expect (dir->posn 'up) (make-posn 0 -1))
 (check-expect (dir->posn 'down) (make-posn 0 1))
 (check-expect (dir->posn 'left) (make-posn -1 0))
@@ -169,7 +167,7 @@
 (define (dir-opposite? dir1 dir2)
   (let ([p1 (dir->posn dir1)]
         [p2 (dir->posn dir2)])
-        (posn=? (make-posn 0 0) (add-posns p1 p2))))
+    (posn=? (make-posn 0 0) (add-posns p1 p2))))
 (check-expect (dir-opposite? 'right 'left) true)
 (check-expect (dir-opposite? 'left 'right) true)
 (check-expect (dir-opposite? 'up 'down) true)
@@ -191,18 +189,15 @@
 ;  food : location of food on the board
 ; or false, representing a world ready to quit.
 
-(define world1 (make-world (list (make-posn 50 50)
-                                 (make-posn 50 51)
+(define world1 (make-world (list (make-posn 50 50) (make-posn 50 51)
                                  (make-posn 50 52))
-                           'up
-                           (list (make-posn 60 60))))
+                           'up (list (make-posn 60 60))))
 
 ;; Template
 #;(define (fun-for-world world)
     (world-snake world)
     (world-dir world)
     (world-food world))
-
 #;(define (fun-for-world world)
     (make-world (world-snake world)
                 (world-dir world)
@@ -236,23 +231,18 @@
       false
       (make-world
        (world-snake world)
-       (if (or (key=? key move-right)
-               (key=? key move-left)
-               (key=? key move-up)
+       (if (or (key=? key move-right) (key=? key move-left) (key=? key move-up)
                (key=? key move-down))
            (cond
              [(dir-opposite? (string->symbol key) (world-dir world))
               (world-dir world)]
-             [(key=? key move-right) 'right]
-             [(key=? key move-left) 'left]
-             [(key=? key move-down) 'down]
-             [(key=? key move-up) 'up])
+             [(key=? key move-right) 'right] [(key=? key move-left) 'left]
+             [(key=? key move-down) 'down] [(key=? key move-up) 'up])
            (world-dir world))
        (world-food world))))
-(check-expect (handle-keyboard (make-world (list
-                                            (make-posn 50 50)
-                                            (make-posn 50 51)
-                                            (make-posn 50 52))
+(check-expect (handle-keyboard (make-world (list (make-posn 50 50)
+                                                 (make-posn 50 51)
+                                                 (make-posn 50 52))
                                            'up
                                            (list (make-posn 60 60)))
                                move-up)
@@ -261,10 +251,9 @@
                                 (make-posn 50 52))
                           'up
                           (list (make-posn 60 60))))
-(check-expect (handle-keyboard (make-world (list
-                                            (make-posn 50 50)
-                                            (make-posn 50 51)
-                                            (make-posn 50 52))
+(check-expect (handle-keyboard (make-world (list (make-posn 50 50)
+                                                 (make-posn 50 51)
+                                                 (make-posn 50 52))
                                            'up
                                            (list (make-posn 60 60)))
                                move-left)
@@ -273,10 +262,9 @@
                                 (make-posn 50 52))
                           'left
                           (list (make-posn 60 60))))
-(check-expect (handle-keyboard (make-world (list
-                                            (make-posn 50 50)
-                                            (make-posn 50 51)
-                                            (make-posn 50 52))
+(check-expect (handle-keyboard (make-world (list (make-posn 50 50)
+                                                 (make-posn 50 51)
+                                                 (make-posn 50 52))
                                            'up
                                            (list (make-posn 60 60)))
                                move-right)
@@ -285,10 +273,9 @@
                                 (make-posn 50 52))
                           'right
                           (list (make-posn 60 60))))
-(check-expect (handle-keyboard (make-world (list
-                                            (make-posn 50 50)
-                                            (make-posn 50 51)
-                                            (make-posn 50 52))
+(check-expect (handle-keyboard (make-world (list (make-posn 50 50)
+                                                 (make-posn 50 51)
+                                                 (make-posn 50 52))
                                            'up
                                            (list (make-posn 60 60)))
                                move-down)
@@ -297,10 +284,9 @@
                                 (make-posn 50 52))
                           'up
                           (list (make-posn 60 60))))
-(check-expect (handle-keyboard (make-world (list
-                                            (make-posn 50 50)
-                                            (make-posn 50 51)
-                                            (make-posn 50 52))
+(check-expect (handle-keyboard (make-world (list (make-posn 50 50)
+                                                 (make-posn 50 51)
+                                                 (make-posn 50 52))
                                            'up
                                            (list (make-posn 60 60)))
                                "d")
@@ -310,18 +296,16 @@
                            (make-posn 50 52))
                           'up
                           (list (make-posn 60 60))))
-(check-expect (handle-keyboard (make-world (list
-                                            (make-posn 50 50)
-                                            (make-posn 50 51)
-                                            (make-posn 50 52))
+(check-expect (handle-keyboard (make-world (list (make-posn 50 50)
+                                                 (make-posn 50 51)
+                                                 (make-posn 50 52))
                                            'up
                                            (list (make-posn 60 60)))
                                "escape")
               false)
-(check-expect (handle-keyboard (make-world (list
-                                            (make-posn 50 50)
-                                            (make-posn 50 51)
-                                            (make-posn 50 52))
+(check-expect (handle-keyboard (make-world (list (make-posn 50 50)
+                                                 (make-posn 50 51)
+                                                 (make-posn 50 52))
                                            'up
                                            (list (make-posn 60 60)))
                                "q")
@@ -402,10 +386,10 @@
                        (random HEIGHT))
             DEFAULT-FOOD)
         foods))
-      
+
 (check-expect (add-more-food (list (make-posn 10 10)))
-                             (list DEFAULT-FOOD
-                                   (make-posn 10 10)))
+              (list DEFAULT-FOOD
+                    (make-posn 10 10)))
 
 ;; expand-snake : listof[posn] dir -> listof[posn]
 ; Adds another body segment to the snake.
@@ -446,7 +430,7 @@
     [(cons? snake)
      (or
       (ormap (lambda (posn) (posn=? (car snake) posn)) (cdr snake))
-         (snake-collide-snake? (cdr snake)))]))
+      (snake-collide-snake? (cdr snake)))]))
 
 (check-expect (snake-collide-snake?
                (list (make-posn 0 0)))
@@ -521,8 +505,8 @@
       false
       (handle-food (make-world (move-snake
                                 (world-snake world) (world-dir world))
-                           (world-dir world)
-                           (world-food world)))))
+                               (world-dir world)
+                               (world-food world)))))
 
 (check-expect (handle-tick (make-world (list (make-posn 50 50)
                                              (make-posn 50 51)
@@ -682,24 +666,24 @@
 ; Draws the player's score onto the screen.
 (define (draw-score snake image)
   (place-image/align (text (number->string (length snake))
-                                           TEXT-SIZE TEXT-COLOR)
-               2 2
-               'left 'top
-               image))
+                           TEXT-SIZE TEXT-COLOR)
+                     2 2
+                     'left 'top
+                     image))
 (check-expect (draw-score (list (make-posn 50 50)
                                 (make-posn 50 51)
                                 (make-posn 50 53))
                           MT)
               (place-image/align (text "3" TEXT-SIZE TEXT-COLOR)
-               2 2
-               'left 'top
-               MT))
+                                 2 2
+                                 'left 'top
+                                 MT))
 (check-expect (draw-score (list (make-posn 50 50))
                           MT)
               (place-image/align (text "1" TEXT-SIZE TEXT-COLOR)
-               2 2
-               'left 'top
-               MT))
+                                 2 2
+                                 'left 'top
+                                 MT))
 
 
 ;; draw-world : world -> image
@@ -709,11 +693,12 @@
          (if (false? world)
              (empty-scene WIDTH HEIGHT 'black)
              (draw-score (world-snake world)
-                     (draw-direction (first (world-snake world))
-                                     (world-dir world)
-                                     (draw-snake (world-snake world)
-                                                 (draw-food (world-food world)
-                                                            MT)))))))
+                         (draw-direction (first (world-snake world))
+                                         (world-dir world)
+                                         (draw-snake (world-snake world)
+                                                     (draw-food
+                                                      (world-food world)
+                                                      MT)))))))
 (check-expect (draw-world (make-world (list (make-posn 50 50)
                                             (make-posn 50 51)
                                             (make-posn 50 53))
@@ -754,11 +739,11 @@
 
 (define (main x)
   (big-bang (make-world (build-list x (lambda (y) (make-posn 50 (+ y 50))))
-                      'up
-                      (list (make-posn 60 60)
-                            (make-posn 30 30)))
-          (on-tick handle-tick)
-          (on-key handle-keyboard)
-          (stop-when boolean?)
-          (to-draw draw-world)))
+                        'up
+                        (list (make-posn 60 60)
+                              (make-posn 30 30)))
+            (on-tick handle-tick)
+            (on-key handle-keyboard)
+            (stop-when boolean?)
+            (to-draw draw-world)))
 
