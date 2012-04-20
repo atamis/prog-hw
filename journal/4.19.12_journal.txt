@@ -1,0 +1,28 @@
+What did you do in class this week? How did you make use of your time?
+Worked on assignments in class.
+
+What words and concepts were new to you this week, and what do they mean?
+Representings sets with functions and coinductive definitions.
+
+If you created anything new, what was it?
+I have some half-finished priority-queue code.
+
+What new questions or goals do you have?
+None.
+
+Did this week’s studies give you any ideas of things you could create?
+Not really.
+
+What was good about this week?
+Some assignments got a little tough.
+
+What would you like to change-what can you do better?
+Complete assignments even faster?
+
+What would you like me to change-what can I, the teacher, do better?
+
+
+Do you have any other comments?
+Best resource to learn C++? Did I miss a journal.
+
+
