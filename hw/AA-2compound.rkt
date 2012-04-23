@@ -34,7 +34,7 @@
 ; phone-records made by combining the first item of the list of names
 ; with the first item from the list of numbers, etc.
 (define (zip slist nlist)
-  (dlist-map make-phone-record slist nlist))
+  (map make-phone-record slist nlist))
 
 (check-expect (zip empty empty) empty)
 (check-expect (zip (list "test") (list 4)) (list (make-phone-record "test" 4)))
@@ -53,7 +53,7 @@
 ;; hours->wages2 : listof[worker] listof[card] -> listof[wage]
 ; Computes wages for each employee
 (define (hours->wages2 workers cards)
-  (dlist-map (λ (worker card)
+  (map (λ (worker card)
                (make-wage
                 (worker-id worker)
                 (* (worker-wage worker)
@@ -78,7 +78,7 @@
 ; Takes two lists of numbers, and multiplies the numbers together in concert
 ; a_n * x_n, etc., then sums that.
 (define (linear-combination a x)
-  (foldl + 0 (dlist-map * a x)))
+  (foldl + 0 (map * a x)))
 
 (check-expect (linear-combination '(1 2 3) '(3 2 1)) 10)
 (check-expect (linear-combination '(3 3 3) '(3 2 1)) 18)
@@ -93,7 +93,7 @@
                   (cond
                     [(empty? prefix) true]
                     [(cons? prefix)
-                     (and (symbol=? (car prefix) (car string))
+                     (and (equal? (car prefix) (car string))
                           (fxn (cdr prefix) (cdr string)))]))])
     
     (if (<= (length prefix) (length string))
@@ -126,8 +126,8 @@
 ; Returns a list of strings that appears in both the lists, but not one.
 (define (intersection l1 l2)
   (map car
-   (filter (λ (x) (string=? (car x) (cadr x)))
-          (all-possibles l1 l2))))
+       (filter (λ (x) (string=? (car x) (cadr x)))
+               (all-possibles l1 l2))))
 
 (check-expect (intersection '("test" "awesome") '("test")) '("test"))
 (check-expect (intersection '("test" "awesome") '("asdf")) empty)
@@ -138,12 +138,62 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Union ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; union
+;; set-difference : list list -> list
+; Subtracts the 2nd list from the first, ensuring that the resulting list has
+; no elements from the 2nd list.
+(define (set-difference l1 l2)
+  (filter (λ (l1-el)
+            (not (member? l1-el l2)))
+          l1))
+(check-expect (set-difference '(test) empty) '(test))
+(check-expect (set-difference '(test awesome) '(awesome)) '(test))
+(check-expect (set-difference '(test awesome) '(awesome asdf)) '(test))
 
+;; union -> listof[string] listof[string] -> listof[string]
+; Returns a list of strings that appears at least one of the given lists.
+(define (union l1 l2)
+  (append l1 (set-difference l2 l1)))
 
-(check-expect (intersection '("test" "awesome") '("test")) '("awesome"))
-(check-expect (intersection '("test" "awesome") '("asdf")) empty)
-(check-expect (intersection empty '("asdf")) empty)
-(check-expect (intersection '("test" "awesome")
-                            '("test" "awesome" "adsf"))
-              '("test" "awesome"))
+(check-expect (union '("test" "awesome") '("test")) '("test" "awesome"))
+(check-expect (union '("test" "awesome") '("asdf")) '("test" "awesome" "asdf"))
+(check-expect (union empty '("asdf")) '("asdf"))
+(check-expect (union '("test" "awesome")
+                     '("test" "awesome" "asdf"))
+              '("test" "awesome" "asdf"))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Substring ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; empty-string? string -> boolean
+; Returns whether this is an empty string.
+(define (empty-string? x) (string=? x ""))
+(check-expect (empty-string? "") true)
+(check-expect (empty-string? "f") false)
+
+;; chop-first-char : string -> string
+; Chops the first character of the given string.
+(define (chop-first-char s) (substring s 1))
+(check-expect (chop-first-char "test") "est")
+(check-expect (chop-first-char "asdf") "sdf")
+
+;; substring? : string string -> boolean
+; Returns true if the first string is a substring of the 2nd string.
+(define (substring? pattern string)
+  (letrec ([fxn (λ (pattern list)
+                  (cond
+                    [(empty? list) false]
+                    [(cons? list)
+                     (or
+                      (DNAprefix pattern list)
+                      (fxn pattern (cdr list)))]))])
+    (fxn (string->list pattern)
+          (string->list string))))
+(check-expect (substring? "ab" "babble") true)
+(check-expect (substring? "xyz" "abcdef") false)
+(check-expect (substring? "" "some string") true)
+(check-expect (substring? "ab" "xycdab") true)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Subsequence ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(subsequence? "brow" "The quick brown fox") true
+(subsequence? "box" "The quick brown fox") true
+(subsequence? "frown" "The quick brown fox") false
