@@ -54,12 +54,14 @@
 ; Computes wages for each employee
 (define (hours->wages2 workers cards)
   (map (λ (worker card)
-               (make-wage
-                (worker-id worker)
-                (* (worker-wage worker)
-                   (card-hours card))))
-             (sort workers (λ (a b) (< (worker-id a) (worker-id b))))
-             (sort cards (λ (a b) (< (card-id a) (card-id b))))))
+         (if (not (= (worker-id worker) (card-id card)))
+             (error "id mismatch, check for missing records")
+             (make-wage
+              (worker-id worker)
+              (* (worker-wage worker)
+                 (card-hours card)))))
+       (sort workers (λ (a b) (< (worker-id a) (worker-id b))))
+       (sort cards (λ (a b) (< (card-id a) (card-id b))))))
 
 (check-expect (hours->wages2 (list (make-worker 1 "Alice" 40)
                                    (make-worker 2 "Bob" 40)
@@ -70,6 +72,11 @@
               (list (make-wage 1 2000)
                     (make-wage 2 3000)
                     (make-wage 3 4500)))
+(check-error (hours->wages2 (list (make-worker 1 "Alice" 40)
+                                   (make-worker 2 "Bob" 40))
+                             (list (make-card 3 100)
+                                   (make-card 2 75)))
+              "id mismatch, check for missing records")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Exercise 17.6.4 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -95,7 +102,6 @@
                     [(cons? prefix)
                      (and (equal? (car prefix) (car string))
                           (fxn (cdr prefix) (cdr string)))]))])
-    
     (if (<= (length prefix) (length string))
         (fxn prefix string)
         false)))
@@ -178,22 +184,54 @@
 ;; substring? : string string -> boolean
 ; Returns true if the first string is a substring of the 2nd string.
 (define (substring? pattern string)
-  (letrec ([fxn (λ (pattern list)
-                  (cond
-                    [(empty? list) false]
-                    [(cons? list)
-                     (or
-                      (DNAprefix pattern list)
-                      (fxn pattern (cdr list)))]))])
-    (fxn (string->list pattern)
-          (string->list string))))
+  (letrec ([substring-list (λ (pattern list)
+                             (cond
+                               [(empty? list) false]
+                               [(cons? list)
+                                (or
+                                 (DNAprefix pattern list)
+                                 (substring-list pattern (cdr list)))]))])
+    (substring-list (string->list pattern)
+                    (string->list string))))
 (check-expect (substring? "ab" "babble") true)
 (check-expect (substring? "xyz" "abcdef") false)
 (check-expect (substring? "" "some string") true)
 (check-expect (substring? "ab" "xycdab") true)
+(check-expect (substring? "abc" "abacus abcdef") true)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Subsequence ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(subsequence? "brow" "The quick brown fox") true
-(subsequence? "box" "The quick brown fox") true
-(subsequence? "frown" "The quick brown fox") false
+
+;; subsequence? : string string -> boolean
+; Returns whether the first string is a subsequence of the second. That is,
+; that all the letters in the first string occur in the second string with
+; any number of characters between them.
+(define (subsequence? pattern string)
+  (letrec ([for-list (λ (pattern list)
+                       (cond
+                         [(empty? pattern) true]
+                         [(and (empty? list) (not (empty? pattern))) false]
+                         [(cons? list)
+                          (if (equal? (car pattern) (car list))
+                              (for-list (cdr pattern) (cdr list))
+                              (for-list pattern (cdr list)))]))])
+    (for-list (string->list pattern)
+              (string->list string))))
+
+(check-expect (subsequence? "brow" "The quick brown fox") true)
+(check-expect (subsequence? "box" "The quick brown fox") true)
+(check-expect (subsequence? "frown" "The quick brown fox") false)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; lcsubstring ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; lcsubstring : string string -> string
+; Returns the longest common substring between the 2 strings.
+(define (lcsubstring string1 string2)
+  (letrec ([for-list (λ (s1 s2) s1)])
+    (for-list (string->list string1) (string->list string1))))
+
+(check-expect (lcsubstring "mickey mouse" "minnie mouse's house") "mouse")
+(check-expect (lcsubstring "a" "a") "a")
+(check-expect (lcsubstring "a" "ab") "a")
+(check-expect (lcsubstring "asdfasdfasdf" "fasfasfasixzcvasfaweihsdf") "fas")
+
