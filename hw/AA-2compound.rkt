@@ -4,7 +4,7 @@
 ;; Prog 2 Asg #16: Two Compound Inputs
 ; Andrew Amis
 ; Started: 4.18.12
-; Ended: ?
+; Ended: 4.25.12
 ; http://fellowhuman.com/gbk/2012/04/16/prog-2-asg-two-compound-inputs/
 
 ;; dlist-map : {X Y -> Z} listof[X] listof[Y] -> listof[Z]
