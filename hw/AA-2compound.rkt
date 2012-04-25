@@ -73,10 +73,10 @@
                     (make-wage 2 3000)
                     (make-wage 3 4500)))
 (check-error (hours->wages2 (list (make-worker 1 "Alice" 40)
-                                   (make-worker 2 "Bob" 40))
-                             (list (make-card 3 100)
-                                   (make-card 2 75)))
-              "id mismatch, check for missing records")
+                                  (make-worker 2 "Bob" 40))
+                            (list (make-card 3 100)
+                                  (make-card 2 75)))
+             "id mismatch, check for missing records")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Exercise 17.6.4 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -184,13 +184,14 @@
 ;; substring? : string string -> boolean
 ; Returns true if the first string is a substring of the 2nd string.
 (define (substring? pattern string)
-  (letrec ([substring-list (λ (pattern list)
-                             (cond
-                               [(empty? list) false]
-                               [(cons? list)
-                                (or
-                                 (DNAprefix pattern list)
-                                 (substring-list pattern (cdr list)))]))])
+  (letrec ([substring-list
+            (λ (pattern list)
+              (cond
+                [(empty? list) false]
+                [(cons? list)
+                 (or
+                  (DNAprefix pattern list)
+                  (substring-list pattern (cdr list)))]))])
     (substring-list (string->list pattern)
                     (string->list string))))
 (check-expect (substring? "ab" "babble") true)
@@ -207,14 +208,15 @@
 ; that all the letters in the first string occur in the second string with
 ; any number of characters between them.
 (define (subsequence? pattern string)
-  (letrec ([for-list (λ (pattern list)
-                       (cond
-                         [(empty? pattern) true]
-                         [(and (empty? list) (not (empty? pattern))) false]
-                         [(cons? list)
-                          (if (equal? (car pattern) (car list))
-                              (for-list (cdr pattern) (cdr list))
-                              (for-list pattern (cdr list)))]))])
+  (letrec ([for-list
+            (λ (pattern list)
+              (cond
+                [(empty? pattern) true]
+                [(and (empty? list) (not (empty? pattern))) false]
+                [(cons? list)
+                 (if (equal? (car pattern) (car list))
+                     (for-list (cdr pattern) (cdr list))
+                     (for-list pattern (cdr list)))]))])
     (for-list (string->list pattern)
               (string->list string))))
 
@@ -224,14 +226,39 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; lcsubstring ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; substrings : string -> listof[string]
+; Returns a list of all possible substrings.
+(define (substrings string)
+  (cond
+    [(= (string-length string) 1) empty]
+    [else
+     (let ([fpart (substring string 0 (sub1 (string-length string)))]
+           [lpart (substring string 1 (string-length string))])
+       (append (list fpart lpart)
+               (substrings fpart)
+               (substrings lpart)))]))
+
+(check-expect (substrings "t") empty)
+(check-expect (substrings "ta") '("t" "a"))
+(check-expect (substrings "tad") '("ta" "ad" "t" "a" "a" "d"))
+(check-expect (substrings "tade") '("tad" "ade" "ta" "ad" "t" "a" "a" "d" "ad"
+                                          "de" "a" "d" "d" "e"))
+
 ;; lcsubstring : string string -> string
 ; Returns the longest common substring between the 2 strings.
 (define (lcsubstring string1 string2)
-  (letrec ([for-list (λ (s1 s2) s1)])
-    (for-list (string->list string1) (string->list string1))))
+  (foldl 
+   (λ (cur acu)
+     (if (substring? cur string2)
+         (if (> (string-length cur) (string-length acu))
+             cur
+             acu)
+         acu))
+   "" (cons string1 (substrings string1))))
 
-(check-expect (lcsubstring "mickey mouse" "minnie mouse's house") "mouse")
+(check-expect (lcsubstring "mickey mouse" "minnie mouse's house") " mouse")
 (check-expect (lcsubstring "a" "a") "a")
 (check-expect (lcsubstring "a" "ab") "a")
-(check-expect (lcsubstring "asdfasdfasdf" "fasfasfasixzcvasfaweihsdf") "fas")
+(check-expect (lcsubstring "asdfasdfasdf" "fasfasfasixzcvasfaweihsdf") "sdf")
+(check-expect (lcsubstring "x" "z") "")
 
