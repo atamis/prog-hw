@@ -1,0 +1,45 @@
+What did you do in class this week? How did you make use of your time?
+Worked on tetris. We finished all the tough bits. Now we need to make it fun and
+make it a game.
+
+What words and concepts were new to you this week, and what do they mean?
+Never heard of the difference between generative and structural recursion.
+Structural recursion is recursion whose progression and end is dictated by the
+structure of the data. Generative recursion is recursion on data whose end and
+structure don't necessarily fit the goal of the function, and such, you must use
+other methods to use the data and determine the end of recursion.
+
+If you created anything new, what was it?
+I wrote a quick and dirty prototype object model based on JS. Really quick and
+small. The current version fits in 90 lines with comments and tests. A slightly
+older version could fit in 8 80 char lines, with a bit of compression. File is
+attached.
+
+What new questions or goals do you have?
+The network game. That sounds like fun.
+
+Did this week’s studies give you any ideas of things you could create?
+There's another way to make a curve from 3 points. Take 3 points. Draw 2 lines
+between them. Let the points with 1 line attached be known as P1 and P2. Let the
+point with 2 lines attached be known as P3. These lines will form the "guide"
+for the curve. Upon those lines, place lots of points equidistant to their
+neighbors. Take P1. Take the point on the line defined by P2 and P3 closest to
+P3. Draw a line between P1 and that point. Move to the neighboring point on the
+P1P3 line closer to P3 than P1. Move to the neighboring point on the P2P3 line
+closer to P2 than P3. Draw a line. Repeat until you run out of points. THe lines
+should form a rough curve.
+
+
+What was good about this week?
+Wrote the bezier curve code, which was cool. Got Tetris working again.
+
+What would you like to change-what can you do better?
+
+
+What would you like me to change-what can I, the teacher, do better?
+
+
+Do you have any other comments?
+I'd like to write a network tank game.
+
+
