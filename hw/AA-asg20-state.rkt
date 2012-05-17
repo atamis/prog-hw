@@ -68,34 +68,34 @@
 ; Draws the traffic light as an image
 (define (display-light world)
   (above
-   (circle 10 'solid (dim (make-color 00 #xff 0)
-                          (if (symbol=? current-color 'green) 0 80)))
+   (circle 10 'solid (dim (make-color #xff 0 0)
+                          (if (symbol=? current-color 'red) 0 80)))
    (circle 10 'solid (dim (make-color #xff #xff 0)
                           (if (symbol=? current-color 'yellow) 0 80)))
-   (circle 10 'solid (dim (make-color #xff 0 0)
-                          (if (symbol=? current-color 'red) 0 80)))))
+   (circle 10 'solid (dim (make-color 00 #xff 0)
+                          (if (symbol=? current-color 'green) 0 80)))))
 
 (check-expect (begin (set! current-color 'green)
                      (display-light false))
               (above
-               (circle 10 'solid (make-color 0 255 0))
+               (circle 10 'solid (make-color 175 0 0))
                (circle 10 'solid (make-color 175 175 0))
-               (circle 10 'solid (make-color 175 0 0))))
+               (circle 10 'solid (make-color 0 255 0))))
 (check-expect (begin (set! current-color 'green)
                      (next)
                      (display-light false))
               (above
-               (circle 10 'solid (make-color 0 175 0))
+               (circle 10 'solid (make-color 175 0 0))
                (circle 10 'solid (make-color 255 255 0))
-               (circle 10 'solid (make-color 175 0 0))))
+               (circle 10 'solid (make-color 0 175 0))))
 (check-expect (begin (set! current-color 'green)
                      (next)
                      (next)
                      (display-light false))
               (above
-               (circle 10 'solid (make-color 0 175 0))
+               (circle 10 'solid (make-color 255 0 0))
                (circle 10 'solid (make-color 175 175 0))
-               (circle 10 'solid (make-color 255 0 0))))
+               (circle 10 'solid (make-color 0 175 0))))
 
 
 (define (key-handler world event)
@@ -173,14 +173,14 @@ master-check reads state
     [(or (symbol=? guess1 target1)
          (symbol=? guess2 target2)) 'OneColorAtCorrectPosition]
     [(or (symbol=? guess1 target2)
-         (symbol=? guess2 target2)) 'OneColorOccurs]
+         (symbol=? guess2 target1)) 'OneColorOccurs]
     [else 'NothingCorrect]))
 
 (check-expect (check-color 'red 'blue 'red 'blue) 'Perfect)
 (check-expect (check-color 'red 'blue 'green 'blue) 'OneColorAtCorrectPosition)
 (check-expect (check-color 'red 'blue 'red 'green) 'OneColorAtCorrectPosition)
-(check-expect (check-color 'red 'blue 'green 'blue) 'OneColorAtCorrectPosition)
-(check-expect (check-color 'red 'blue 'blue 'blue) 'OneColorAtCorrectPosition)
+(check-expect (check-color 'red 'blue 'green 'red) 'OneColorOccurs)
+(check-expect (check-color 'red 'blue 'blue 'green) 'OneColorOccurs)
 (check-expect (check-color 'red 'blue 'yellow 'green) 'NothingCorrect)
 
 ;; master-check : color color  ->  symbol
