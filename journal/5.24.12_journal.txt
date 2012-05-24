@@ -1,0 +1,30 @@
+What did you do in class this week? How did you make use of your time?
+Worked on the tank game and assignments.
+
+What words and concepts were new to you this week, and what do they mean?
+All the universe stuff was new.
+
+If you created anything new, what was it?
+Wrote a spernski triangle implementation thing.
+
+What new questions or goals do you have?
+We may have to mess around with the tank game protocol. Not sure we made the
+correct choices.
+
+Did this week’s studies give you any ideas of things you could create?
+Reimplement the modern web, with a markup language, hyperlinks, browser, etc.
+with big-bang and universe. Terrible idea.
+
+What was good about this week?
+New stuff!
+
+What would you like to change-what can you do better?
+Nothing.
+
+What would you like me to change-what can I, the teacher, do better?
+Nothing.
+
+Do you have any other comments?
+Nope.
+
+
