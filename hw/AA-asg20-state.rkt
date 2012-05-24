@@ -6,7 +6,8 @@
 ; http://fellowhuman.com/gbk/2012/05/16/prog-2-asg-20-state-part-ii/
 
 (require picturing-programs
-         test-engine/racket-tests)
+         test-engine/racket-tests
+         htdp/gui)
 
 ;; Data Def.: A TL-color is either 'green, 'yellow, or 'red. 
 
@@ -206,5 +207,42 @@ master ---w---> target[1|2] ---r---> master-check
 
 
 |#
+
+(define guess1 'black)
+(define guess2 'black)
+
+
+(define button-list1 (map {λ (color)
+                            (make-button
+                             (symbol->string color)
+                             {λ (ev)
+                               (begin (set! guess1 color)
+                                      true)})} COLORS))
+(define button-list2 (map {λ (color)
+                            (make-button
+                             (symbol->string color)
+                             {λ (ev)
+                               (begin (set! guess2 color)
+                                      true)})} COLORS))
+
+(define output (make-message "Output"))
+
+(define submit (make-button "Submit" {λ (ev)
+                                       (draw-message
+                                        output
+                                        (format "~s"
+                                         (master-check guess1 guess2)))}))
+(define reset (make-button "Reset" {λ (ev)
+                                       (begin (master)
+                                              true)}))
+
+(define (run-game)
+  (show-window
+   (create-window
+    (list
+     button-list1
+     button-list2
+     (list submit reset output)))))
+                                                               
 
 (test)
