@@ -245,20 +245,21 @@
                            empty
                            empty))
 (check-expect (tick (make-world (list (make-tank iworld1 
-                                                10 10
-                                                0 MAX-HEALTH))
-                               empty))
-              (make-bundle (make-world (list (make-tank iworld1 
-                                                              10 10
-                                                              0 MAX-HEALTH))
-                                             empty)
-                           (list (full-world->mail iworld1 
-                                             (make-world
-                                              (list (make-tank iworld1 
-                                                               10 10
-                                                               0 MAX-HEALTH))
-                                              empty)))
-                           empty))
+                                                 10 10
+                                                 0 MAX-HEALTH))
+                                empty))
+              (make-bundle
+               (make-world (list (make-tank iworld1 
+                                            10 10
+                                            0 MAX-HEALTH))
+                           empty)
+               (list (full-world->mail iworld1 
+                                       (make-world
+                                        (list (make-tank iworld1 
+                                                         10 10
+                                                         0 MAX-HEALTH))
+                                        empty)))
+               empty))
 (check-expect (tick (make-world (list 
                                  (make-tank iworld2 
                                             10 10
@@ -299,12 +300,147 @@
                            empty))
 
 
-;; disconnect : world -> bundle
+;; broadcast : listof[iworld] sexpr -> listof[mail]
+; Bulk mailer. Broadcasts the given message to the given iworlds.
+(define (broadcast iworlds message)
+  (map {λ (iworld) (make-mail iworld message)} iworlds))
+
+
+;; disconnect : world iworld -> bundle
 ; Handles the disconnection of a user.
 ; TODO: inform clients that person has left?
+(define (disconnect world iworld)
+  (let ([new-tanks (filter {λ (tank) (not (iworld=?
+                                           (tank-name tank)
+                                           iworld))}
+                           (world-tanks world))])
+    (make-bundle
+     (make-world
+      new-tanks
+      (world-missiles world))
+     (broadcast (map tank-name new-tanks) `(disconnected ,(iworld-name iworld)))
+     (list iworld))))
 
-(check-expect 
+(check-expect (disconnect (make-world empty
+                                      empty)
+                          iworld1)
+              (make-bundle (make-world empty empty)
+                           empty
+                           (list iworld1)))
+(check-expect (disconnect (make-world (list
+                                       (make-tank iworld1 
+                                                  10 10
+                                                  0 MAX-HEALTH))
+                                      empty)
+                          iworld1)
+              (make-bundle (make-world empty empty)
+                           empty
+                           (list iworld1)))
+(check-expect (disconnect (make-world (list
+                                       (make-tank iworld1 
+                                                  10 10
+                                                  0 MAX-HEALTH)
+                                       (make-tank iworld2 
+                                                  10 10
+                                                  0 MAX-HEALTH))
+                                      empty)
+                          iworld1)
+              (make-bundle (make-world (list
+                                        (make-tank iworld2 
+                                                   10 10
+                                                   0 MAX-HEALTH)) empty)
+                           (list (make-mail iworld2 '(disconnected "iworld1")))
+                           (list iworld1)))
 
+
+;; msg : world iworld sexpr -> bundle
+; Responds to a message from a client.
+(define (msg world iworld message)
+  (let ([this (filter {λ (tank) (iworld=? (tank-name tank) iworld)}
+                      (world-tanks world))]
+        [other (filter {λ (tank) (not (iworld=? (tank-name tank) iworld))}
+                       (world-tanks world))])
+    (cond
+      [(symbol=? (car message) 'move)
+       (make-bundle
+        (make-world
+         (cons (make-tank (tank-name this)
+                          (cadadr message) ; x
+                          (car (cddadr message)) ; y
+                          (car (cdaddr message)) ; rot
+                          (tank-health this))
+               other)
+         (world-missiles world))
+        empty
+        empty)]
+      [(symbol=? (car message 'bullet))
+       (let ([new-bullet (make-missile (tank-x tank)
+                                       (tank-y tank)
+                                       (tank-rot tank))])
+         (make-bundle
+          (make-world
+           (world-tanks world)
+           (cons new-bullet
+                 (world-missiles world))
+           (broadcast other `(bullet (missile-x missile)
+                                     (missile-y missile)
+                                     (missile-rot missile)))
+           empty)))])))
+
+(msg (make-world (list
+                                (make-tank iworld1 10 10 0 MAX-HEALTH)
+                                (make-tank iworld2 10 10 0 MAX-HEALTH))
+                               empty)
+                   iworld1 '(move (coords 40 50) (rot 30)))
+
+(check-expect (msg (make-world (list
+                                (make-tank iworld1 10 10 0 MAX-HEALTH)
+                                (make-tank iworld2 10 10 0 MAX-HEALTH))
+                               empty)
+                   iworld1 '(move (coords 40 50) (rot 30)))
+              (make-bundle
+               (make-world (list
+                            (make-tank iworld1 30 40 30 MAX-HEALTH)
+                            (make-tank iworld2 10 10 0 MAX-HEALTH))
+                           empty)
+               empty
+               empty))
+(check-expect (msg (make-world (list
+                                (make-tank iworld1 10 10 0 MAX-HEALTH)
+                                (make-tank iworld2 10 10 0 MAX-HEALTH))
+                               empty)
+                   iworld2 '(move (coords 50 60) (rot 45)))
+              (make-bundle
+               (make-world (list
+                            (make-tank iworld1 10 10 0 MAX-HEALTH)
+                            (make-tank iworld2 50 60 45 MAX-HEALTH))
+                           empty)
+               empty
+               empty))
+(check-expect (msg (make-world (list
+                                (make-tank iworld1 10 10 0 MAX-HEALTH)
+                                (make-tank iworld2 10 10 0 MAX-HEALTH))
+                               empty)
+                   iworld2 'shoot)
+              (make-bundle
+               (make-world (list
+                            (make-tank iworld1 10 10 0 MAX-HEALTH)
+                            (make-tank iworld2 10 10 0 MAX-HEALTH))
+                           empty)
+               (list (make-mail iworld1 '(bullet 10 10 0)))
+               empty))
+(check-expect (msg (make-world (list
+                                (make-tank iworld1 10 10 0 MAX-HEALTH)
+                                (make-tank iworld2 10 10 0 MAX-HEALTH))
+                               empty)
+                   iworld1 'shoot)
+              (make-bundle
+               (make-world (list
+                            (make-tank iworld1 10 10 0 MAX-HEALTH)
+                            (make-tank iworld2 10 10 0 MAX-HEALTH))
+                           (list (make-missile 10 10 0)))
+               (list (make-mail iworld2 '(bullet 10 10 0)))
+               empty))
 
 ;                                     
 ;                                     
