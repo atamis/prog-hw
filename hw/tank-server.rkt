@@ -58,8 +58,12 @@
 ;    rot: rotation of the missile. Use to determine the next location.
 
 
-(define-struct world (tanks missiles)
+(define-struct world (tanks missiles start-time last-tick)
   #:transparent)
+;  tanks: listof[tank] tanks currently in the game
+;  missiles: listof[missile] missiles currently in flight
+;  start-time: time the universe started, in milliseconds
+;  last-tick: the last time the universe ticked, in milliseconds
 
 
 ;; tank->sexpr : tank -> sexpr
@@ -124,10 +128,11 @@
   `(world ,(tanks->sexpr (world-tanks world))
           ,(missiles->sexpr (world-missiles world))))
 
-(check-expect (world->sexpr (make-world empty empty))
+(check-expect (world->sexpr (make-world empty empty 0 0))
               '(world (tanks) (missiles)))
 (check-expect (world->sexpr (make-world (list (make-tank iworld1 4 5 0 100))
-                                        (list (make-missile 10 15 45))))
+                                        (list (make-missile 10 15 45))
+                                        0 0))
               '(world (tanks (tank "iworld1" 4 5 0 100))
                       (missiles (missile 10 15))))
 (check-expect (world->sexpr (make-world (list (make-tank iworld1 4 5 0 100)
@@ -135,7 +140,8 @@
                                         (list (make-missile 10 15 45)
                                               (make-missile 11 15 45)
                                               (make-missile 12 15 45)
-                                              (make-missile 13 15 45))))
+                                              (make-missile 13 15 45))
+                                        0 0))
               '(world (tanks (tank "iworld1" 4 5 0 100)
                              (tank "iworld2" 10 30 0 50))
                       (missiles (missile 10 15)
@@ -172,14 +178,15 @@
                            (list (make-missile 10 15 45)
                                  (make-missile 11 15 45)
                                  (make-missile 12 15 45)
-                                 (make-missile 13 15 45))))
+                                 (make-missile 13 15 45))
+                           0 0))
               (make-mail iworld1 '(world (tanks (tank "iworld1" 4 5 0 100)
                                                 (tank "iworld2" 10 30 0 50))
                                          (missiles (missile 10 15)
                                                    (missile 11 15)
                                                    (missile 12 15)
                                                    (missile 13 15)))))
-(check-expect (full-world->mail iworld3 (make-world empty empty))
+(check-expect (full-world->mail iworld3 (make-world empty empty 0 0))
               (make-mail iworld3 '(world (tanks) (missiles))))
 
 
@@ -190,17 +197,19 @@
   (let ([new-world (make-world
                     (cons (make-tank iworld 10 10 0 MAX-HEALTH)
                           (world-tanks world))
-                    (world-missiles world))])
+                    (world-missiles world)
+                    (world-start-time world)
+                    (world-last-tick world))])
     (make-bundle
      new-world
      (list (full-world->mail iworld new-world))
      empty)))
 
-(check-expect (new (make-world empty empty) iworld1)
+(check-expect (new (make-world empty empty 0 0) iworld1)
               (make-bundle (make-world (list (make-tank iworld1 
                                                         10 10
                                                         0 MAX-HEALTH))
-                                       empty)
+                                       empty 0 0)
                            (list (make-mail iworld1
                                             `(world (tanks
                                                      (tank "iworld1" 10 10 0
@@ -210,7 +219,7 @@
 (check-expect (new (make-world (list (make-tank iworld1 
                                                 10 10
                                                 0 MAX-HEALTH))
-                               empty) iworld2)
+                               empty 0 0) iworld2)
               (make-bundle (make-world (list 
                                         (make-tank iworld2 
                                                    10 10
@@ -218,7 +227,7 @@
                                         (make-tank iworld1 
                                                    10 10
                                                    0 MAX-HEALTH))
-                                       empty)
+                                       empty 0 0)
                            (list (make-mail iworld2
                                             `(world (tanks
                                                      (tank "iworld2" 10 10 0
@@ -240,25 +249,25 @@
                       (world-tanks new-world))
                  empty)))
 
-(check-expect (tick (make-world empty empty))
-              (make-bundle (make-world empty empty)
+(check-expect (tick (make-world empty empty 0 0))
+              (make-bundle (make-world empty empty 0 0)
                            empty
                            empty))
 (check-expect (tick (make-world (list (make-tank iworld1 
                                                  10 10
                                                  0 MAX-HEALTH))
-                                empty))
+                                empty 0 0))
               (make-bundle
                (make-world (list (make-tank iworld1 
                                             10 10
                                             0 MAX-HEALTH))
-                           empty)
+                           empty 0 0)
                (list (full-world->mail iworld1 
                                        (make-world
                                         (list (make-tank iworld1 
                                                          10 10
                                                          0 MAX-HEALTH))
-                                        empty)))
+                                        empty 0 0)))
                empty))
 (check-expect (tick (make-world (list 
                                  (make-tank iworld2 
@@ -267,7 +276,7 @@
                                  (make-tank iworld1 
                                             10 10
                                             0 MAX-HEALTH))
-                                empty))
+                                empty 0 0))
               (make-bundle (make-world (list 
                                         (make-tank iworld2 
                                                    10 10
@@ -275,7 +284,7 @@
                                         (make-tank iworld1 
                                                    10 10
                                                    0 MAX-HEALTH))
-                                       empty)
+                                       empty 0 0)
                            (list (full-world->mail
                                   iworld2
                                   (make-world (list 
@@ -285,7 +294,7 @@
                                                (make-tank iworld1 
                                                           10 10
                                                           0 MAX-HEALTH))
-                                              empty))
+                                              empty 0 0))
                                  (full-world->mail
                                   iworld1
                                   (make-world (list 
@@ -295,7 +304,7 @@
                                                (make-tank iworld1 
                                                           10 10
                                                           0 MAX-HEALTH))
-                                              empty)))
+                                              empty 0 0)))
                            
                            empty))
 
@@ -317,23 +326,25 @@
     (make-bundle
      (make-world
       new-tanks
-      (world-missiles world))
+      (world-missiles world)
+      (world-start-time world)
+      (world-last-tick world))
      (broadcast (map tank-name new-tanks) `(disconnected ,(iworld-name iworld)))
      (list iworld))))
 
 (check-expect (disconnect (make-world empty
-                                      empty)
+                                      empty 0 0)
                           iworld1)
-              (make-bundle (make-world empty empty)
+              (make-bundle (make-world empty empty 0 0)
                            empty
                            (list iworld1)))
 (check-expect (disconnect (make-world (list
                                        (make-tank iworld1 
                                                   10 10
                                                   0 MAX-HEALTH))
-                                      empty)
+                                      empty 0 0)
                           iworld1)
-              (make-bundle (make-world empty empty)
+              (make-bundle (make-world empty empty 0 0)
                            empty
                            (list iworld1)))
 (check-expect (disconnect (make-world (list
@@ -343,12 +354,13 @@
                                        (make-tank iworld2 
                                                   10 10
                                                   0 MAX-HEALTH))
-                                      empty)
+                                      empty 0 0)
                           iworld1)
               (make-bundle (make-world (list
                                         (make-tank iworld2 
                                                    10 10
-                                                   0 MAX-HEALTH)) empty)
+                                                   0 MAX-HEALTH)) empty
+                                                                  0 0)
                            (list (make-mail iworld2 '(disconnected "iworld1")))
                            (list iworld1)))
 
@@ -356,12 +368,13 @@
 ;; msg : world iworld sexpr -> bundle
 ; Responds to a message from a client.
 (define (msg world iworld message)
-  (let ([this (filter {λ (tank) (iworld=? (tank-name tank) iworld)}
-                      (world-tanks world))]
+  (let ([this (car (filter {λ (tank) (iworld=? (tank-name tank) iworld)}
+                           (world-tanks world)))]
         [other (filter {λ (tank) (not (iworld=? (tank-name tank) iworld))}
                        (world-tanks world))])
     (cond
-      [(symbol=? (car message) 'move)
+      [(and (cons? message)
+            (symbol=? (car message) 'move))
        (make-bundle
         (make-world
          (cons (make-tank (tank-name this)
@@ -370,75 +383,82 @@
                           (car (cdaddr message)) ; rot
                           (tank-health this))
                other)
-         (world-missiles world))
+         (world-missiles world)
+         0 0)
         empty
         empty)]
-      [(symbol=? (car message 'bullet))
-       (let ([new-bullet (make-missile (tank-x tank)
-                                       (tank-y tank)
-                                       (tank-rot tank))])
+      [(symbol=? 'shoot message)
+       (let ([new-bullet (make-missile (tank-x this)
+                                       (tank-y this)
+                                       (tank-rot this))])
          (make-bundle
           (make-world
            (world-tanks world)
            (cons new-bullet
                  (world-missiles world))
-           (broadcast other `(bullet (missile-x missile)
-                                     (missile-y missile)
-                                     (missile-rot missile)))
-           empty)))])))
+           0 0)
+          (broadcast (map tank-name other)
+                     `(bullet ,(missile-x new-bullet)
+                              ,(missile-y new-bullet)
+                              ,(missile-rot new-bullet)))
+          empty))]
+      [else (make-bundle world empty empty)])))
 
-(msg (make-world (list
-                                (make-tank iworld1 10 10 0 MAX-HEALTH)
-                                (make-tank iworld2 10 10 0 MAX-HEALTH))
-                               empty)
-                   iworld1 '(move (coords 40 50) (rot 30)))
+
+#;(msg (make-world (list
+                    (make-tank iworld1 10 10 0 MAX-HEALTH)
+                    (make-tank iworld2 10 10 0 MAX-HEALTH))
+                   empty)
+       iworld1 '(move (coords 40 50) (rot 30)))
 
 (check-expect (msg (make-world (list
                                 (make-tank iworld1 10 10 0 MAX-HEALTH)
                                 (make-tank iworld2 10 10 0 MAX-HEALTH))
-                               empty)
+                               empty
+                               0 0)
                    iworld1 '(move (coords 40 50) (rot 30)))
               (make-bundle
                (make-world (list
-                            (make-tank iworld1 30 40 30 MAX-HEALTH)
+                            (make-tank iworld1 40 50 30 MAX-HEALTH)
                             (make-tank iworld2 10 10 0 MAX-HEALTH))
-                           empty)
+                           empty
+                           0 0)
                empty
                empty))
 (check-expect (msg (make-world (list
                                 (make-tank iworld1 10 10 0 MAX-HEALTH)
                                 (make-tank iworld2 10 10 0 MAX-HEALTH))
-                               empty)
+                               empty 0 0)
                    iworld2 '(move (coords 50 60) (rot 45)))
               (make-bundle
                (make-world (list
-                            (make-tank iworld1 10 10 0 MAX-HEALTH)
-                            (make-tank iworld2 50 60 45 MAX-HEALTH))
-                           empty)
+                            (make-tank iworld2 50 60 45 MAX-HEALTH)
+                            (make-tank iworld1 10 10 0 MAX-HEALTH))
+                           empty 0 0)
                empty
                empty))
 (check-expect (msg (make-world (list
                                 (make-tank iworld1 10 10 0 MAX-HEALTH)
-                                (make-tank iworld2 10 10 0 MAX-HEALTH))
-                               empty)
+                                (make-tank iworld2 20 20 0 MAX-HEALTH))
+                               empty 0 0)
                    iworld2 'shoot)
               (make-bundle
                (make-world (list
                             (make-tank iworld1 10 10 0 MAX-HEALTH)
-                            (make-tank iworld2 10 10 0 MAX-HEALTH))
-                           empty)
-               (list (make-mail iworld1 '(bullet 10 10 0)))
+                            (make-tank iworld2 20 20 0 MAX-HEALTH))
+                           (list (make-missile 20 20 0)) 0 0)
+               (list (make-mail iworld1 '(bullet 20 20 0)))
                empty))
 (check-expect (msg (make-world (list
                                 (make-tank iworld1 10 10 0 MAX-HEALTH)
                                 (make-tank iworld2 10 10 0 MAX-HEALTH))
-                               empty)
+                               empty 0 0)
                    iworld1 'shoot)
               (make-bundle
                (make-world (list
                             (make-tank iworld1 10 10 0 MAX-HEALTH)
                             (make-tank iworld2 10 10 0 MAX-HEALTH))
-                           (list (make-missile 10 10 0)))
+                           (list (make-missile 10 10 0)) 0 0)
                (list (make-mail iworld2 '(bullet 10 10 0)))
                empty))
 
@@ -463,7 +483,7 @@
 (define (world->string world)
   (format "~s" (world->sexpr world)))
 
-(check-expect (world->string (make-world empty empty))
+(check-expect (world->string (make-world empty empty 0 0))
               "(world (tanks) (missiles))")
 
 ;                              
@@ -483,12 +503,14 @@
 ;                              
 
 
-#;(define (r)
-    (universe (make-world empty empty)
-              (on-new new)
-              (on-tick tick)
-              (on-disconnect disconnect)
-              (on-msg msg)
-              (to-string world->string)))
+(define (r)
+  (universe (make-world empty empty
+                        (current-milliseconds)
+                        (current-milliseconds))
+            (on-new new)
+            (on-tick tick)
+            (on-disconnect disconnect)
+            (on-msg msg)
+            #;(to-string world->string)))
 
 (test)
