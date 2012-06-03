@@ -7,6 +7,7 @@
   #:transparent)
 
 
+
 ;                                                                 
 ;                                                                 
 ;                                                                 
@@ -25,6 +26,10 @@
 
 
 (define MAX-HEALTH 100)
+(define MISSILE-DAMAGE 10)
+(define MISSILES-MOVE-MILLI 0.1)
+(define ENABLE-TESTS false)
+(define TANK-SIZE 10)
 
 
 
@@ -44,6 +49,7 @@
 ;                                            
 ;                                            
 
+(define π pi)
 
 (define-struct tank (name x y rot health)
   #:transparent)
@@ -64,6 +70,15 @@
 ;  missiles: listof[missile] missiles currently in flight
 ;  start-time: time the universe started, in milliseconds
 ;  last-tick: the last time the universe ticked, in milliseconds
+
+
+;; degrees->radians : degrees -> radians
+; Converts degrees to radians
+(define (degrees->radians deg)
+  (* deg (/ π 180)))
+
+(check-within (degrees->radians 180) π 0.001)
+(check-within (degrees->radians 90) (/ π 2) 0.001)
 
 
 ;; tank->sexpr : tank -> sexpr
@@ -237,12 +252,86 @@
                                                     (missiles))))
                            empty))
 
+;; missile-tank-hit? : number number number number number -> boolean
+; x1, y1, is the first tank, theta is the angle of the tank, x2, y2 is the 2nd
+; tank. Returns true if the missile hits the tank.
+(define (missile-tank-hit? missile tank)
+  (letrec ([x1 (missile-x missile)]
+           [y1 (missile-y missile)]
+           [θ (if (= (missile-rot missile) 0)
+                  0.001 ;; Else we get division by zero errors.
+                  (missile-rot missile))]
+           [x2 (tank-x tank)]
+           [y2 (tank-y tank)]
+           [m (tan (degrees->radians θ))]
+           [b1 (- y1 (* m x1))]
+           [b2 (- y2 (* (- (/ 1 m)) x2))]
+           [x3 (/ (* (- m) (- b1 b2)) (+ (sqr m) 1))]
+           [y3 (+ (* m x3) b1)]
+           [dist (sqrt (+ (sqr (- x3 x2)) (sqr (- y3 y2))))])
+    (begin (when ENABLE-TESTS
+             (display (format "~s\n" `(m ,m
+                                     m2 ,(- (/ 1 m))
+                                     b1 ,b1
+                                     b2 ,b2
+                                     x3 ,x3
+                                     y3 ,y3
+                                     dist ,dist))))
+                   (< dist TANK-SIZE))))
+
+
+(check-expect (missile-tank-hit? (make-missile -4 2 26)
+                                 (make-tank iworld1 8 4 30 MAX-HEALTH)) true)
+(check-expect (missile-tank-hit? (make-missile -10 5 45)
+                                 (make-tank iworld1 8 4 30 MAX-HEALTH)) false)
+
+
+;; handle-missiles : world -> world
+; Handles missiles and the destruction of tanks. ;MISSILE-DAMAGE
+(define (handle-missiles world)
+  (make-world
+   (map {λ (tank)
+          (make-tank
+           (tank-name tank)
+           (tank-x tank)
+           (tank-y tank)
+           (tank-rot tank)
+           (- (tank-health tank)
+              (* MISSILE-DAMAGE
+                 (foldl {λ (missile acc) (if (missile-tank-hit? missile tank)
+                                      (+ 1 acc)
+                                      acc)}
+                 0
+                 (world-missiles world)))))} (world-tanks world))
+   empty
+   (world-start-time world)
+   (world-last-tick world)))
+
+(check-expect (handle-missiles (make-world
+                                (list (make-tank iworld1 8 4 30 MAX-HEALTH))
+                                (list (make-missile -4 2 26)) 0 0))
+              (make-world
+               (list (make-tank iworld1 8 4 30 (- MAX-HEALTH MISSILE-DAMAGE)))
+               empty 0 0))
+(check-expect (handle-missiles (make-world
+                                (list (make-tank iworld1 8 4 30 MAX-HEALTH))
+                                (list (make-missile -4 2 26)
+                                      (make-missile -10 5 45)) 0 0))
+              (make-world
+               (list (make-tank iworld1 8 4 30 (- MAX-HEALTH MISSILE-DAMAGE)))
+               empty 0 0))
 
 ;; tick : world -> bundle
 ; Executed every tick. Sends the world to all players. Also does collision
 ; detection
 (define (tick world)
-  (let ([new-world world]) ;; Process world here
+  (let ([new-world (handle-missiles
+                    (make-world (world-tanks world)
+                                (world-missiles world)
+                                (world-start-time world)
+                                (if ENABLE-TESTS
+                                    0
+                                    (current-milliseconds))))])
     (make-bundle new-world
                  (map {λ (tank)
                         (full-world->mail (tank-name tank) new-world)}
@@ -513,4 +602,6 @@
             (on-msg msg)
             #;(to-string world->string)))
 
-(test)
+
+(when ENABLE-TESTS
+  (test))
