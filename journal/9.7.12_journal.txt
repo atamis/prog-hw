@@ -1,0 +1,31 @@
+What did you do in class this week? How did you make use of your time?
+Worked on the digraph and 8 queen problems.
+
+What words and concepts were new to you this week, and what do they mean?
+Digraph was a new term for something I already understood.
+
+If you created anything new, what was it?
+I'd like to say that my solution to the queens problem is is something new, but
+I got a lot of (accidental) help from Chris, and I basically copied his
+algorithm.
+
+What new questions or goals do you have?
+Nothing really.
+
+Did this week's studies give you any ideas of things you could create?
+Not really. I could pretty easily adapt my queen soln program into a bishop or
+rook soln program. That might be interesting.
+
+What was good about this week?
+Problems were relatively challenging.
+
+What would you like to change-what can you do better?
+Nothing.
+
+What would you like me to change-what can I, the teacher, do better?
+Nothing.
+
+Do you have any other comments?
+Nope.
+
+
