@@ -1,0 +1,4 @@
+#!/bin/bash
+
+./osx-dist/bin/assignment1-osx --interp < $1
+
