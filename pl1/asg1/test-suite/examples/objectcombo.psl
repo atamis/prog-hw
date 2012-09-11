@@ -1,0 +1,4 @@
+defvar o = {x:"four"} in {
+  (o.x += "score").x
+}
+

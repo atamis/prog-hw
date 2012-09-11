@@ -1,0 +1,18 @@
+defvar d = {bb: "awesome"} in
+defvar p = {test:0,
+            inc: lambda(self) {test++}} in
+defvar x = {y: "before"} in {
+  print(x.y);
+  print("\n");
+  x.y = "after";
+  print(x.y);
+
+  y = "b";
+  print(d[+(y, "b")]);
+
+  print(p.test);
+  p@inc();
+  print(p.test);
+  p.inc(p);
+  print(p.test);
+}

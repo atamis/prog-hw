@@ -1,0 +1,7 @@
+defvar fxn = lambda(x, x) { x + x } in {
+  fxn(10);
+}
+
+defvar fxn = lambda(x, y) { x + y } in {
+  fxn(10, 11);
+}

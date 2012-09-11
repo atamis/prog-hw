@@ -1,0 +1,8 @@
+defvar x = 0 in {  
+    for(x = 0; <(x,5); x++) {
+        print(x);
+        print("\n");
+    };
+    print("Another print statement!");
+}
+

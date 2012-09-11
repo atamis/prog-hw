@@ -1,0 +1,3 @@
+# @ provides an object as an implicit argument
+defvar o = {f:lambda(self) { self.x }, x:3} in { o@f() }
+
