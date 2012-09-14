@@ -1,0 +1,28 @@
+What did you do in class this week? How did you make use of your time?
+Worked on n-queens, assigment 3, and pl1 assignment 1.
+
+What words and concepts were new to you this week, and what do they mean?
+Big O notation was new.
+
+If you created anything new, what was it?
+Nothing really. The n-queens algorithm was pretty cool.
+
+What new questions or goals do you have?
+None.
+
+Did this week’s studies give you any ideas of things you could create?
+Not really. It will make implementing A* easier.
+
+What was good about this week?
+Class homework was easiy, but PL1 homework was harder.
+
+What would you like to change-what can you do better?
+Nothing.
+
+What would you like me to change-what can I, the teacher, do better?
+Nothing.
+
+Do you have any other comments?
+I'm just a little worried about the PL1 class.
+
+
