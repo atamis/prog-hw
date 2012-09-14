@@ -1,0 +1,4 @@
+defvar x = {asdf: 10} in
+defvar y = {fdsa: 20} in {
+  print(==(x, y));
+}

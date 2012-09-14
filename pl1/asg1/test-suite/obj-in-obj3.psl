@@ -1,0 +1,12 @@
+defvar y = {asdf: lambda(self, y) { self.x += y; },x: 10} in
+defvar x = {awesome: y} in {
+  print(x);
+  print(x.awesome);
+  print(x.awesome.x);
+  
+  print(x.awesome@asdf(10));
+
+  print(==(x.awesome.x, 20));
+}
+
+

@@ -1,0 +1,5 @@
+defvar x = 10 in
+defvar y = lambda(y) {+(x, y)} in
+defvar x = 20 in {
+   print(y(10));
+}

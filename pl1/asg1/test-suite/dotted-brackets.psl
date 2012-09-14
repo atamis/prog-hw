@@ -1,0 +1,14 @@
+defvar x = {} in {
+  x["test"] = 5;
+  print(x.test);
+  x.test = 10;
+  print(x.test);
+  
+  x.asdf = x["test"];
+
+  print(x.asdf);
+
+  x.test += 50;
+
+  print(==(x.asdf, x.test));
+}

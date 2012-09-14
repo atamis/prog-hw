@@ -1,0 +1,8 @@
+defvar x = 0 in {
+  print(x++);
+  print(--x);
+  print(==(x++, ++x));
+  print(i++);
+  ++i;
+}
+

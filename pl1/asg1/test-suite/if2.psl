@@ -1,0 +1,6 @@
+defvar x = 10 in {
+  if true then x = 4 else x = 100
+
+  print(y);
+
+}

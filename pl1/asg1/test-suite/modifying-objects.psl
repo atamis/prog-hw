@@ -1,0 +1,8 @@
+defvar mod = lambda(x) {
+   x.asdf = "yes";
+} in 
+defvar y = {asdf: "no"} in {
+  print(y.asdf);
+  print(mod(y).asdf);
+  print(y.asdf);
+}

@@ -1,0 +1,7 @@
+defvar y = {asdf: 4} in
+defvar x = {awesome: y} in {
+  print(x + "\n");
+  print(x.awesome + "\n");
+  print(x.awesome.asdf + "\n");
+}
+

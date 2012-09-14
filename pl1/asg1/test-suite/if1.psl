@@ -6,3 +6,5 @@ if false then print("failed\n") else print("passed\n");
 if 5 then print("passed\n") else print("failed\n");
 if "test" then print("passed\n") else print("failed\n");
 if lambda(x) {+(x, x)} then print("passed\n") else print("failed\n");
+if non-existant then print("passed\n") else print("failed\n");
+

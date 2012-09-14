@@ -1,0 +1,7 @@
+deffun test(x, y) {
+  x += 10
+  +(x, y);
+} in {
+  print(test(10, 11));
+  print(test(10, 11, 12));
+}
