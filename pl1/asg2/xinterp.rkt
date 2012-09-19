@@ -4,6 +4,8 @@
 ;; TODO
 ; Add interp-specific error for division by zero
 
+(print-only-errors true)
+
 (define binops (make-hash
                 (list
                  (cons '+ +)
@@ -55,13 +57,13 @@
 ; Looks up the id in the environment, returning a CFWAE, or throwing an error.
 (define (lookup env id)
   (type-case Env env
-    [mtEnv () (error "Unbound identifier")]
+    [mtEnv () (error "Unbound identifier:" id)]
     [anEnv (name value env)
            (if (symbol=? name id)
                value
                (lookup env id))]))
 
-(test/exn (lookup (mtEnv) 'a) "Unbound identifier")
+(test/exn (lookup (mtEnv) 'a) "Unbound identifier: a")
 (test (lookup (anEnv 'a (numV 4) (mtEnv)) 'a) (numV 4))
 (test (lookup (anEnv 'a (numV 4)
                      (anEnv 'b (numV 5) (mtEnv))) 'b) (numV 5))
@@ -164,7 +166,7 @@
 ; This procedure parses an expression into a CFWAE
 (define (parse sexp)
   (match sexp
-      [(list if0 pred then else)
+      [(list 'if0 pred then else)
        (make-if0 (parse pred) (parse then) (parse else))]
     [(list 'with (list (list names vals) ...) body)
      (make-with (for/list
@@ -202,8 +204,24 @@
 
 
 ;; Big tests
+(interp (parse
+         '((fun (x) (fun (n) (if0 n
+                                  1
+                                  (* n ((x x) (- n 1))))))
+           (fun (x) (fun (n) (if0 n
+                                  1
+                                  (* n ((x x) (- n 1)))))))))
 
 (test (interp (parse '{with {{x 5} {z 6}}
                       {{fun {z} {+ z x}} 3}})) (numV 8))
 (test (interp (parse '{with {{x 5}}
                       {{fun {y} {+ y x}} 3}})) (numV 8))
+(test (interp (parse
+               '(((fun (x) (fun (n) (if0 n
+                                        1
+                                        (* n ((x x) (- n 1))))))
+                  (fun (x) (fun (n) (if0 n
+                                        1
+                                        (* n ((x x) (- n 1))))))))))
+      3628800)
+
