@@ -1,0 +1,3 @@
+defvar s = "passed" in {
+  if true then s else u
+}

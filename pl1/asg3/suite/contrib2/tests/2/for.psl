@@ -1,0 +1,7 @@
+# basic for loop
+defvar x = 0 in {
+  for(x = 0; <(x, 10); x = +(x, 1)) {
+    print(x);
+    print(", ");
+  }
+}

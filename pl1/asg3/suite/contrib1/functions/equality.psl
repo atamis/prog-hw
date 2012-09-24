@@ -1,0 +1,17 @@
+# Two functions should be equal if their definition is the same and they close
+# over the same variables.
+
+deffun make_add(x) lambda(y) { +(x,y) } in
+deffun make_bin_add() lambda(x,y) { +(x,y) } in
+deffun make_bin_add2() lambda(y,x) { +(y,x) } in
+
+defvar add1 = make_bin_add() in
+defvar add2 = make_bin_add() in
+defvar add3 = make_bin_add2() in
+defvar add4 = make_add(42) in
+defvar add5 = make_add(23) in {
+  print(==(add1, add2)); # Should be true
+  print(==(add2, add3)); # Should be false
+  print(==(add4, add5)); # Should be false
+  "";
+}

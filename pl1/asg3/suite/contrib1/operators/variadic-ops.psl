@@ -1,0 +1,4 @@
+# + and - should accept multiple arguments
+
+print(+(1,2,39));
+-(42, 2, -(0,2));

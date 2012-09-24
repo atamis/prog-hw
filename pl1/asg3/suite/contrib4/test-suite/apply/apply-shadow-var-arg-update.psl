@@ -1,0 +1,7 @@
+defvar x = 1 in
+deffun test(x)
+  x++
+in {
+  test(5);
+  x;
+}

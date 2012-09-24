@@ -1,0 +1,5 @@
+defvar o1 = {x : 55} in
+defvar o2 = {x : 55} in {
+  ==(o1, o2)
+}
+

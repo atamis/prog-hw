@@ -1,0 +1,8 @@
+# Variables defined inside an if statement should be local to that if statement
+
+if false then 
+  defvar x = 42 in
+  x
+else 
+  x; # Error
+x; # Error

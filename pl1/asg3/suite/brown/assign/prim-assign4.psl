@@ -1,0 +1,4 @@
+defvar x = 5 in {
+  x += "foo";
+  x;
+}

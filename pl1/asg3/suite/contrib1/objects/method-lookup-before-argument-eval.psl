@@ -1,0 +1,4 @@
+# Errors about missing methods should appear before the arguments to the
+# method are evaluated
+
+({x:42})@f(print("This should not be printed."))

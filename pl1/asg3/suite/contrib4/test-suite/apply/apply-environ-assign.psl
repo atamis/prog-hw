@@ -1,0 +1,6 @@
+defvar x = 5 in
+deffun test(y) +(x, y); x++; in
+defvar x = 27 in {
+  test(5);
+  x;
+}

@@ -1,0 +1,4 @@
+if 0 then print("then branch\n") else print("else branch\n");
+if 1 then print("then branch\n") else print("else branch\n");
+if 'str' then print("then branch\n") else print("else branch\n");
+if {x:1} then print("then branch\n") else print("else branch\n");

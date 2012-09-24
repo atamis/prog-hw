@@ -1,0 +1,1 @@
+defvar o = {f: lambda(s) { 1 }} in o@f()

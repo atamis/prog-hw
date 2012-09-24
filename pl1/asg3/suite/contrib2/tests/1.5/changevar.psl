@@ -1,0 +1,6 @@
+# changing var values
+defvar x = "before" in {
+  x = "after";
+  x;
+}
+

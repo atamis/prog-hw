@@ -1,0 +1,4 @@
+# Arbitrary expressions like lambda should be allowed in place of function names
+# as long as they evaluate to a function value
+
+(lambda(x) { x })(42)

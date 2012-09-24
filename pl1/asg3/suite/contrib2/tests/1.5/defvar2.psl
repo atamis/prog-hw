@@ -1,0 +1,5 @@
+# nested defvars
+defvar a = 1 in
+defvar b = 2 in
+defvar c = 3 in
++(a,b,c)

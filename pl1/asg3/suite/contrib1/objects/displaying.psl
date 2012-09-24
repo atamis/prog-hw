@@ -1,0 +1,4 @@
+# Objects should be displayed as just the string "object"
+print({x:42});
+print("\n");
+{x:42};

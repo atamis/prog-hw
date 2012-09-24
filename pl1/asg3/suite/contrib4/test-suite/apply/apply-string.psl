@@ -1,0 +1,3 @@
+deffun test(x) x in {
+  "test"(5)
+}

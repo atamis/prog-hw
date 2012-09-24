@@ -1,0 +1,7 @@
+if <(1,2) then
+lambda(x) { +(3,x)}
+else
+if >(2,1) then
+{}
+else
+{z:3}

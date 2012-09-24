@@ -1,0 +1,11 @@
+defvar a = {
+    b: {
+        c: {
+            d: {
+                e: {
+                    f: 'g'
+                }
+            }
+        }
+    }
+} in a.b.c.d.e.f

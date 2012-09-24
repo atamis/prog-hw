@@ -1,0 +1,1 @@
++(print("foo\n"), print("bar\n"), print("baz\n"))

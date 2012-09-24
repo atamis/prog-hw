@@ -1,0 +1,11 @@
+defvar o = {x:5} in
+defvar o2 = 0 in {
+  o2 = (o.x += 6);
+  print(o.x);
+  print("\n");
+  print(o2.x);
+  print("\n");
+  print((o.x += 10).x);
+  print("\n");
+  o.x;
+}

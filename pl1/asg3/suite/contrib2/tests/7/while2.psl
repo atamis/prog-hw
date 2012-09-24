@@ -1,0 +1,7 @@
+# While returns false
+defvar i = 1 in {
+if (while(<(i,0)) { 'huh'; }) then
+    'failed'
+else
+    'passed'
+}

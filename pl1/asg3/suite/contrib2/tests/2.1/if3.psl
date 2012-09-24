@@ -1,0 +1,2 @@
+if 'false' then print("then branch\n") else print("else branch\n");
+if {x:false} then print("then branch\n") else print("else branch\n");

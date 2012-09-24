@@ -1,0 +1,6 @@
+defvar o = {foobar: 42} in {
+  print(o[+("foo","bar")]);
+  o = (o[+("foo", "bar")] = 23);
+  print(o.foobar);
+  "";
+}

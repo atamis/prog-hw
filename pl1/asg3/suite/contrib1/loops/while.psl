@@ -1,0 +1,10 @@
+# If the while condition is false the loop should never run and its value
+# should be false
+
+while(false) {
+  print("This should not be printed.\n")
+};
+
+while(==(1,2)) {
+  print("Neither should this be printed.\n")
+};

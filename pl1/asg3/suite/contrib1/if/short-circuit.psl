@@ -1,0 +1,6 @@
+# The expression in the false branch of an if-then-else-statement should not
+# be evaluated
+
+if false then print("Should not be printed") else print(4);
+if true then print(2) else print("Should not be printed");
+"";

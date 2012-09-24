@@ -1,0 +1,4 @@
+# Even field names with non-id characters are allowed when using bracket notation
+# to access fields.
+
+(({x:23})["@#!"] = 42)["@#!"]

@@ -1,0 +1,1 @@
+(({x:"before"}).x = "after").x

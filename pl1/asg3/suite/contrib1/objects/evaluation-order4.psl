@@ -1,0 +1,2 @@
+# Method arguments should not be evaluated if the receiver is not an object
+(42)@my_method(print("Should not be printed\n"))

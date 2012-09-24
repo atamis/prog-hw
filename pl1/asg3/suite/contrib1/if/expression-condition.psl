@@ -1,0 +1,6 @@
+# Arbitrary expressions should work as if-conditions
+
+defvar a = if(==(1,2)) then "Error" else "4" in
+defvar b = if(==(2,2)) then "2" else "Error" in {
+  +(a,b);
+}

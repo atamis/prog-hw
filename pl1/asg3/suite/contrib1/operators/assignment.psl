@@ -1,0 +1,6 @@
+# Assigning a variable should change the variable
+
+defvar x = 23 in {
+  x = 42;
+  x;
+}

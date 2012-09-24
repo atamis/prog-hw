@@ -1,0 +1,26 @@
+# Test that objects are equal if and only if they have the same set of keys in
+# the same orderand each key maps to the same value in both objects
+
+defvar o1 = {x: 42, y: 23} in
+defvar o2 = {y: 42, x: 23} in
+defvar o3 = {x: 23, y: 42} in 
+defvar o4 = {a: 42, b: 23} in 
+defvar o5 = {x: 42} in 
+defvar o6 = {x:42, y: 23} in
+defvar o7 = {x: 42, y: 42} in
+defvar o8 = {y: 42, x: 42} in {
+  print(==(o1, o6)); # True
+  print(==(o2, o3)); # False
+  print(==(o1, o2)); # False
+  print(==(o1, o3)); # False
+  print(==(o1, o4)); # False
+
+  print(==(o7, o8)); # False
+
+  # Test both directions for o1==o5 since a buggy implementation might only
+  # iterate over one object's set of keys and check whether each of those keys
+  # exists with the same values in the other object
+  print(==(o5, o1)); # False
+  print(==(o1, o5)); # False
+  "";
+}

@@ -1,0 +1,9 @@
+# If the condition of a for loop is false, neither the body nor the increment
+# should execute
+
+defvar x = 42 in {
+  for( x ; <(x, 23); x++) {
+    print("This should not execute")
+  };
+  x;
+}

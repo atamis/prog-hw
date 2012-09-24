@@ -1,0 +1,11 @@
+defvar o1 = {
+  x: 42,
+  o2: {
+    x: 23
+  }
+} in {
+  print(o1.x);
+  print("\n");
+  print(o1.o2.x);
+  "";
+}

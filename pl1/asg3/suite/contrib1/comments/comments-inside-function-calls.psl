@@ -1,0 +1,6 @@
+# The comment inside the function call should be ignored
+
+print( # This is a comment inside a function call
+    "This should be printed.");
+
+"";

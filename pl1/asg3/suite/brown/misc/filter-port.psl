@@ -1,0 +1,119 @@
+deffun cons(elt, lst)
+  {
+    empty: lambda() false,
+    first: lambda() elt,
+    rest: lambda() lst
+  }
+in
+
+defvar empty = { empty: lambda() true } in
+
+# The deffun makefilter has captured, wrappedSetOnMessage, wrappedSend,
+# and getCaptured nested inside its scope.  The indentation isn't
+# necessary, but makes it visually obvious what's going on
+deffun makefilter(port, predicate)
+  defvar captured = empty in
+
+  deffun wrappedSetOnMessage(self, handler)
+    # The @-sign is used for method invocation, and passes the object
+    # (in this case port), as the first argument to the method
+    # (in this case setOnMessage).  This looks OK, but I *always* forget
+    # to do it, and so will everyone else.  Still, syntactically
+    # separating method calls from field access seems like a good
+    # idea.
+    port@setOnMessage(lambda(message) {
+      if   predicate(message)
+      then handler(message)
+      else (captured = cons(message, captured))
+      # Objects are functional, so we're updating not by mutating the
+      # object that captured is bound to, but by updating the
+      # closed-over binding for captured
+    })
+  in
+
+  # Note that a weakness of having things be functional-by-default is
+  # that you might accidentally leak information.  For example, this
+  # function (and the function above), "return" the new value of
+  # captured, which might not be what the programmer intended.
+  deffun wrappedSend(self, message)
+    if   predicate(message)
+    then port@postMessage(message)
+    else (captured = cons(message, captured))
+  in
+
+  deffun getCaptured() captured in
+
+  # Object literals need parens in contexts like this, because they
+  # would otherwise be confused with sequences {e;e;e}.  This is a sucky
+  # point of the syntax, because object literals are AWESOME
+  ({
+    wrappedPort: {
+      setOnMessage: wrappedSetOnMessage,
+      postMessage: wrappedSend
+    },
+    getCaptured: getCaptured
+  })
+# The closing in is required (this closes deffun makefilter).  With less
+# ambiguous expressions, it may be possible to drop these
+in
+
+# Another nested deffun, and again an object literal that needs
+# parentheses
+deffun portPair()
+  deffun handler1(message) "uninitialized handler" in
+  deffun handler2(message) "uninitialized handler" in
+    
+  ({
+    port1: {
+      setOnMessage: lambda(self, handler) { handler1 = handler },
+      postMessage: lambda(self, message) { handler2(message) }
+    },
+    port2: {
+      setOnMessage: lambda(self, handler) { handler2 = handler },
+      postMessage: lambda(self, message) { handler1(message) }
+    }
+  })
+in
+
+defvar ports = portPair() in
+
+defvar p1 = ports.port1 in
+defvar p2 = ports.port2 in
+
+# The disparity between the awesomeness of deffun and the crappiness of
+# sequence braces for lambda is apparent here:
+deffun mkprinter(name)
+  lambda(message) {
+    print(+(name, " received: "));
+    print(message.body);
+    print("\n");
+  } in
+
+defvar wrapper =
+  makefilter(p1, lambda(message) ==(message.type, "public"))
+in
+
+defvar wrappedP1 = wrapper.wrappedPort in {
+
+  wrappedP1@setOnMessage(mkprinter("p1"));
+  p2@setOnMessage(mkprinter("p2"));
+
+  wrappedP1@postMessage({type:"seekret", body:"hi frank!"});
+  print(==(wrapper.getCaptured().first().body, "hi frank!"));
+  print("\n");
+
+  p2@postMessage({type:"seekret", body:"didn't hear you"});
+  print(==(wrapper.getCaptured().first().body, "didn't hear you"));
+  print("\n");
+
+  wrappedP1@postMessage({type:"public", body:"hi ted!"});
+  print(==(wrapper.getCaptured().first().body, "didn't hear you"));
+  print("\n");
+
+  p2@postMessage({type:"public", body:"oh I get it"});
+  print(==(wrapper.getCaptured().first().body, "didn't hear you"));
+  print("\n");
+
+  "done";
+}
+

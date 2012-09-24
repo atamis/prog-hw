@@ -1,0 +1,7 @@
+# A function's parameter list can contain the same identifier multiple times.
+# When the function is called the identifier should be bound to the value that
+# corresponds to the last position in which the identifier appears.
+# So if the parameter list is (x,x), x should refer to the second argument.
+
+deffun f(x,x) x in
+f(23,42)

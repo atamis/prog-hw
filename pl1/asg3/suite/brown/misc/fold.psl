@@ -1,0 +1,18 @@
+deffun cons(elt, lst)
+  {
+    empty: lambda() false,
+    first: lambda() elt,
+    rest: lambda() lst
+  }
+in
+
+defvar empty = { empty: lambda() true } in
+
+deffun foldr(f, init, lst)
+  if lst.empty()
+  then init
+  else f(foldr(f, init, lst.rest()), lst.first())
+in
+
+foldr(lambda(x, y) { +(x, y) }, 1, cons(5, cons(6, empty)))
+

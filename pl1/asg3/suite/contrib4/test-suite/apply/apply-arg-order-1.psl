@@ -1,0 +1,3 @@
+deffun test(x, y) +(x, y) in {
+  test(print(1), print(2))
+}

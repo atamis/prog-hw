@@ -1,0 +1,6 @@
+# The false branch in an if-then-else statement should not only not execute,
+# but also not cause type errors
+
+if false then +(1, "type error") else print(4);
+if true then print(2) else +(1, "type error");
+"";

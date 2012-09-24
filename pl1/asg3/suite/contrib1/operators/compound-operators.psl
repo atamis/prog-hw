@@ -1,0 +1,16 @@
+# Using the compound operators += and -= should act like reassigning with + and -
+
+defvar x = 42 in
+defvar o = {x: 42} in {
+  print(x);
+  x -= 2;
+  print(x);
+  x += 2;
+  print(x);
+
+  # Like regular assignment, compound assignment should not mutate objects
+  print(o.x);
+  print((o.x -= 2).x);
+  print(o.x);
+  "";
+}

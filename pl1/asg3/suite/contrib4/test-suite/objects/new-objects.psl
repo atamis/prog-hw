@@ -1,0 +1,5 @@
+deffun f() {x: 1, f: lambda(s) { 5 }} in
+defvar o1 = f() in
+defvar o2 = f() in {
+  ==(o1,o2)
+}

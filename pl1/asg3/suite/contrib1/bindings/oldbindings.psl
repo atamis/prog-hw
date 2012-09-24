@@ -1,0 +1,7 @@
+# Can refer to a variable's old binding while defining a new variable
+# of the same name
+
+defvar x = 40 in
+defvar x = +(x, 2) in {
+  x
+}

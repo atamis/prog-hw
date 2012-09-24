@@ -1,0 +1,23 @@
+deffun eval(expr)
+  if      ==(expr.type, "add") then +(eval(expr.left), eval(expr.right))
+  else if ==(expr.type, "sub") then -(eval(expr.left), eval(expr.right))
+  else if ==(expr.type, "num") then expr.val
+  else                              +("explode", 5)
+in
+
+deffun mkadd(left, right) {type: "add", left: left, right: right} in
+
+deffun mksub(left, right) {type: "sub", left: left, right: right} in
+
+deffun mknum(val)         {type: "num", val: val} in
+
+{
+  print(eval(mknum(5)));
+  print("\n");
+  print(eval(mkadd(mknum(10), mknum(3))));
+  print("\n");
+  print(eval(mksub(mkadd(mknum(4), mknum(10)), mknum(2))));
+  print("\n");
+  "done";
+}
+

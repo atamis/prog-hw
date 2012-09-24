@@ -1,0 +1,5 @@
+# Commented code should not execute
+
+# This is a comment:
+# print("This should not be printed,\n");
+"";

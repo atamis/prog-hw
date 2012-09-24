@@ -1,0 +1,6 @@
+defvar y = 0 in
+deffun loop(x) y = x; if ==(x,0) then 0 else { print(x); loop(-(x,1)); print(x); }; in
+defvar x = 26 in {
+  loop(5);
+  y;
+}

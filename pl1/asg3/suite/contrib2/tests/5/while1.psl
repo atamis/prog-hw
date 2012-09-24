@@ -1,0 +1,5 @@
+defvar i = 10 in {
+while( >(--i, 0)) {
+    print(i)
+}
+}

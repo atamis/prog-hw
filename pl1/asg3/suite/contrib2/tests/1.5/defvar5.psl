@@ -1,0 +1,5 @@
+# nested defvars with naming collisions
+defvar a = 1 in
+defvar b = a in {
+b
+}

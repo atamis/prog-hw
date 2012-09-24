@@ -1,0 +1,5 @@
+# Expressions should be separated by semicolons even if the first expressions
+# ends in a brace
+
+defvar x = 42 in { x }
+23

@@ -1,0 +1,3 @@
+defvar o = {test: lambda(s) { s.v }, v: true} in {
+  if o@["test"]() then "passed" else "failed"
+}

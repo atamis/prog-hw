@@ -1,0 +1,1 @@
+deffun test(x) x in { if test(true) then "passed" else "failed" }

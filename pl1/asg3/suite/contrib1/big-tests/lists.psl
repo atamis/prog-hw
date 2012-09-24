@@ -1,0 +1,69 @@
+# List example from the tutorial extended with higher order functions
+
+# When empty is called, a new object with the isempty field mapping to a
+# function is created
+deffun empty() { isempty: lambda(self) { true } } in
+# Here we define a cons, which allows accessing its first element and the
+# rest of its elements.  It reports that it is not empty
+deffun cons(elt, lst) {
+  first: lambda(self) { elt },
+  rest: lambda(self) { lst },
+  isempty: lambda(self) { false }
+} in
+# length() takes a list and computes the number of elements in the list.
+# The @ syntax is the syntax for message passing
+deffun length(lst)
+  if (lst@isempty()) then 0
+  else +(1, length(lst@rest()))
+in
+
+deffun map(f, lst)
+  if (lst@isempty()) then empty()
+  else cons( f(lst@first()), map(f, lst@rest()))
+in
+
+deffun filter(p, lst)
+  if (lst@isempty()) then empty()
+  else if ( p( lst@first() ) ) then
+    cons( lst@first(), filter(p, lst@rest()))
+  else filter(p, lst@rest())
+in
+
+deffun foldr(f, init, lst)
+  if (lst@isempty()) then init
+  else f(lst@first(), foldr(f, init, lst@rest()))
+in
+
+deffun add(x,y) +(x,y) in
+
+deffun add1(x) +(x,1) in
+
+deffun sum(lst) foldr(add, 0, lst) in
+
+deffun id(lst) foldr(cons, empty(), lst) in
+
+# Boolean negation
+deffun not(bool)
+  if bool then false else true
+in
+
+# Modulus. Only works with non-negative dividends and positive divisors
+deffun mod(dividend, divisor)
+  while (not(<(dividend, divisor))) {
+    dividend -= divisor;
+  };
+  dividend;
+in
+
+deffun even(x) ==( mod(x,2), 0) in
+
+defvar mylst = cons(0, cons(1, cons(2, cons(39, empty())))) in {
+
+  print(length(cons(5, cons(2, empty()))));
+  print(" ");
+  print(length(empty()));
+  print("\n");
+
+  print( sum( id(filter(even, map(add1, mylst)) ) ) );
+  "";
+}

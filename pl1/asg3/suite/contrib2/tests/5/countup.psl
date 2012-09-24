@@ -1,0 +1,9 @@
+deffun countup(a,b)
+if ==(a,b)
+    print('done')
+else
+    if <(a,b)
+        countup(++a,b)
+    else
+        countup(a,++b)
+

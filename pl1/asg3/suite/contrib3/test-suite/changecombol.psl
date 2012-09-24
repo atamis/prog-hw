@@ -1,0 +1,6 @@
+defvar x = 24 in {
+    x = "hoo";
+    y = 6;
+    x;
+  
+}

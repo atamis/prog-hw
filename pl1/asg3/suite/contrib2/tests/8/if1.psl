@@ -1,0 +1,3 @@
+defvar x = 'a' in
+defvar y = if (==(x,'a')) then x='b' else x='c' in
+x

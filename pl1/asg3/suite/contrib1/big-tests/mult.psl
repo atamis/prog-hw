@@ -1,0 +1,13 @@
+# Making sure that for-loops work by implementing the multiplication function iteratively
+
+deffun mult(x,y)
+  defvar result = 0 in
+  defvar i = 0 in {
+    for(i=0; <(i,y); i++) {
+      result += x;
+    };
+    result;
+  }
+in {
+  mult(7,6)
+}

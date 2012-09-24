@@ -1,0 +1,4 @@
+defvar x = "y" in
+defvar o = {x: 1, y: 2} in {
+  o[x]
+}

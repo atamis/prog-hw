@@ -1,0 +1,3 @@
+# Side effects in conditions should execute before the body
+if print(4) then print(2) else print("This should not be printed.");
+"";

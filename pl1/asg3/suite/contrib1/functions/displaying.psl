@@ -1,0 +1,5 @@
+# Functions should be displayed as the string "function"
+
+print(lambda(x){42});
+print("\n");
+lambda(x){42};

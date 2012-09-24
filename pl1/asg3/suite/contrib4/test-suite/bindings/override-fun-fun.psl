@@ -1,0 +1,4 @@
+deffun x() 1 in
+deffun x(y) y in {
+  x(2)
+}

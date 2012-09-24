@@ -1,0 +1,9 @@
+5;
+"hahahaha";
+{J:8};
+{
+    prop1: 'a property',
+    prop2: 'another property'
+};
+
+

@@ -1,0 +1,12 @@
+# Using the assignment operator on a field of an object, should create a new
+# object with the field changed.
+
+defvar o1 = {x:42} in 
+defvar o2 = (o1.x = 4) in
+defvar o3 = (o2.x -= 2) in {
+  print(o1.x);
+  print("\n");
+  print(o2.x);
+  print(o3.x);
+  "";
+}

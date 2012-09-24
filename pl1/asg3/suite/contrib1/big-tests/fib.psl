@@ -1,0 +1,10 @@
+# fib(5) should successfully call itself recursively and return 5
+
+deffun fib(n)
+  # operators like + and == are prefix
+  if <(n, 1) then 0 else
+  if ==(n, 1) then 1 else
+  +(fib(-(n, 1)), fib(-(n, 2)))
+in {
+  fib(5)
+}

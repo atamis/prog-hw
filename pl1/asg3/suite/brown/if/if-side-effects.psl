@@ -1,0 +1,6 @@
+defvar x = 0 in
+deffun f() x++; false; in {
+  if(f()) then false else false;
+  print(x);
+}
+

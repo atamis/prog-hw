@@ -1,0 +1,4 @@
+defvar x = 2 in
+deffun x() 1 in {
+  x
+}

@@ -1,0 +1,12 @@
+# Reassigning a function parameter should not affect that vlaue that was
+# passed in
+
+deffun f(x)
+  x += 42;
+  x;
+in
+defvar x = 0 in {
+  print(f(x));
+  print(+(42,x));
+  "";
+}

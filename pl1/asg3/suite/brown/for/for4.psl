@@ -1,0 +1,3 @@
+# The init and test should run, and then body once, then the error
+# happens in the update
+for(print("init\n");print("test\n");+("an error", 5)) { print("body\n") }

@@ -1,0 +1,8 @@
+# Anything that is not false should be interpreted as true by if
+
+if 0 then print("42\n") else print("Error");
+if "false" then print("42\n") else print("Error");
+if "" then print("42\n") else print("Error");
+if {} then print("42\n") else print("Error");
+if lambda() {false;} then print("42") else print("Error");
+"";

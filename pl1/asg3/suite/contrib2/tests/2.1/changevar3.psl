@@ -1,0 +1,7 @@
+defvar o = {x:12} in
+{
+o.x = 13;
+print(o.x);
+print('\n');
+o.x;
+}

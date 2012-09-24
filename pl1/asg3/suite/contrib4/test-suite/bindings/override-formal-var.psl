@@ -1,0 +1,7 @@
+defvar x = 1 in
+defvar y = 2 in
+deffun f(x) x = 5 in {
+  print(f(y));
+  print(x);
+  y;
+}

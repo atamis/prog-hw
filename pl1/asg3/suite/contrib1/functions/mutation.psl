@@ -1,0 +1,7 @@
+# Closures should be affected by changes to the variables they close over
+
+defvar x = 23 in 
+deffun clos(y) +(x,y) in {
+  x = 40;
+  clos(2);
+}

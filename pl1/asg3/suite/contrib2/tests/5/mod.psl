@@ -1,0 +1,8 @@
+# Recursively finds a mod b
+deffun mod(a,b)
+if <(-(a,b),0) then
+    a
+else
+    mod(-(a,b), b)
+in
+    mod(29,5)

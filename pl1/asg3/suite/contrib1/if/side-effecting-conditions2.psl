@@ -1,0 +1,6 @@
+# Side effects in conditions should be visible inside and after the if-statement
+
+defvar x = 41 in {
+  if ==(++x, 41) then print("bla") else print(x);
+  x;
+}

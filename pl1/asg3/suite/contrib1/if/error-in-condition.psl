@@ -1,0 +1,7 @@
+# If evaluating the condition of an if statement causes an error, the body
+# of the if statement should not execute.
+
+if +(2,"error") then
+  print("This should not be printed.")
+else
+  print("This should also not be printed.")
