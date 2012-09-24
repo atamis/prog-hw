@@ -1,0 +1,28 @@
+What did you do in class this week? How did you make use of your time?
+Worked on the CFWAE interpreter.
+
+What words and concepts were new to you this week, and what do they mean?
+I didn't really understand y-combinators.
+
+If you created anything new, what was it?
+Interpreter is almost done.
+
+What new questions or goals do you have?
+Nothing.
+
+Did this week’s studies give you any ideas of things you could create?
+I dunno, better languages.
+
+What was good about this week?
+The interpreter was a nice level of challenge.
+
+What would you like to change-what can you do better?
+Nothing.
+
+What would you like me to change-what can I, the teacher, do better?
+Nothing.
+
+Do you have any other comments?
+Nope.
+
+
