@@ -1,0 +1,3 @@
+# Should first evaluate print statement, printing '4'
+# Should also throw an arity mismatch error
+(lambda(x, y) { x })(print("4\n"))

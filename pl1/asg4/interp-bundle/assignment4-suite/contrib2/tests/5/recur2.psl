@@ -1,0 +1,6 @@
+
+deffun f(i)
+if ==(i,0)
+print(i)
+else
+f(i--)

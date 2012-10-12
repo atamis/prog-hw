@@ -1,0 +1,8 @@
+# The value of an if statement should be the value of the branch that is evaluated
+
+defvar x1 = if 0 then 4 else 23 in
+defvar x2 = if false then 23 else 2 in {
+  print(x1);
+  print(x2);
+  "";
+}

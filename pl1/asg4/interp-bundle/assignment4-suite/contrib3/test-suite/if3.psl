@@ -1,0 +1,6 @@
+deffun not(b) if b then false else true in {
+    if true then
+        print(not(true))
+    else
+        5
+}

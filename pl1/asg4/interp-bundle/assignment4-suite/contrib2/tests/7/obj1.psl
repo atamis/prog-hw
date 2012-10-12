@@ -1,0 +1,3 @@
+defvar o = {x: lambda(x) +(x,17)} in
+defvar p = (o.y = o.x).y in
+p

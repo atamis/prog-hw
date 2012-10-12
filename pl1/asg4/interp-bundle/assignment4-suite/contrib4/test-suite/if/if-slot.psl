@@ -1,0 +1,3 @@
+defvar o = {v: true} in {
+  if o.v then "passed" else "failed"
+}

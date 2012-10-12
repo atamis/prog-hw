@@ -1,0 +1,5 @@
+# sequence of operations
+print("hello!\n");
+print({x:2});
+print("\n");
+"end";

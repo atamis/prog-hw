@@ -1,0 +1,8 @@
+# If a for loop does execute, it's value should be that of the last expression
+# in its body
+
+defvar cond = true in {
+  for(23; cond; cond = false) {
+    42
+  }
+}

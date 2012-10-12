@@ -1,0 +1,5 @@
+# Scope of defined functions (check that it's not available globally)
+deffun f2() f1() in
+deffun f1() print('f1') in
+{ f2() }
+

@@ -1,0 +1,19 @@
+# A closure should be able to modify closed-over variables
+
+deffun create_counter()
+  defvar count = 0 in
+  deffun next() count++ in
+  next
+in
+defvar counter1 = create_counter() in
+defvar counter2 = create_counter() in {
+  counter1();
+  counter2();
+  counter1();
+  counter1();
+  counter2();
+  counter1();
+  print(counter1());
+  print(counter2());
+  "";
+}

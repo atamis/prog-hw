@@ -1,0 +1,1 @@
+(print({f:lambda(self){5}}))@["f"]()

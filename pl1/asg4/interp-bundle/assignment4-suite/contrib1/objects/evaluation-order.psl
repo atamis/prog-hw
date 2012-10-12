@@ -1,0 +1,4 @@
+# Make sure the expressions in an object literal are evaluated left-to-right
+
+{y: print(4), x: print(2)};
+"";

@@ -1,0 +1,5 @@
+defvar f = lambda(x, y) {defvar y = "haha" in {+(y,"you")}} in {
+  print(f("One", "Object-Oriented Programming"));
+  print(f("Two", "Functional Programming"));
+  "";
+}

@@ -1,0 +1,7 @@
+defvar o1 = {} in
+defvar o2 = {f: lambda(s) { o1 = s.x = 5 }} in {
+  o1 = o2;
+  o1@f();
+  o1.x;
+  o2.x;
+}

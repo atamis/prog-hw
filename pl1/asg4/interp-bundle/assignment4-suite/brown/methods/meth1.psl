@@ -1,0 +1,6 @@
+defvar o = {
+  x: 22,
+  f: lambda(self) { self.x }
+} in
+o@f()
+

@@ -1,0 +1,3 @@
+defvar lie = lambda(x) +('b',x) in {
+lie.field = 4;
+}

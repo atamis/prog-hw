@@ -1,0 +1,4 @@
+defvar o = {f: lambda(s) { s = s.x = 2 }, x: 1} in {
+  o@f();
+  o.x;
+}

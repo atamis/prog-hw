@@ -1,0 +1,1 @@
+({y: print("42\n")}).x += print("Fail\n")

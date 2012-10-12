@@ -1,0 +1,17 @@
+# If a closed-over variable is changed in a loop, the closure should see the
+# change iff the variable is not local to the loop
+
+defvar f = 0 in
+defvar notlocal = 0 in {
+  for(notlocal = 0; <(notlocal, 4); notlocal++) 
+  defvar local = notlocal in {
+    if ==(notlocal, 2) then {
+      f = lambda() {
+        print(notlocal);
+        print(local);
+      };
+    } else 0
+  };
+  f();
+  "";
+}

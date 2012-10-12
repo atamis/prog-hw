@@ -1,0 +1,4 @@
+deffun test(x) x in {
+  test = "test";
+  test(5);
+}

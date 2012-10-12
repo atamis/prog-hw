@@ -1,0 +1,13 @@
+print(<(3,1));
+print("\n");
+print(>(4,5));
+print("\n");
+print(+(3,4,5));
+print("\n");
+print(-(9,8,7));
+print("\n");
+print(+("one ", "two ", "three"));
+print("\n");
+print(==(5,5));
+print("\n");
+==("foo",5);

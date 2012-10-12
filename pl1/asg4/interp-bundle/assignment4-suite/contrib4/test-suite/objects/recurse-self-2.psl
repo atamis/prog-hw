@@ -1,0 +1,11 @@
+defvar o = {
+  f: (lambda(s,x) { s = s.x = x; s@loop(); s; }),
+  loop: (lambda (s) { print(s.x); if ==(s.x,0) then 0 else {
+    s = s.x -= 1;
+    s@loop();
+    s;
+  };})
+} in {
+  print(o = o@f(5));
+  o.x;
+}

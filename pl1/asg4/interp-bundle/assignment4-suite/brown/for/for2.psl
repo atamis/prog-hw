@@ -1,0 +1,4 @@
+defvar x = 0 in {
+  for(x++; ==(x,0); 0) print("shouldn't happen");
+  x;
+}

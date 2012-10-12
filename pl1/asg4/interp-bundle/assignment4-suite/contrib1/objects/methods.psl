@@ -1,0 +1,11 @@
+defvar o = {
+  f: lambda(self) { print(self.x) },
+  x: 42
+} in {
+  o.f(o);
+  o@f();
+  o = (o.x = 23);
+  o.f(o);
+  o@f();
+  "";
+}

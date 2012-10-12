@@ -1,0 +1,9 @@
+# The value of a while loop should be the value of the last expression
+# in its body
+
+defvar cond = true in {
+  while(cond) {
+    cond = false;
+    42;
+  }
+}

@@ -1,0 +1,2 @@
+# string equality
+==('abc', 'abc')

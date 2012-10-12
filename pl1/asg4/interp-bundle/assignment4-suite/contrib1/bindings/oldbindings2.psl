@@ -1,0 +1,7 @@
+# Changes to the old variable should not affect the new variable when defining
+# a variable with the same name
+
+defvar x = 42 in
+defvar x = x++ in {
+  x
+}

@@ -1,0 +1,23 @@
+# deffun defines a recursive function
+deffun fib(n)
+  # operators like + and == are prefix
+  if <(n, 1) then 0 else
+  if ==(n, 1) then 1 else
+  +(fib(-(n, 1)), fib(-(n, 2)))
+# The in ends the function body in a deffun, which can be followed by
+# another deffun, a defvar, or a braced expression
+in
+# defvar creates a new variable with an initial value, bound inside the
+# body of the defvar
+defvar x = 0 in {
+  # For loops have an initialization, a test, an update, and a body
+  for(x = 0; <(x,10); x++) {
+    # print takes any value and displays it
+    print(fib(x));
+    print(" ");
+  };
+  # The result of the program is the value of the last expression
+  # evaluated.  It is printed, so we avoid printing it by terminating the
+  # program with a ""
+  "";
+}

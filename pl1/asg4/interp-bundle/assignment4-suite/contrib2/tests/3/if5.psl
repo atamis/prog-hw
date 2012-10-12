@@ -1,0 +1,6 @@
+# If statements should execute the 'then' expression on true, and the 'else' expression on false
+# Numbers also cause the 'then' expression to evaluate
+
+if true then print("passed\n") else print("failed\n");
+if false then print("failed\n") else print("passed\n");
+if 5 then print("passed\n") else print("failed\n");

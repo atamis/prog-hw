@@ -1,0 +1,3 @@
+defvar test = lambda(x) x in {
+  test(5)
+}

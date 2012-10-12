@@ -1,0 +1,4 @@
+defvar x = 1 in {
+  x = lambda() { 5 };
+  x;
+}

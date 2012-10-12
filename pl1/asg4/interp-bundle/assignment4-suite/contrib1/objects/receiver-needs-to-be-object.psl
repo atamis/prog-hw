@@ -1,0 +1,2 @@
+# Looking up a field on a non-object should cause an error
+(42)["cause_error"];

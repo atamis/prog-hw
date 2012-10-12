@@ -1,0 +1,8 @@
+# Closures should close over variables even after they went out of scope
+
+deffun make_adder(x)
+  deffun adder(y) +(x,y) in
+  adder
+in {
+  make_adder(2)(40)
+}

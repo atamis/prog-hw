@@ -1,0 +1,5 @@
+defvar x = 1 in
+deffun f() x in {
+  x = 5;
+  f();
+}

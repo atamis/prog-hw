@@ -1,0 +1,6 @@
+defvar x = 6 in {
+  print(x += 6);
+  print("\n");
+  x;
+}
+

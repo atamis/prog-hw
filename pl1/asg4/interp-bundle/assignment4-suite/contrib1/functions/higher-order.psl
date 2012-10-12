@@ -1,0 +1,8 @@
+deffun compose(f,g)
+  lambda (x) { f(g(x)) }
+in
+deffun plus1(x) +(x, 1) in
+deffun minus1(x) -(x, 1) in
+defvar id = compose(plus1, minus1) in {
+  id(42)
+}

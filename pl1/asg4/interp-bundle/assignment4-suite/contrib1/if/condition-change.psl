@@ -1,0 +1,20 @@
+# If the value of the condition changes during the evaluation of the if-body,
+# that should have no effect
+
+defvar cond = true in {
+  if cond then {
+    cond = false;
+    print(4);
+  } else {
+    print(23);
+  };
+
+  if cond then {
+    print(23);
+  } else {
+    cond = true;
+    print(2);
+  };
+
+  "";
+}

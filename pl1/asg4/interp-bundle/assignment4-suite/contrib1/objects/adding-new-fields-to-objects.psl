@@ -1,0 +1,11 @@
+# Adding a new field to an object should work the same way as modifying an
+# existing one (i.e. return a new object with the added field)
+
+defvar o1 = {x: 42} in
+defvar o2 = (o1.y = 23) in {
+  print(o1.x); # 42
+  print(o2.x); # 42
+  print(o2.y); # 23
+  print("\n");
+  print(o1.y); # Error
+}

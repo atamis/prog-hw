@@ -1,0 +1,5 @@
+# changing vars
+defvar x = 24 in {
+  x += 18;
+    x;
+    }

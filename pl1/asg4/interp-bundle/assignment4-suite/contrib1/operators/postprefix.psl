@@ -1,0 +1,8 @@
+# This should call f with the arguments 20 and 22 because x++ evaluates to the
+# old value of x (20), but increments x before ++x is executed, which increments
+# the new value of x (21) by one and evaluates to the new new value (22).
+
+deffun f(x,y) +(x,y) in
+defvar x = 20 in {
+  f(x++,++x);
+}

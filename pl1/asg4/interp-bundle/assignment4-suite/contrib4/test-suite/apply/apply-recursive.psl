@@ -1,0 +1,5 @@
+deffun loop(x)
+  if >(x, 0) then { print(x); loop(--x); } else "done"
+in {
+  loop(5)
+}

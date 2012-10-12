@@ -1,0 +1,5 @@
+deffun printobj()
+  print("in func\n");
+  {x:22};
+in
+(printobj().x += 5).x

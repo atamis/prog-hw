@@ -1,0 +1,5 @@
+deffun id(x) x in
+defvar o = {x:42} in
+defvar o2 = (o.f = id) in {
+  o2@f().x
+}

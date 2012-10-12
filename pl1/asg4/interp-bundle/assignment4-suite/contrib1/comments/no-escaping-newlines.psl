@@ -1,0 +1,3 @@
+# Parseltongue does not allow extending comments to the next line with \
+print("So this should be printed.");
+"";

@@ -1,0 +1,12 @@
+defvar x = 0 in {
+  while(true) {
+    print(x);
+    print("\n");
+    x = +(x,1);
+    if ==(x, 3)
+    then +("cause error", 5)
+    else +("no problem");
+  };
+  print("shouldn't get here");
+}
+
