@@ -1,0 +1,30 @@
+What did you do in class this week? How did you make use of your time?
+Worked on the desugarer, then I got started on the interpreter.
+
+What words and concepts were new to you this week, and what do they mean?
+None.
+
+If you created anything new, what was it?
+I sort of made a desugarer. I also hacked something together in ruby to
+run an assassin game.
+
+What new questions or goals do you have?
+None.
+
+Did this week’s studies give you any ideas of things you could create?
+No.
+
+What was good about this week?
+Nothing.
+
+What would you like to change-what can you do better?
+Nothing.
+
+What would you like me to change-what can I, the teacher, do better?
+Nothing.
+
+Do you have any other comments?
+Making a language like ParselTongue really shows me just how out of my
+depth I was when I first tried to make a language. 
+
+
