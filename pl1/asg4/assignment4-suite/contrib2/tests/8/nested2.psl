@@ -1,0 +1,4 @@
+deffun a(x) x in
+deffun b(x) a in
+deffun c(x) b in
+c()

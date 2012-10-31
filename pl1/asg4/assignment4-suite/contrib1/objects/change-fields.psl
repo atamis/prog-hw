@@ -1,0 +1,7 @@
+# Using the assignment operator on a field of an object should not change
+# the object
+
+defvar o = {x : 23} in {
+  o.x = 42;
+  o.x;
+}

@@ -1,0 +1,7 @@
+deffun not(x) if x then false else true in
+defvar x = 0 in {
+  while(not(==(x,10))) {
+    x = +(x,1)
+  }
+}
+

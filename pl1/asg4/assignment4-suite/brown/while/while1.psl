@@ -1,0 +1,4 @@
+defvar x = false in {
+  while(x) print("fail\n");
+  print("passed\n");
+}

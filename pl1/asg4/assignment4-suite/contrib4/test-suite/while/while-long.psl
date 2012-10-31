@@ -1,0 +1,6 @@
+defvar i = 0 in {
+  while ( <(i, 2) ) {
+    print("foo");
+    i++;
+  }
+}

@@ -1,0 +1,3 @@
+# Using anything other than a string as a key for an object should be an error
+
+({x:42})[42]

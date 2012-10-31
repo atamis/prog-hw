@@ -1,0 +1,7 @@
+# multiple deffuns and defvars can appear in a row, but the final body
+# must be enclosed in {}
+defvar x = 0 in
+deffun inc() x++ in
+deffun dec() x-- in {
+  inc(); dec(); dec(); inc();
+}

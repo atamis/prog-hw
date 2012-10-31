@@ -1,0 +1,5 @@
+# Sequential print statements should be printed sequentially
+
+print("foo");
+print("bar");
+"";

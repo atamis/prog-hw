@@ -1,0 +1,2 @@
+# methods with composed names
+defvar o = {fg:lambda(self) { self.x }, x:3} in { o@[+("f", "g")]() }

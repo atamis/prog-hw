@@ -1,0 +1,6 @@
+defvar x = 1 in
+deffun test(y) {
+  defvar x = 2 in { x }
+} in {
+  test(5)
+}

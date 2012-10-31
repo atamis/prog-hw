@@ -1,0 +1,4 @@
+defvar x = y in
+defvar y = 2 in {
+  x
+}

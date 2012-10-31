@@ -1,0 +1,11 @@
+defvar x = 1 in
+deffun f() print(x = 2) in
+deffun g() x in
+defvar x = 5 in
+defvar y = f() in {
+  print(g());
+  print(x);
+  f();
+  print(g());
+  x;
+}

@@ -1,0 +1,21 @@
+# When empty is called, a new object with the isempty field mapping to a
+# function is created
+deffun empty() { isempty: lambda(self) { true } } in
+# Here we define a cons, which allows accessing its first element and the
+# rest of its elements.  It reports that it is not empty
+deffun cons(elt, lst) {
+  first: lambda(self) { elt },
+  rest: lambda(self) { lst },
+  isempty: lambda(self) { false }
+} in
+# length() takes a list and computes the number of elements in the list.
+# The @ syntax is the syntax for message passing
+deffun length(lst)
+  if (lst@isempty()) then 0
+  else +(1, length(lst@rest()))
+in {
+  print(length(cons(5, cons(2, empty()))));
+  print(" ");
+  print(length(empty()));
+  "";
+}

@@ -1,0 +1,4 @@
+# Calling a relational operator with 0 arguments should result in a different
+# error than with 1 or 3
+
+<()

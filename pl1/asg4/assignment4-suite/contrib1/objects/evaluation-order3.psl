@@ -1,0 +1,5 @@
+# Using bracket lookup the object should be evaluated before the field name
+({Second: print("First\n")})[print("Second")];
+print("\n");
+({Second: print("First\n")})[print("Second")] = print("\nThird");
+"";

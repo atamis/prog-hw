@@ -1,0 +1,5 @@
+# Two identical fields
+devar o = {
+field: 1,
+field: 1
+} in o.field

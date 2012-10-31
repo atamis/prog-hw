@@ -1,0 +1,3 @@
+# Make sure that "Multiply-defined fields" error is thrown before expressions
+# in the object are evaluated
+{x: print("Should not"), x: print("be printed.")}

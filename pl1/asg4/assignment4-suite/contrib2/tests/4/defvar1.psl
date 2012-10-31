@@ -1,0 +1,10 @@
+# You can also nest deffuns and defvars
+deffun not(b) if b then false else true in
+    defvar x = 0 in {
+        if ==(x, 0) then
+            print("Passed")
+        else
+            print("Failed")
+        ;
+        x;
+  }

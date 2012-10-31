@@ -1,0 +1,4 @@
+# Multiple expressions not separated by semicolons should not be allowed.
+
+12
+34

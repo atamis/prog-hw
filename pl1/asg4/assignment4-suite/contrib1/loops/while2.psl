@@ -1,0 +1,10 @@
+# This should be printed only once since the loop condition is set to false
+# right away in the loop body
+
+defvar cond = true in {
+  while(cond) {
+    print(42);
+    cond = false;
+  };
+  "";
+}

@@ -1,0 +1,7 @@
+defvar o = {f1:1, f2:2, f4:4} in
+defvar i = 1 in {
+while(<(i,5)) {
+print(o[+('f', i)]);
+print(i);
+}
+}

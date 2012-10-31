@@ -1,0 +1,5 @@
+defvar o = {} in {
+  o = (o["foo\n"] = 22);
+  o = (o[print("foo\n")] += 44);
+  o["foo\n"];
+}

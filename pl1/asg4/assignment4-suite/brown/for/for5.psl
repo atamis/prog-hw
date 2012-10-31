@@ -1,0 +1,16 @@
+deffun error() +("error", 5) in
+defvar x = 0 in
+deffun update()
+  x++;
+  print("x=");
+  print(x);
+  print("\n");
+in {
+  for(print("init\n");
+      if ==(x, 1) then error() else true;
+      update()) {
+    print("body\n");
+    print(x);
+    print("\n");
+  }
+}

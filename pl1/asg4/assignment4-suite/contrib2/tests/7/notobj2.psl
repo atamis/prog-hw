@@ -1,0 +1,3 @@
+defvar lie = 'string' in {
+lie.field = 4;
+}

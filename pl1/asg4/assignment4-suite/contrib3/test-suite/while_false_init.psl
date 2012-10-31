@@ -1,0 +1,8 @@
+defvar x = 0 in {
+  while(>(x,0)) {
+    print(x);
+    print(", ");
+    #if >(x, 5) then ({x : "gotcha"}).z
+    print(+(9, "76"));   
+  }
+}

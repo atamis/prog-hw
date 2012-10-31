@@ -1,0 +1,6 @@
+defvar x = 1 in
+deffun f() x in
+defvar x = 5 in {
+  x = 10;
+  f();
+}

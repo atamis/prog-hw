@@ -1,0 +1,4 @@
+# It should be allowed to use an if expression as the condition for another
+# if expression
+
+if (if true then true else false) then 42 else 23

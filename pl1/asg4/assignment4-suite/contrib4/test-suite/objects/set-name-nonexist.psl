@@ -1,0 +1,5 @@
+defvar o = {} in
+defvar o2 = {} in {
+  o2 = o["x"] = 1;
+  o2.x;
+}

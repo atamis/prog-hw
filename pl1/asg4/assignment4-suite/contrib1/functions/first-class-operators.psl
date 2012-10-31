@@ -1,0 +1,8 @@
+# Despite looking like functions syntactically, operators can not be passed as
+# arguments to functions the same way that functions can
+
+deffun apply(f, x) f(x) in 
+deffun apply2(f, x,y) f(x,y) in {
+  apply(print, apply2(+, 23, 19));
+  "";
+}

@@ -1,0 +1,3 @@
+# The value of the last expression that was evaluated should be printed.
+
+42;

@@ -1,0 +1,4 @@
+defvar o = {
+    a: if true then 'true' else 'false',
+    b: if true then 'true' else 'false',
+} in o.a

@@ -1,0 +1,5 @@
+# If the condition of a for loop is false going in, the value of the
+# initializer expression should be the value of the entire for loop
+for(42; false; nop) {
+  23
+}

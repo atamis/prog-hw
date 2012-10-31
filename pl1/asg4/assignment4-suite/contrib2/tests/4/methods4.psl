@@ -1,0 +1,9 @@
+defvar o = {
+    x: 1,
+    m: lambda() {
+        self.x++;
+    }
+} in {
+o@m();
+print(o.x);
+}

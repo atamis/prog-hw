@@ -1,0 +1,4 @@
+# Make sure that the receiver of a method call is evaluated before the arguments
+
+({x: print(4), f: lambda(self, x) {x} })@f(print(2));
+"";

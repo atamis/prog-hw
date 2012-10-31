@@ -1,0 +1,7 @@
+# Redeclaring a variable should not affect closures
+
+defvar x = 40 in
+deffun f(y) +(x,y) in
+defvar x = 23 in {
+  f(2)
+}

@@ -1,0 +1,8 @@
+deffun f1(x) x in
+deffun f2(y) x in
+deffun f3(z) x in
+{
+f1(1);
+f2(2);
+f3(3);
+}

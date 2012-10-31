@@ -1,0 +1,3 @@
+# Negative number literals are not allowed by the reference implementation
+
+-42

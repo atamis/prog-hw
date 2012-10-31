@@ -1,0 +1,2 @@
+# Having multiple fields with the same name in an object should be an error
+{x: 42, x: 23}
