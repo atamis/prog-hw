@@ -1,4 +1,0 @@
-deffun x() 1 in
-defvar x = 2 in {
-  x()
-}

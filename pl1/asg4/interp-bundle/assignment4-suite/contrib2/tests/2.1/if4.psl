@@ -1,1 +1,0 @@
-if -(1,2) then print("then branch\n") else print("else branch\n");

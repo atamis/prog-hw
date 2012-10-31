@@ -1,3 +1,0 @@
-# Make sure that trying to apply a non-function as a method produces an error
-
-({x: 42})@x()

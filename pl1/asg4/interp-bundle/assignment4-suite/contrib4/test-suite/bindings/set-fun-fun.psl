@@ -1,4 +1,0 @@
-deffun x() 1 in {
-  x = lambda() { 5 };
-  x();
-}

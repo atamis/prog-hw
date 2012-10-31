@@ -1,2 +1,0 @@
-# accessing fields with bad values
-({longfield: 5})[+("long", "field", 1)]

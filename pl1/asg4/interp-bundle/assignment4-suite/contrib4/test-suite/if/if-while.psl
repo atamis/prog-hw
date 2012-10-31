@@ -1,1 +1,0 @@
-if while (false) { false } then "failed" else "passed"

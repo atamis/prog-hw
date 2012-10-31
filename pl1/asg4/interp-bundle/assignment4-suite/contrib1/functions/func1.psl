@@ -1,2 +1,0 @@
-# A function expression should yield a function expression
-lambda(x,y) { x }

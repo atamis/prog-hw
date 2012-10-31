@@ -1,4 +1,0 @@
-if lambda(x) { false } then
-'true'
-else
-'false'

@@ -1,3 +1,0 @@
-defvar lie = 1 in {
-lie.field = 4;
-}

@@ -1,1 +1,0 @@
-if deffun test(x) x in { x } then "passed" else "failed"

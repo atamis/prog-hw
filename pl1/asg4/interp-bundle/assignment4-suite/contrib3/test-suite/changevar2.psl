@@ -1,6 +1,0 @@
-defvar x = "before" in {
-  print(x);
-  print("\n");
-  x = "after";
-  x;
-}

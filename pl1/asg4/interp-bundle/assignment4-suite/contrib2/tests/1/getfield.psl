@@ -1,2 +1,0 @@
-# Getting a field
-({x: "my field value"}).x

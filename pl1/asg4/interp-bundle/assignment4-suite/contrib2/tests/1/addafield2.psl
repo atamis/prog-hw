@@ -1,2 +1,0 @@
-# Adding a field, correctly
-(({x:"before"}).x = "after").x

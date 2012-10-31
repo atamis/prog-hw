@@ -1,4 +1,0 @@
-defvar x = "foo" in {
-  x += "bar";
-  x;
-}

@@ -1,1 +1,0 @@
-if false then "failed" else "passed"

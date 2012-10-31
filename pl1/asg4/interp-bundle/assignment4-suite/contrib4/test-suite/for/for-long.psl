@@ -1,5 +1,0 @@
-defvar i = 0 in {
-  for (i = 0; <(i, 2); i++) {
-    print("foo")
-  }
-}

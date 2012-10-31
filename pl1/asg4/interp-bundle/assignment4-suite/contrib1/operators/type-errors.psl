@@ -1,3 +1,0 @@
-# Can't add integers and strings
-
-+(42, "23")

@@ -1,4 +1,0 @@
-defvar o = {
-  f: lambda(self, y) { self.y = y }
-} in
-o@["f"](2).y

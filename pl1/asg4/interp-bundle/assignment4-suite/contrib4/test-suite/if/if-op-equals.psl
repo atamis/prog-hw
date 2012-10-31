@@ -1,1 +1,0 @@
-if ==(false, false) then "passed" else "failed"

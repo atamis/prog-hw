@@ -1,3 +1,0 @@
-# Make sure that a function taking no arguments can't be applied as a method
-
-({f : lambda() {42;}})@f()

@@ -1,4 +1,0 @@
-defvar i = 1 in
-deffun test(x) +(x, x) in {
-  test(++i)
-}

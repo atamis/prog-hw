@@ -1,3 +1,0 @@
-# boolean equality
-==(true, true)
-==(true, false)

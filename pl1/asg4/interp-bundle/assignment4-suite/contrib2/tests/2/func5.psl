@@ -1,6 +1,0 @@
-defvar f = lambda(x) {
-    print('f');
-} in {
-    f();
-}
-

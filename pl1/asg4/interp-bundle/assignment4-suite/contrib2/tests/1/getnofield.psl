@@ -1,2 +1,0 @@
-# Getting non-existent field
-({x: "my field value"}).y

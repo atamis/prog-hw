@@ -1,3 +1,0 @@
-defvar f = lambda() { print("not til later\n") } in {
-  if f then print("passed") else 0;
-}

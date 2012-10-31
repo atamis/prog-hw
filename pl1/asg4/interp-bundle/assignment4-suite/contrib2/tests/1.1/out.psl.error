@@ -1,3 +1,0 @@
-error reading from stream port
-  port: 'stdin
-  system error: Is a directory; errno=21

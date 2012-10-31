@@ -1,4 +1,0 @@
-# Can't define recursive functions using defvar and lambda
-
-defvar f = lambda (x) { f(x) } in
-f(42)

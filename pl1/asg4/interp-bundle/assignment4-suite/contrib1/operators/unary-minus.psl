@@ -1,3 +1,0 @@
-# Calling the - operator with a single operand returns the operand unchanged - it does not negate it.
-
--(42)

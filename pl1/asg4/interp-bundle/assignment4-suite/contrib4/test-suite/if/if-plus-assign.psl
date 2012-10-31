@@ -1,3 +1,0 @@
-defvar i = 0 in {
-  if i += 1 then "passed" else "failed"
-}

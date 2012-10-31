@@ -1,6 +1,0 @@
-# defining functions
-deffun times(n, m)
-  if <(n, 1) then 0 else +(times(-(n,1),m),m)
-in {
-  times(3,4)
-}

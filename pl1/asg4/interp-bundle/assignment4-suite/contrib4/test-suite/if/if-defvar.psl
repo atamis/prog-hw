@@ -1,1 +1,0 @@
-if defvar x = 1 in { x } then "passed" else "failed"

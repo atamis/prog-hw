@@ -1,2 +1,0 @@
-# Method arguments should not be evaluated if the method does not exist
-({x:12})@f(print("42\n"))

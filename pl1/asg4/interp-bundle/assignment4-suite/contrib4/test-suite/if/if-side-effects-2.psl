@@ -1,1 +1,0 @@
-if print(true) then print("passed") else print("failed")

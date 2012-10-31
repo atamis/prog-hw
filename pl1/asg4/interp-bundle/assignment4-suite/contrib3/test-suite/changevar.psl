@@ -1,4 +1,0 @@
-defvar x = "before" in {
-  x = "after";
-  x;
-}

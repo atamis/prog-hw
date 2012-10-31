@@ -1,1 +1,0 @@
-defvar o = {x: "myfield"} in { o.x }

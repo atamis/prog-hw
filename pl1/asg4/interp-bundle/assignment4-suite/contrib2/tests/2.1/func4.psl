@@ -1,7 +1,0 @@
-defvar f = lambda(x) {
-    defvar x = 5 in {
-    x;
-    }
-} in {
-f()
-}

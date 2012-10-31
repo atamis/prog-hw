@@ -1,3 +1,0 @@
-# Can't do arithmetic with boolean
-
-+(42, true)

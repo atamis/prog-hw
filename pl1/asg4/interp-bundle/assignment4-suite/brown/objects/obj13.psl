@@ -1,4 +1,0 @@
-({ z : 34,
-   x : 7, 
-   y : 90,
-   x : "defined again"}).x

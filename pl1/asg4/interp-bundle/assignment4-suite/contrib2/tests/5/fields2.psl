@@ -1,5 +1,0 @@
-# Two fields with same name but different valjues
-devar o = {
-field: 1,
-field: 2
-} in o.field

@@ -1,7 +1,0 @@
-defvar x = 5 in
-  defvar o = 
-    { a : x++,
-      b : x } in {
-  print(o.a);
-  print(o.b);
-}

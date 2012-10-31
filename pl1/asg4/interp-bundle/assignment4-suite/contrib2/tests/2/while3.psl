@@ -1,6 +1,0 @@
-defvar i = 1 in {
-while(<(i,5)) {
-print(o[+('f', i)]);
-print(i);
-}
-}

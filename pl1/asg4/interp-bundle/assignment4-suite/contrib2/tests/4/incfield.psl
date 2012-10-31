@@ -1,6 +1,0 @@
-# Is it possible to increment fields?
-def o = {
-    x:1
-} in {
-    o.x++;
-}

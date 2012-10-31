@@ -1,4 +1,0 @@
-# When using @ the object should not be evaluated twice
-
-({ x: print("42"), f: lambda(self) {23;} })@f();
-"";
