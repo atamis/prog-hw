@@ -20,10 +20,10 @@
     (with-syntax ([the-check
                    (syntax/loc loc (check-aeq? e1-out 'e2))]
                   #;[pass-name (syntax->datum #'this-pass)])
-      #`(let ([e1-out (#,this-pass 'e1)])
+      #`(let ([e1-out (#,this-pass `e1)])
           (with-check-info* (list (make-check-expression
-                                   '(check-aeq? (#,this-pass 'e1) 'e2))
-                                  (make-check-params (list 'e1 'e2))
+                                   '(check-aeq? (#,this-pass `e1) `e2))
+                                  (make-check-params (list `e1 `e2))
                                   (make-check-info 'pass-output e1-out))
             (λ () the-check))))))
 
@@ -47,12 +47,12 @@
          (define (make-check loc stx)
            (syntax-case stx ()
              [(e1 e2)
-              (with-syntax ([the-check (syntax/loc loc (check-equal? e1-out 'e2))])
-                #'(let ([e1-out (this-pass 'e1)])
+              (with-syntax ([the-check (syntax/loc loc (check-equal? e1-out `e2))])
+                #'(let ([e1-out (this-pass `e1)])
                     (with-check-info*
                         (list (make-check-expression
-                               '(check-equal? (this-pass 'e1) 'e2))
-                              (make-check-params (list 'e1 'e2))
+                               '(check-equal? (this-pass `e1) `e2))
+                              (make-check-params (list `e1 `e2))
                               (make-check-info 'pass-output e1-out))
                       (λ () the-check))))]))
          (with-syntax ([(new-test ...)

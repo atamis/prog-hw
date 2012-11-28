@@ -107,7 +107,9 @@
     (procedure? 1 test)
     (vector? 1 test)
     (pair? 1 test)
+    (cons? 1 test)
     (null? 1 test)
+    (empty? 1 test)
 
    ; value-producing
     (+ 2 value)
