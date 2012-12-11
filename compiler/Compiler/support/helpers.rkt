@@ -6,6 +6,7 @@
          decl?
          primitive? user-prim? system-prim?
          predicate-prim? value-prim? effect-prim? effect-free-prim?
+         string->nested-primapps
          )
 
 (: disjoin ((Any -> Boolean) * -> (Any -> Boolean)))
@@ -29,6 +30,22 @@
     [(list (? symbol? lhs) rhs)
      #t]
     [otherwise #f]))
+
+;;;;;;;; For constructing strings:
+
+(require/typed srfi/13 [string-reverse (String -> String)])
+
+(define-type Lang5String
+  (Rec L5S
+       (U ''()
+          (List 'cons (List 'quote Char) L5S))))
+
+;; Converts a string to a quoted cons-expression.
+;; e.g.: "abc" => '(cons '#\a (cons '#\b (cons '#\c '())))
+(: string->nested-primapps (String -> Lang5String))
+(define (string->nested-primapps s)
+  (for/fold: ([expr : Lang5String ''()]) ([c (string-reverse s)])
+    `(cons ',c ,expr)))
 
 ;                                          
 ;                                          
