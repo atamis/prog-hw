@@ -1,7 +1,9 @@
+
 #lang racket
 
 (require "support/helpers.rkt"
-         "support/env.rkt")
+         "support/env.rkt"
+         racket/trace)
 
 (provide pass6 enforce-letrec-rule)
 
@@ -161,34 +163,192 @@ of Lang5.
   (define (elr x unprotected protectable flags)
     (match x
       [(list 'begin e es ...)
-       (error "unimplemented")]
-      [_ (elr/nb x unprotectable protectable flags)]))
+       (let-values
+           ([(exprs unsafe refs) (map/union elr (cons e es))])
+         (values (cons 'begin exprs)
+                 unsafe
+                 refs)
+         )
+       ]
+      [_ (elr/nb x unprotected protectable flags)]))
   
-  ;; elr/nb : Exp Set[Id] Set[Id] Env[Id => Id] --> Exp Setof[Id] Setof[Flag]
+  
+  
+  (define (process-letrec-decl ls-rs processed unprotectable 
+                               protectable flags unsafe refs)
+    (let*-values ; use let*-values
+        ([(unsafe-exprs)
+          (map (lambda (unsafe-id)
+                 (lookup unsafe-id ls-rs)) (set->list unsafe))
+          ]
+         [(exprs new-unsafe new-refs)
+          (map/union (lambda (expr)
+                       (elr expr unprotectable protectable flags))
+                     (map cdr unsafe-exprs))
+          ]
+         [(new-processed)
+          (extend-env (set->list new-unsafe) exprs processed)
+          ]
+         [(all-Ls)
+          (map car ls-rs)
+          ]
+         )
+      (if (not (set=? (seteq) (set-intersect (list->seteq all-Ls)
+                                             new-unsafe)))
+          (let-values ([(exprs recur-unsafe recur-refs)
+                        (process-letrec-decl
+                         ls-rs
+                         new-processed
+                         unprotectable
+                         protectable
+                         flags
+                         new-unsafe
+                         (set-union refs new-refs)
+                         )
+                        ])
+            (values exprs recur-unsafe recur-refs)
+            )
+          (values new-processed new-unsafe (set-union new-refs refs))
+          )
+      )
+    )
+  
+  ;; elr/nb : Exp Set[Id] Set[Id] Env[Id => Id] --> Exp Setof[Id] Setof[Id]
   (define (elr/nb x unprotectable protectable flags)
     (match x
-      [(list 'quote lit) (error "unimplemented")]
-      [(? symbol? x) (error "unimplemented")]
+      [(list 'quote lit)
+       (values (list 'quote lit) (seteq) (seteq))
+       ]
+      [(? symbol? x)
+       (if (set-member? (set-union unprotectable protectable) x)
+           (let ([flag (lookup flags x)])
+             (if flag
+                 (values (check x flag)
+                         (seteq x)
+                         (seteq x flag)
+                         )
+                 (values x (seteq x) (seteq x))
+                 )
+             )
+           (values x (seteq) (seteq x))
+           )
+       ]
       [(list 'set! (? symbol? id) rhs)
-       (error "unimplemented")]
+       (let-values ([(rhs-expr rhs-unsafe rhs-ref)
+                     (elr rhs (set-union unprotectable protectable) (seteq) flags)]
+                    [(flag) (lookup id flags)]
+                    )
+         (if (and (set-member? id (set-union unprotectable protectable))
+                  flag
+                  )
+             (values (check `(set! ,id ,rhs) flag) rhs-unsafe (set-add rhs-ref id) )
+             (values `(set! ,id ,rhs) rhs-unsafe rhs-ref)
+             )
+         )
+       ]
       [(list 'if test e1 e2)
-       (error "unimplemented")]
+       (let-values [
+                    ((test-xpr test-unsafe test-flags)
+                     (elr test unprotectable protectable flags))
+                    ((e1-xpr e1-unsafe e1-flags) (elr e1 unprotectable protectable flags))
+                    ((e2-xpr e2-unsafe e2-flags) (elr e2 unprotectable protectable flags))]
+         (values
+          `(,test-xpr ,e1-xpr ,e2-xpr)
+          (list test-xpr e1-xpr e2-xpr)
+          (set-union test-unsafe e1-unsafe e2-unsafe)
+          (set-union test-flags e1-flags e2-flags)
+          )
+         )
+       ]
       [(list 'let (list (list (? symbol? Ls) Rs) ...)
              (list 'tag (list 'asgd asgd-ids ...) (list 'refd refd-ids ...)
                    body))
-       (error "unimplemented")]
+       (let-values ([(rs-exprs rs-unsafe rs-refs)
+                     (map/union
+                      (lambda (expr)
+                        (elr expr unprotectable protectable flags)
+                        )
+                      Rs)]
+                    [(body-expr body-unsafe body-refs)
+                     (elr body unprotectable protectable flags)]
+                    )
+         (values (list 'let (map list Ls rs-refs)
+                       (list 'tag (list 'asgd asgd-ids) (list 'refd refd-ids)
+                             body-expr))
+                 (set-union rs-unsafe body-unsafe)
+                 (set-union rs-refs body-refs)
+                 )
+         )
+       ]
       [(list 'letrec (list (list (? symbol? Ls) Rs) ...)
              (list 'tag (list 'asgd asgd-ids ...) (list 'refd refd-ids ...)
                    body))
-       (error "unimplemented")]
+       (let-values ([(body-expr body-unsafe body-refs)
+                     (elr body unprotectable protectable flags)]
+                    [(valid-flag) (gensym 'valid?)])
+         (let ([new-flags (extend-env Ls (build-list (length Ls)
+                                                     (lambda (x) valid-flag)) flags)]
+               [ls-rs (extend-env Ls Rs (empty-env))]
+               )
+           (let-values ([(processed-env-exprs processed-unsafe processed-refs)
+                         (process-letrec-decl ls-rs (empty-env) unprotectable protectable
+                                              flags body-unsafe body-refs)]
+                        )
+             (let ([declarations (map (lambda (consy-pair)
+                                        (list (car consy-pair) (cdr consy-pair))
+                                        ) processed-env-exprs)])
+               (values
+                (if (set-member? processed-refs valid-flag)
+                    `(let ([,valid-flag #f])
+                       (letrec ,declarations
+                         (begin (set! ,valid-flag #t)
+                                ,body)
+                         )
+                       )
+                    `(letrec ,declarations
+                       ,body)
+                    )
+                processed-unsafe
+                processed-refs
+                ))
+             )
+           ))
+       ]
       [(list 'lambda (list (? symbol? formals) ...)
              (list 'tag (list 'asgd asgd-ids ...) (list 'refd refd-ids ...)
                    body))
-       (error "unimplemented")]
+       (let-values ([(body-expr body-unsafe body-refs)
+                     (elr body unprotectable (seteq) flags)])
+         (values (list 'lambda formals
+                       (list 'tag (list 'asgd asgd-ids) (list 'refd refd-ids)
+                             body-expr))
+                 body-unsafe
+                 body-refs
+                 )
+         )
+       ]
+      [(list (or 'lambda 'let 'letrec 'if) anything-else ...)
+       (error "Malformed lambda, or let, or letrec, or if")
+       ]
       [(list (? primitive? prim) args ...)
-       (error "unimplemented")]
+       (let-values ([(exprs unsafe flags)
+                     (map/union
+                      (lambda (expr)
+                        (elr expr unprotectable protectable flags)
+                        ) args)]
+                    )
+         (values
+          (cons prim exprs)
+          unsafe
+          flags
+          )
+         )
+       ]
       [(list proc args ...)
-       (error "unimplemented")]
+       (map/union (lambda (expr)
+                    (elr expr unprotectable protectable flags))
+                  (list proc args))
+       ]
       [_
        (error 'enforce-letrec-rule
               "expected Lang5 program, but encountered ~s in input program ~s"
@@ -210,13 +370,15 @@ of Lang5.
       (let-values ([(new-x s1 s2) (f x)])
         (values (cons new-x new-xs) (set-union ids1 s1) (set-union ids2 s2)))))
   
-  ;; unwrap : Lang5:Prog -> Lang5:Exp
-  (define (unwrap prog)
-    (match prog
-      [(list 'let '() stx-def e) e]))
-  (elr (unwrap prog) empty empty (empty-env)))
+  (let-values ([(expr unsafe refs) (elr (unwrap prog) (seteq) (seteq) (empty-env))])
+    (wrap ,expr)
+    ))
 
 
+;; unwrap : Lang5:Prog -> Lang5:Exp
+(define (unwrap prog)
+  (match prog
+    [(list 'let '() stx-def e) e]))
 ;; wrap: wrap an <Exp> of Lang5 in the (let () ...) form required by the
 ;; language.
 (define-syntax-rule (wrap e)
@@ -231,10 +393,26 @@ of Lang5.
 (define pass6 enforce-letrec-rule)
 (define this-pass pass6)
 
+(unwrap  '(let ()
+            (begin
+              (define-syntax tag
+                (syntax-rules (asgd refd) ((_ (asgd SVar ...)
+                                              (refd RVar ...) Expr) Expr))))
+            (letrec ((x 5) (y 6)) (cons x y)))
+         )
+
+(this-pass (wrap '5))
+(this-pass (wrap (letrec ([x 5] [y 6])
+                   (tag (asgd) (refd x y) (cons x y))
+                   )))
+(this-pass (wrap (letrec ([x 5] [y x] [z (cons x y)])
+                   (tag (asgd) (refd x y) (cons x y))
+                   )))
+
 (module+ test
   (compiler-tests/equal? enforce-letrec-rule
-    (,(wrap '5) ,(wrap '5))
-    ))
+                         (,(wrap '5) ,(wrap '5))
+                         ))
 
 #;(let ([f '#f])
     (letrec ([x '0]
