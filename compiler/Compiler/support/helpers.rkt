@@ -150,6 +150,14 @@
    ))
 
 (: list-of-system-primitives (Listof (List Symbol Natural PrimType)))
-;; To be added later: primitives that will be used in the compiler's output.
-(define list-of-system-primitives empty)
+
+;; Primitives that will be used in the compiler's output.
+(define list-of-system-primitives
+  '((error 1 effect)
+    (box 1 value)
+    (unbox 1 value)
+    (set-box! 2 effect)
+    ))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
