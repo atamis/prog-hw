@@ -1,0 +1,33 @@
+
+What did you do in class this week? How did you make use of your time?
+Worked on pass 6.
+
+What words and concepts were new to you this week, and what do they mean?
+Nothing actually new in pass 6, but it's some of the hardest recursion
+I've ever had to write. Rivals anything you set us, even the generative
+recursion. Raphie's having a tough time as well, but I'm not sure how our
+confusion compares.
+
+If you created anything new, what was it? 
+Wrote the easy parts of pass 6.
+
+What new questions or goals do you have?
+Why is pass 6 so difficult? Isn't all this checking of safeness and
+unsafeness premature optomization, which is the root of all evil?
+
+Did this week’s studies give you any ideas of things you could create?
+THis wekk is so absurdly specialized, I don't think I could apply
+these lessons to anything else.
+
+What was good about this week?
+Tough pass.
+
+What would you like to change-what can you do better?
+Nothing.
+
+What would you like me to change-what can I, the teacher, do better?
+Nothing.
+
+Do you have any other comments?
+Nope.
+
